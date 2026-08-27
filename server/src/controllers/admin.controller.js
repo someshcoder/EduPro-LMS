@@ -5,6 +5,7 @@ const PayoutRequest = require('../models/PayoutRequest');
 const Session = require('../models/Session');
 const FraudAlert = require('../models/FraudAlert');
 const Transaction = require('../models/Transaction');
+const Invoice = require('../models/Invoice');
 const { generatePayoutCSV } = require('../utils/csvExport');
 const { sendKycStatusEmail } = require('../utils/email');
 
@@ -16,18 +17,33 @@ exports.getUsers = async (req, res) => {
   try {
     const { search, kycStatus, isBlocked, page = 1, limit = 20 } = req.query;
     const query = { role: 'user' };
-    if (search) query.$or = [{ name: { $regex: search, $options: 'i' } }, { email: { $regex: search, $options: 'i' } }];
+    if (search) query.$or = [{ name: { $regex: search, $options: 'i' } }, { email: { $regex: search, $options: 'i' } }, { referralCode: { $regex: search, $options: 'i' } }];
     if (kycStatus) query.kycStatus = kycStatus;
     if (isBlocked !== undefined) query.isBlocked = isBlocked === 'true';
 
     const users = await User.find(query)
       .select('-password')
+      .populate('enrolledPackages', 'title price')
+      .populate('referredBy', 'name email referralCode')
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
-      .limit(parseInt(limit));
+      .limit(parseInt(limit))
+      .lean();
+
+    // Attach referral counts for each user
+    const usersWithStats = await Promise.all(
+      users.map(async (u) => {
+        const directCount = await User.countDocuments({ referredBy: u._id });
+        return {
+          ...u,
+          referralsCount: directCount,
+          enrolledCount: u.enrolledPackages?.length || 0,
+        };
+      })
+    );
 
     const total = await User.countDocuments(query);
-    res.json({ success: true, users, total });
+    res.json({ success: true, users: usersWithStats, total });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -103,7 +119,7 @@ exports.updateKycStatus = async (req, res) => {
 exports.createPackage = async (req, res) => {
   try {
     const pkgData = { ...req.body, createdBy: req.user.id };
-    if (req.file) pkgData.thumbnail = req.file.path;
+    if (req.file) pkgData.thumbnail = req.file.path.replace(/\\/g, '/');
     const pkg = await Package.create(pkgData);
     res.status(201).json({ success: true, message: 'Package created!', package: pkg });
   } catch (error) {
@@ -116,7 +132,7 @@ exports.createPackage = async (req, res) => {
 exports.updatePackage = async (req, res) => {
   try {
     const updateData = { ...req.body };
-    if (req.file) updateData.thumbnail = req.file.path;
+    if (req.file) updateData.thumbnail = req.file.path.replace(/\\/g, '/');
     const pkg = await Package.findByIdAndUpdate(req.params.id, updateData, { new: true, runValidators: true });
     if (!pkg) return res.status(404).json({ success: false, message: 'Package not found.' });
     res.json({ success: true, message: 'Package updated!', package: pkg });
@@ -141,12 +157,16 @@ exports.deletePackage = async (req, res) => {
 // @route   GET /api/admin/packages
 exports.getPackages = async (req, res) => {
   try {
-    const packages = await Package.find().sort({ createdAt: -1 }).populate('createdBy', 'name');
+    const packages = await Package.find()
+      .sort({ createdAt: -1 })
+      .populate('createdBy', 'name')
+      .populate('videos', 'title order watermarkEnabled createdAt duration views videoUrl');
     res.json({ success: true, packages });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 // ==================== VIDEO MANAGEMENT ====================
 
@@ -160,7 +180,7 @@ exports.uploadVideo = async (req, res) => {
     const video = await Video.create({
       title,
       description,
-      videoUrl: req.file.path,
+      videoUrl: req.file.path.replace(/\\/g, '/'),
       package: packageId,
       order: order || 0,
       watermarkEnabled: watermarkEnabled !== 'false',
@@ -356,11 +376,22 @@ exports.resolveFraudAlert = async (req, res) => {
   }
 };
 
-// @desc    Admin dashboard stats
+// @desc    Admin dashboard stats & Analytics
 // @route   GET /api/admin/dashboard
 exports.getDashboardStats = async (req, res) => {
   try {
-    const [totalUsers, totalPackages, pendingKyc, pendingPayouts, unresolvedAlerts, totalRevenue] = await Promise.all([
+    const [
+      totalUsers,
+      totalPackages,
+      pendingKyc,
+      pendingPayouts,
+      unresolvedAlerts,
+      totalCommissionsAgg,
+      totalSalesAgg,
+      totalPaidOutAgg,
+      topAffiliates,
+      recentInvoices,
+    ] = await Promise.all([
       User.countDocuments({ role: 'user' }),
       Package.countDocuments(),
       User.countDocuments({ kycStatus: 'submitted' }),
@@ -370,7 +401,31 @@ exports.getDashboardStats = async (req, res) => {
         { $match: { type: 'commission', status: 'completed' } },
         { $group: { _id: null, total: { $sum: '$amount' } } },
       ]),
+      Invoice.aggregate([
+        { $match: { status: 'paid' } },
+        { $group: { _id: null, total: { $sum: '$totalAmount' }, totalTax: { $sum: '$taxAmount' } } },
+      ]),
+      PayoutRequest.aggregate([
+        { $match: { status: { $in: ['approved', 'paid'] } } },
+        { $group: { _id: null, total: { $sum: '$amount' } } },
+      ]),
+      User.find({ role: 'user' })
+        .select('name email totalEarnings walletBalance kycStatus createdAt')
+        .sort({ totalEarnings: -1 })
+        .limit(5)
+        .lean(),
+      Invoice.find()
+        .populate('user', 'name email')
+        .sort({ createdAt: -1 })
+        .limit(6)
+        .lean(),
     ]);
+
+    const totalSales = totalSalesAgg[0]?.total || 0;
+    const totalCommissions = totalCommissionsAgg[0]?.total || 0;
+    const totalTaxCollected = totalSalesAgg[0]?.totalTax || 0;
+    const totalPaidOut = totalPaidOutAgg[0]?.total || 0;
+    const netProfit = Math.max(0, totalSales - totalCommissions);
 
     res.json({
       success: true,
@@ -380,8 +435,15 @@ exports.getDashboardStats = async (req, res) => {
         pendingKyc,
         pendingPayouts,
         unresolvedAlerts,
-        totalRevenue: totalRevenue[0]?.total || 0,
+        totalSales,
+        totalCommissions,
+        netProfit,
+        totalTaxCollected,
+        totalPaidOut,
+        totalRevenue: totalSales,
       },
+      topAffiliates,
+      recentInvoices,
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
