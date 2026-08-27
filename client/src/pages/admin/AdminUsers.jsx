@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Users, Search, Shield, ShieldOff, ChevronLeft, ChevronRight, Filter, AlertCircle } from 'lucide-react';
+import { Users, Search, Shield, ShieldOff, ChevronLeft, ChevronRight, Filter, AlertCircle, BookOpen, TrendingUp } from 'lucide-react';
 import { adminService } from '../../services/adminService';
 import toast from 'react-hot-toast';
 
@@ -34,9 +34,10 @@ const AdminUsers = () => {
       approved: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
       rejected: 'bg-rose-500/20 text-rose-400 border-rose-500/30',
       submitted: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+      pending: 'bg-slate-500/20 text-slate-400 border-slate-500/30',
       not_submitted: 'bg-slate-500/20 text-slate-400 border-slate-500/30',
     };
-    return map[status] || map.not_submitted;
+    return map[status] || map.pending;
   };
 
   const totalPages = data ? Math.ceil(data.total / 15) : 0;
@@ -49,7 +50,7 @@ const AdminUsers = () => {
         </div>
         <div>
           <h1 className="text-2xl font-bold text-white">User Management</h1>
-          <p className="text-slate-400 text-sm">{data?.total || 0} total users</p>
+          <p className="text-slate-400 text-sm">{data?.total || 0} total registered users</p>
         </div>
       </div>
 
@@ -59,7 +60,7 @@ const AdminUsers = () => {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
             type="text"
-            placeholder="Search by name or email..."
+            placeholder="Search by name, email, or referral code..."
             value={search}
             onChange={(e) => { setSearch(e.target.value); setPage(1); }}
             className="w-full pl-10 pr-4 py-2.5 bg-slate-800/70 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
@@ -72,9 +73,9 @@ const AdminUsers = () => {
         >
           <option value="">All KYC Status</option>
           <option value="approved">Approved</option>
-          <option value="submitted">Pending</option>
+          <option value="submitted">In Review</option>
           <option value="rejected">Rejected</option>
-          <option value="not_submitted">Not Submitted</option>
+          <option value="pending">Pending</option>
         </select>
         <select
           value={isBlocked}
@@ -82,8 +83,8 @@ const AdminUsers = () => {
           className="px-4 py-2.5 bg-slate-800/70 border border-slate-700 rounded-xl text-sm text-slate-300 focus:outline-none focus:border-indigo-500 transition-colors"
         >
           <option value="">All Users</option>
-          <option value="false">Active</option>
-          <option value="true">Blocked</option>
+          <option value="false">Active Only</option>
+          <option value="true">Blocked Only</option>
         </select>
       </div>
 
@@ -93,29 +94,30 @@ const AdminUsers = () => {
           <table className="data-table">
             <thead>
               <tr>
-                <th>User</th>
-                <th>Phone</th>
+                <th>User Details</th>
+                <th>Referrals (L1)</th>
+                <th>Courses</th>
+                <th>Total Earnings</th>
+                <th>Wallet Balance</th>
                 <th>KYC Status</th>
-                <th>Wallet</th>
-                <th>Joined</th>
                 <th>Status</th>
-                <th>Actions</th>
+                <th className="text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
               {isLoading ? (
                 [...Array(8)].map((_, i) => (
                   <tr key={i}>
-                    {[...Array(7)].map((_, j) => (
-                      <td key={j}><div className="h-4 bg-slate-800 rounded animate-pulse w-24" /></td>
+                    {[...Array(8)].map((_, j) => (
+                      <td key={j}><div className="h-4 bg-slate-800 rounded animate-pulse w-20" /></td>
                     ))}
                   </tr>
                 ))
               ) : data?.users?.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="text-center py-12 text-slate-500">
+                  <td colSpan={8} className="text-center py-12 text-slate-500">
                     <AlertCircle className="w-8 h-8 mx-auto mb-2 opacity-40" />
-                    No users found
+                    No users found matching your filters.
                   </td>
                 </tr>
               ) : (
@@ -123,33 +125,57 @@ const AdminUsers = () => {
                   <tr key={user._id}>
                     <td>
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                           {user.name?.charAt(0)?.toUpperCase()}
                         </div>
                         <div>
-                          <p className="text-white font-medium text-sm">{user.name}</p>
-                          <p className="text-slate-500 text-xs">{user.email}</p>
+                          <p className="text-white font-semibold text-sm">{user.name}</p>
+                          <p className="text-slate-400 text-xs">{user.email}</p>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <span className="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 px-1.5 py-0.5 rounded">
+                              {user.referralCode}
+                            </span>
+                            {user.phone && <span className="text-[11px] text-slate-500">{user.phone}</span>}
+                          </div>
                         </div>
                       </div>
                     </td>
-                    <td className="text-slate-400">{user.phone || '—'}</td>
                     <td>
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${kycBadge(user.kycStatus)}`}>
-                        {user.kycStatus?.replace('_', ' ') || 'not submitted'}
+                      <span className="font-bold text-white text-xs bg-slate-800 px-2 py-1 rounded-md border border-slate-700">
+                        {user.referralsCount || 0} Direct
                       </span>
                     </td>
-                    <td className="text-emerald-400 font-medium">₹{user.walletBalance?.toLocaleString() || 0}</td>
-                    <td className="text-slate-400 text-xs">{new Date(user.createdAt).toLocaleDateString()}</td>
+                    <td>
+                      <span className="inline-flex items-center gap-1 text-xs text-slate-300">
+                        <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                        {user.enrolledCount || 0} Enrolled
+                      </span>
+                    </td>
+                    <td className="font-bold text-purple-400 text-xs">
+                      ₹{(user.totalEarnings || 0).toLocaleString('en-IN')}
+                    </td>
+                    <td className="font-bold text-emerald-400 text-xs">
+                      ₹{(user.walletBalance || 0).toLocaleString('en-IN')}
+                    </td>
+                    <td>
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${kycBadge(user.kycStatus)}`}>
+                        {user.kycStatus === 'approved' ? 'Verified' : user.kycStatus === 'submitted' ? 'In Review' : user.kycStatus || 'Pending'}
+                      </span>
+                    </td>
                     <td>
                       <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${user.isBlocked ? 'bg-rose-500/20 text-rose-400 border-rose-500/30' : 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'}`}>
                         {user.isBlocked ? 'Blocked' : 'Active'}
                       </span>
                     </td>
-                    <td>
+                    <td className="text-right">
                       <button
                         onClick={() => blockMutation.mutate({ id: user._id, reason: user.isBlocked ? '' : 'Blocked by admin' })}
                         disabled={blockMutation.isPending}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${user.isBlocked ? 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 border border-rose-500/20'}`}
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                          user.isBlocked
+                            ? 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/20'
+                            : 'bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 border border-rose-500/20'
+                        }`}
                       >
                         {user.isBlocked ? <ShieldOff className="w-3.5 h-3.5" /> : <Shield className="w-3.5 h-3.5" />}
                         {user.isBlocked ? 'Unblock' : 'Block'}

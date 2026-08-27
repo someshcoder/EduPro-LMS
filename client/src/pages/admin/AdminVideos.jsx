@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Video, Upload, Trash2, AlertCircle, X, Play } from 'lucide-react';
+import { Video, Upload, Trash2, AlertCircle, X, Play, Eye, Clock } from 'lucide-react';
 import { adminService } from '../../services/adminService';
 import toast from 'react-hot-toast';
+
 
 const AdminVideos = () => {
   const [showUpload, setShowUpload] = useState(false);
   const [form, setForm] = useState({ title: '', description: '', packageId: '', order: 0, watermarkEnabled: true });
   const [videoFile, setVideoFile] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [previewVideo, setPreviewVideo] = useState(null);
   const queryClient = useQueryClient();
 
   const { data: packages } = useQuery({
@@ -113,23 +115,41 @@ const AdminVideos = () => {
                     <tbody>
                       {pkg.videos?.map((video) => (
                         <tr key={video._id || video}>
-                          <td className="text-white font-medium">{video.title || `Video`}</td>
-                          <td className="text-slate-400">{video.order ?? '—'}</td>
+                          <td>
+                            <div>
+                              <p className="text-white font-medium text-sm">{video.title || 'Video'}</p>
+                              {video.duration > 0 && (
+                                <p className="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
+                                  <Clock className="w-3 h-3" />
+                                  {Math.floor(video.duration / 60)}:{String(video.duration % 60).padStart(2, '0')} min
+                                </p>
+                              )}
+                            </div>
+                          </td>
+                          <td className="text-slate-300 font-medium">{video.order ?? 0}</td>
                           <td>
                             <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${video.watermarkEnabled !== false ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30' : 'bg-slate-500/20 text-slate-400 border-slate-500/30'}`}>
                               {video.watermarkEnabled !== false ? 'Enabled' : 'Disabled'}
                             </span>
                           </td>
                           <td className="text-slate-400 text-xs">
-                            {video.createdAt ? new Date(video.createdAt).toLocaleDateString() : '—'}
+                            {video.createdAt ? new Date(video.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
                           </td>
                           <td>
-                            <button
-                              onClick={() => setDeleteConfirm(video)}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 border border-rose-500/20 transition-all"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" /> Delete
-                            </button>
+                            <div className="flex items-center gap-2">
+                              <button
+                                onClick={() => setPreviewVideo(video)}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 border border-indigo-500/20 transition-all"
+                              >
+                                <Eye className="w-3.5 h-3.5" /> Preview
+                              </button>
+                              <button
+                                onClick={() => setDeleteConfirm(video)}
+                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 border border-rose-500/20 transition-all"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" /> Delete
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       ))}
@@ -230,7 +250,38 @@ const AdminVideos = () => {
         </div>
       )}
 
-      {/* Delete confirm */}
+      {/* Video Preview Modal */}
+      {previewVideo && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="glass rounded-2xl border border-slate-700 w-full max-w-3xl overflow-hidden">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800">
+              <div>
+                <h3 className="text-base font-semibold text-white">{previewVideo.title}</h3>
+                <p className="text-xs text-slate-400 mt-0.5">Admin Preview — Users see this with watermark</p>
+              </div>
+              <button onClick={() => setPreviewVideo(null)} className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="bg-black">
+              <video
+                src={`http://localhost:5000/${previewVideo.videoUrl}`}
+                controls
+                className="w-full max-h-[60vh]"
+                controlsList="nodownload"
+              >
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div className="px-5 py-3 border-t border-slate-800 flex items-center gap-4 text-xs text-slate-400">
+              <span>Order: #{previewVideo.order ?? 0}</span>
+              <span>Watermark: {previewVideo.watermarkEnabled !== false ? 'Enabled' : 'Disabled'}</span>
+              <span>Uploaded: {previewVideo.createdAt ? new Date(previewVideo.createdAt).toLocaleDateString('en-IN') : '—'}</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="glass rounded-2xl border border-rose-500/30 p-6 w-full max-w-sm mx-4">
