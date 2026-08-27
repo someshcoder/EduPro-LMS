@@ -220,15 +220,105 @@ exports.submitKyc = async (req, res) => {
     }
 
     user.kycDocuments = {
-      aadharFront: files.aadharFront[0].path,
-      aadharBack: files.aadharBack[0].path,
-      panCard: files.panCard[0].path,
+      aadharFront: files.aadharFront[0].path.replace(/\\/g, '/'),
+      aadharBack: files.aadharBack[0].path.replace(/\\/g, '/'),
+      panCard: files.panCard[0].path.replace(/\\/g, '/'),
     };
     user.kycStatus = 'submitted';
     user.kycSubmittedAt = new Date();
     await user.save();
 
-    res.json({ success: true, message: 'KYC submitted successfully. Under review.' });
+    res.json({ success: true, message: 'KYC submitted successfully. Pending admin approval.' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Get user profile with bank details
+// @route   GET /api/auth/profile
+exports.getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) return res.status(404).json({ success: false, message: 'User not found.' });
+    res.json({ success: true, user });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Update personal profile details
+// @route   PUT /api/auth/profile
+exports.updateProfile = async (req, res) => {
+  try {
+    const { name, phone } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ success: false, message: 'User not found.' });
+
+    if (name) user.name = name;
+    if (phone !== undefined) user.phone = phone;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'Profile updated successfully!',
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+        referralCode: user.referralCode,
+        kycStatus: user.kycStatus,
+        walletBalance: user.walletBalance,
+        bankDetails: user.bankDetails,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Update bank & UPI payout details
+// @route   PUT /api/auth/bank-details
+exports.updateBankDetails = async (req, res) => {
+  try {
+    const { accountHolder, accountNumber, ifscCode, bankName, upiId } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ success: false, message: 'User not found.' });
+
+    user.bankDetails = {
+      accountHolder: accountHolder || user.bankDetails?.accountHolder,
+      accountNumber: accountNumber || user.bankDetails?.accountNumber,
+      ifscCode: ifscCode || user.bankDetails?.ifscCode,
+      bankName: bankName || user.bankDetails?.bankName,
+      upiId: upiId || user.bankDetails?.upiId,
+    };
+    await user.save();
+
+    res.json({ success: true, message: 'Bank & UPI details saved successfully!', bankDetails: user.bankDetails });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Change Password
+// @route   PUT /api/auth/change-password
+exports.changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    if (!newPassword || newPassword.length < 6) {
+      return res.status(400).json({ success: false, message: 'New password must be at least 6 characters.' });
+    }
+
+    const user = await User.findById(req.user.id).select('+password');
+    if (!user || !(await user.comparePassword(currentPassword))) {
+      return res.status(400).json({ success: false, message: 'Current password is incorrect.' });
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    res.json({ success: true, message: 'Password changed successfully!' });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
