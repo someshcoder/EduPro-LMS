@@ -35,13 +35,18 @@ exports.getPackage = async (req, res) => {
       .populate('videos', 'title duration order isLocked thumbnailUrl')
       .populate('createdBy', 'name');
 
-    if (!pkg || !pkg.isPublished) {
+    if (!pkg) {
       return res.status(404).json({ success: false, message: 'Package not found.' });
     }
 
     // Check if user is enrolled
     const user = await User.findById(req.user.id);
     const isEnrolled = user.enrolledPackages.includes(pkg._id);
+
+    // Non-enrolled users can only view published packages
+    if (!pkg.isPublished && !isEnrolled) {
+      return res.status(404).json({ success: false, message: 'Package not found.' });
+    }
 
     let progress = null;
     if (isEnrolled) {
@@ -53,6 +58,7 @@ exports.getPackage = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 // @desc    Get video for watching (must be enrolled)
 // @route   GET /api/courses/:packageId/videos/:videoId
