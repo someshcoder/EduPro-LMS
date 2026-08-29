@@ -26,6 +26,7 @@ const Signup = () => {
     e.preventDefault();
     if (!form.name || !form.email || !form.password) return toast.error('Please fill all required fields');
     if (form.password.length < 6) return toast.error('Password must be at least 6 characters');
+    if (form.phone && form.phone.length !== 10) return toast.error('Please enter a valid 10-digit phone number');
     setIsLoading(true);
     try {
       const { data } = await authService.signup(form);
@@ -75,10 +76,13 @@ const Signup = () => {
               <Input
                 label="Phone"
                 type="tel"
-                placeholder="+91 98765 43210"
+                placeholder="+91 9876543210"
                 leftIcon={<Phone className="w-4 h-4" />}
                 value={form.phone}
-                onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\D/g, '').slice(0, 10);
+                  setForm({ ...form, phone: val });
+                }}
               />
             </div>
             <Input
