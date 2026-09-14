@@ -1,10 +1,10 @@
-# 🎓 EduPro LMS (Learning Management System)
+# 🎓 CourseEarn LMS (Learning Management System)
 
 A modern, full-stack Learning Management System and Affiliate Platform built with the MERN stack (MongoDB, Express.js, React, Node.js). 
 
-EduPro LMS is designed to manage online courses, track student progress, handle multi-level affiliate commissions, process secure payouts, and ensure platform integrity through KYC verification and fraud detection.
+CourseEarn LMS is designed to manage online courses, track student progress, handle multi-level affiliate commissions, process secure payouts, and ensure platform integrity through KYC verification and fraud detection.
 
-![EduPro LMS](https://img.shields.io/badge/Status-Active-success.svg) ![License](https://img.shields.io/badge/License-MIT-blue.svg) ![Node.js](https://img.shields.io/badge/Node.js-18.x-green.svg) ![React](https://img.shields.io/badge/React-18.x-61dafb.svg)
+![CourseEarn LMS](https://img.shields.io/badge/Status-Active-success.svg) ![License](https://img.shields.io/badge/License-MIT-blue.svg) ![Node.js](https://img.shields.io/badge/Node.js-18.x-green.svg) ![React](https://img.shields.io/badge/React-18.x-61dafb.svg)
 
 ---
 
@@ -49,7 +49,7 @@ EduPro LMS is designed to manage online courses, track student progress, handle 
 ## 📂 Project Structure
 
 ```text
-EduPro-LMS/
+CourseEarn-LMS/
 ├── client/                 # React Frontend
 │   ├── public/             # Static assets
 │   ├── src/
@@ -78,8 +78,8 @@ EduPro-LMS/
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/someshcoder/EduPro-LMS.git
-cd EduPro-LMS
+git clone https://github.com/someshcoder/CourseEarn-LMS.git
+cd CourseEarn-LMS
 ```
 
 ### 2. Setup Backend (Server)
@@ -126,7 +126,7 @@ npm run dev
 ---
 
 ## 🤝 Contributing
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/someshcoder/EduPro-LMS/issues).
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/someshcoder/CourseEarn-LMS/issues).
 
 ## 📝 License
 This project is [MIT](LICENSE) licensed.
