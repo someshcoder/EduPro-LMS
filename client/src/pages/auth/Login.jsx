@@ -46,7 +46,7 @@ const Login = () => {
           <h1 className="text-4xl font-bold text-white mb-4">
             Welcome to <br />
             <span className="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent">
-              EduPro LMS
+              CourseEarn LMS
             </span>
           </h1>
           <p className="text-slate-400 text-lg leading-relaxed mb-8">
@@ -79,7 +79,7 @@ const Login = () => {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center">
               <GraduationCap className="w-6 h-6 text-white" />
             </div>
-            <span className="text-xl font-bold text-white">EduPro LMS</span>
+            <span className="text-xl font-bold text-white">CourseEarn LMS</span>
           </div>
 
           <h2 className="text-2xl font-bold text-white mb-1">Sign in to your account</h2>
@@ -128,7 +128,7 @@ const Login = () => {
 
           <div className="mt-6 p-4 bg-slate-800/50 border border-slate-700/50 rounded-xl">
             <p className="text-xs text-slate-500 text-center">
-              Demo: <span className="text-slate-400">admin@edupro.com / admin123</span>
+              Demo: <span className="text-slate-400">admin@courseearn.com / admin123</span>
             </p>
           </div>
         </motion.div>
