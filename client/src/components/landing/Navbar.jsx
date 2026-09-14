@@ -98,7 +98,7 @@ const Navbar = ({ onOpenAuth, onSearchClick }) => {
               <div className="flex flex-col">
                 <div className="flex items-center gap-1.5">
                   <span className="font-extrabold text-xl tracking-tight text-slate-900">
-                    Edu<span className="text-emerald-600">Pro</span>
+                    Course<span className="text-emerald-600">Earn</span>
                   </span>
                   <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200/60">
                     LMS

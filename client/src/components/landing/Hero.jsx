@@ -59,7 +59,7 @@ const Hero = ({ onExploreClick, onStartLearning, onWatchDemo, onQuickSearch }) =
             {/* Top Badge */}
             <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-slate-900 text-white text-xs font-semibold shadow-sm shadow-slate-900/10 border border-slate-800">
               <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-emerald-400 font-bold uppercase tracking-wider text-[11px]">EduPro 2.0</span>
+              <span className="text-emerald-400 font-bold uppercase tracking-wider text-[11px]">CourseEarn 2.0</span>
               <span className="text-slate-400">•</span>
               <span className="text-slate-200">The Modern EdTech LMS Platform</span>
             </div>
@@ -212,7 +212,7 @@ const Hero = ({ onExploreClick, onStartLearning, onWatchDemo, onQuickSearch }) =
                   <div className="w-3 h-3 rounded-full bg-rose-400" />
                   <div className="w-3 h-3 rounded-full bg-amber-400" />
                   <div className="w-3 h-3 rounded-full bg-emerald-400" />
-                  <span className="ml-2 text-xs font-semibold text-slate-500">EduPro Student Dashboard</span>
+                  <span className="ml-2 text-xs font-semibold text-slate-500">CourseEarn Student Dashboard</span>
                 </div>
                 <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-200/70">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />

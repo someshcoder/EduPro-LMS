@@ -50,7 +50,7 @@ const Footer = ({ onOpenAuth }) => {
       return;
     }
     setSubscribed(true);
-    toast.success('🎉 Thank you for subscribing to EduPro Tech Insights!');
+    toast.success('🎉 Thank you for subscribing to CourseEarn Tech Insights!');
     setEmail('');
   };
 
@@ -83,7 +83,7 @@ const Footer = ({ onOpenAuth }) => {
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="font-extrabold text-xl text-white tracking-tight">
-                  Edu<span className="text-emerald-500">Pro</span>
+                  Course<span className="text-emerald-500">Earn</span>
                 </span>
                 <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
                   LMS
@@ -145,7 +145,7 @@ const Footer = ({ onOpenAuth }) => {
               </li>
               <li>
                 <a href="#why-us" onClick={(e) => scrollToSection(e, 'why-us')} className="hover:text-emerald-400 transition-colors">
-                  Why Choose EduPro
+                  Why Choose CourseEarn
                 </a>
               </li>
               <li>
@@ -233,7 +233,7 @@ const Footer = ({ onOpenAuth }) => {
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div>
-            © {new Date().getFullYear()} EduPro LMS Platform, Inc. All rights reserved.
+            © {new Date().getFullYear()} CourseEarn LMS Platform, Inc. All rights reserved.
           </div>
 
           <div className="flex items-center gap-6">
