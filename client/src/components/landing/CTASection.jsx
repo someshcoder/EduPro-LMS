@@ -14,8 +14,8 @@ const CTASection = ({ onExploreClick, onCreateAccount }) => {
     <section className="relative py-24 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 text-white overflow-hidden">
       
       {/* Decorative Glow Elements */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-emerald-500/15 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-0 right-1/4 w-72 h-72 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-indigo-500/15 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-72 h-72 bg-violet-500/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Grid Pattern */}
       <div 
@@ -33,7 +33,7 @@ const CTASection = ({ onExploreClick, onCreateAccount }) => {
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-6"
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-bold uppercase tracking-wider mb-6"
         >
           <Sparkles className="w-3.5 h-3.5" />
           <span>Start Your Transformational Journey Today</span>
@@ -78,7 +78,7 @@ const CTASection = ({ onExploreClick, onCreateAccount }) => {
 
           <button
             onClick={onCreateAccount}
-            className="px-8 py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-xl shadow-emerald-600/30 transition-all hover:scale-105 flex items-center gap-2"
+            className="px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-xl shadow-indigo-600/30 transition-all hover:scale-105 flex items-center gap-2"
           >
             <span>Create Free Account</span>
             <ArrowRight className="w-4 h-4" />
@@ -94,15 +94,15 @@ const CTASection = ({ onExploreClick, onCreateAccount }) => {
           className="pt-8 border-t border-slate-800/80 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs text-slate-400"
         >
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+            <CheckCircle2 className="w-4 h-4 text-indigo-400" />
             <span>14-Day Money-Back Guarantee</span>
           </div>
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <ShieldCheck className="w-4 h-4 text-indigo-400" />
             <span>Bank-Grade 256-Bit SSL Checkout</span>
           </div>
           <div className="flex items-center gap-2">
-            <Zap className="w-4 h-4 text-emerald-400" />
+            <Zap className="w-4 h-4 text-indigo-400" />
             <span>Instant Full Course Access</span>
           </div>
         </motion.div>
