@@ -15,7 +15,7 @@ export const PageLoader = () => (
       <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center shadow-2xl shadow-indigo-500/30">
         <Loader2 className="w-8 h-8 text-white animate-spin" />
       </div>
-      <p className="text-slate-400 text-sm animate-pulse">Loading EduPro...</p>
+      <p className="text-slate-400 text-sm animate-pulse">Loading CourseEarn...</p>
     </div>
   </div>
 );
