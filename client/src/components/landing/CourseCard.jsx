@@ -27,6 +27,10 @@ const CourseCard = ({ course, onPreview, onEnroll }) => {
           alt={course.title}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
           loading="lazy"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80';
+          }}
         />
         
         {/* Overlay gradient */}
@@ -61,7 +65,7 @@ const CourseCard = ({ course, onPreview, onEnroll }) => {
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
               <span className="font-bold text-white">{course.rating}</span>
-              <span className="text-slate-500">({course.reviewsCount.toLocaleString()})</span>
+              <span className="text-slate-500">({course.reviewsCount?.toLocaleString() || '150'})</span>
             </div>
             <div className="flex items-center gap-1 text-slate-400 font-medium">
               <Users className="w-3.5 h-3.5 text-slate-500" />
@@ -79,7 +83,7 @@ const CourseCard = ({ course, onPreview, onEnroll }) => {
 
           {/* Description */}
           <p className="text-xs text-slate-400 line-clamp-2 mb-4 leading-relaxed">
-            {course.description}
+            {course.description ? course.description.replace(/\*\*/g, '').replace(/^#+\s/g, '') : 'Comprehensive course designed to build high-demand skills.'}
           </p>
 
           {/* Key Course Stats */}
@@ -90,7 +94,7 @@ const CourseCard = ({ course, onPreview, onEnroll }) => {
             </div>
             <div className="flex items-center gap-1.5">
               <BookOpen className="w-3.5 h-3.5 text-slate-500" />
-              <span>{course.totalLessons} Lessons</span>
+              <span>{course.totalLessons} {course.totalLessons === 1 ? 'Video' : 'Videos'}</span>
             </div>
           </div>
         </div>
@@ -100,16 +104,16 @@ const CourseCard = ({ course, onPreview, onEnroll }) => {
           {/* Instructor Row */}
           <div className="flex items-center gap-2.5 mb-4">
             <img
-              src={course.instructor.avatar}
-              alt={course.instructor.name}
+              src={course.instructor?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'}
+              alt={course.instructor?.name || 'Mentor'}
               className="w-7 h-7 rounded-full object-cover border border-slate-700"
             />
             <div className="flex flex-col truncate">
               <span className="text-xs font-bold text-white truncate">
-                {course.instructor.name}
+                {course.instructor?.name || 'CourseEarn Expert'}
               </span>
               <span className="text-[10px] text-slate-400 truncate">
-                {course.instructor.role}
+                {course.instructor?.role || 'Senior Specialist'}
               </span>
             </div>
           </div>
@@ -119,11 +123,11 @@ const CourseCard = ({ course, onPreview, onEnroll }) => {
             <div className="flex flex-col">
               <div className="flex items-baseline gap-1.5">
                 <span className="text-xl font-extrabold text-white">
-                  ${course.price}
+                  ₹{Number(course.price || 0).toLocaleString('en-IN')}
                 </span>
                 {course.originalPrice && (
                   <span className="text-xs text-slate-500 line-through font-medium">
-                    ${course.originalPrice}
+                    ₹{Number(course.originalPrice).toLocaleString('en-IN')}
                   </span>
                 )}
               </div>

@@ -60,6 +60,10 @@ const CoursePreviewModal = ({ course, isOpen, onClose, onEnroll }) => {
               src={course.image}
               alt={course.title}
               className="w-full h-full object-cover opacity-60"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80';
+              }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent" />
             
@@ -88,7 +92,7 @@ const CoursePreviewModal = ({ course, isOpen, onClose, onEnroll }) => {
                 <div className="flex items-center gap-1 font-bold text-white text-sm">
                   <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
                   <span>{course.rating}</span>
-                  <span className="text-slate-500 font-normal">({course.reviewsCount})</span>
+                  <span className="text-slate-500 font-normal">({course.reviewsCount || '120+'})</span>
                 </div>
               </div>
 
@@ -99,7 +103,7 @@ const CoursePreviewModal = ({ course, isOpen, onClose, onEnroll }) => {
 
               <div className="flex flex-col">
                 <span className="text-[11px] text-slate-400 font-medium">Total Duration</span>
-                <span className="font-bold text-white text-sm">{course.duration} ({course.totalLessons} lectures)</span>
+                <span className="font-bold text-white text-sm">{course.duration} ({course.totalLessons} {course.totalLessons === 1 ? 'lecture' : 'lectures'})</span>
               </div>
 
               <div className="flex flex-col">
@@ -115,8 +119,8 @@ const CoursePreviewModal = ({ course, isOpen, onClose, onEnroll }) => {
               <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-2">
                 About this Course
               </h3>
-              <p className="text-sm text-slate-400 leading-relaxed">
-                {course.description}
+              <p className="text-sm text-slate-400 leading-relaxed whitespace-pre-line">
+                {course.description ? course.description.replace(/\*\*/g, '').replace(/^#+\s/g, '') : 'Learn comprehensive and practical industry-level skills.'}
               </p>
             </div>
 
@@ -126,7 +130,12 @@ const CoursePreviewModal = ({ course, isOpen, onClose, onEnroll }) => {
                 Key Highlights Included
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {course.features.map((feat, i) => (
+                {(course.features || [
+                  'Complete hands-on video modules',
+                  'Verified Course Completion Certificate',
+                  'Direct practical learning & techniques',
+                  'Lifetime updates & access'
+                ]).map((feat, i) => (
                   <div key={i} className="flex items-center gap-2 text-xs text-slate-300 font-medium bg-indigo-500/10 p-2.5 rounded-xl border border-indigo-500/30">
                     <CheckCircle2 className="w-4 h-4 text-indigo-400 shrink-0" />
                     <span>{feat}</span>
@@ -141,7 +150,11 @@ const CoursePreviewModal = ({ course, isOpen, onClose, onEnroll }) => {
                 Syllabus & Modules
               </h3>
               <div className="space-y-2">
-                {course.curriculum.map((module, i) => (
+                {(course.curriculum || [
+                  'Module 1: Fundamental Concepts & Framework Overview',
+                  'Module 2: Practical Step-by-Step Implementation',
+                  'Module 3: Growth, Optimization & Advanced Strategies'
+                ]).map((module, i) => (
                   <div key={i} className="flex items-center gap-3 p-3 bg-slate-800 rounded-xl border border-slate-700 text-xs font-semibold text-white">
                     <div className="w-6 h-6 rounded-lg bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-[11px] shrink-0">
                       {i + 1}
@@ -155,24 +168,24 @@ const CoursePreviewModal = ({ course, isOpen, onClose, onEnroll }) => {
             {/* Instructor Box */}
             <div className="p-4 rounded-2xl bg-slate-800 border border-slate-700 flex items-center gap-4">
               <img
-                src={course.instructor.avatar}
-                alt={course.instructor.name}
+                src={course.instructor?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'}
+                alt={course.instructor?.name || 'Instructor'}
                 className="w-12 h-12 rounded-full object-cover border border-slate-700"
               />
               <div>
                 <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Taught By</span>
-                <h4 className="text-sm font-bold text-white">{course.instructor.name}</h4>
-                <p className="text-xs text-slate-400">{course.instructor.role}</p>
+                <h4 className="text-sm font-bold text-white">{course.instructor?.name || 'CourseEarn Expert'}</h4>
+                <p className="text-xs text-slate-400">{course.instructor?.role || 'Senior Industry Mentor'}</p>
               </div>
             </div>
 
             {/* Bottom Checkout Action */}
             <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-black text-white">${course.price}</span>
+                <span className="text-3xl font-black text-white">₹{Number(course.price || 0).toLocaleString('en-IN')}</span>
                 {course.originalPrice && (
                   <span className="text-sm text-slate-500 line-through font-medium">
-                    ${course.originalPrice}
+                    ₹{Number(course.originalPrice).toLocaleString('en-IN')}
                   </span>
                 )}
                 <span className="text-xs font-bold text-indigo-300 bg-indigo-500/20 px-2 py-0.5 rounded">
