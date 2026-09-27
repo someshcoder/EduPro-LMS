@@ -1,6 +1,7 @@
 import api from './api';
 
 export const courseService = {
+  getPublicPackages: (params) => api.get('/courses/public', { params }),
   getPackages: (params) => api.get('/courses', { params }),
   getPackage: (id) => api.get(`/courses/${id}`),
   getVideo: (packageId, videoId) => api.get(`/courses/${packageId}/videos/${videoId}`),
