@@ -92,7 +92,7 @@ const AdminInvoiceSettings = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
                 label="Legal Registered Entity Name"
-                placeholder="e.g. EduPro Learning Technologies Pvt. Ltd."
+                placeholder="e.g. CourseEarn Learning Technologies Pvt. Ltd."
                 value={form.companyName}
                 onChange={(e) => setForm({ ...form, companyName: e.target.value })}
                 required
@@ -122,7 +122,7 @@ const AdminInvoiceSettings = () => {
               <Input
                 label="Billing Support Email"
                 type="email"
-                placeholder="billing@edupro.com"
+                placeholder="billing@courseearn.com"
                 value={form.companyEmail}
                 onChange={(e) => setForm({ ...form, companyEmail: e.target.value })}
               />

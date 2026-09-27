@@ -12,7 +12,7 @@ import toast from 'react-hot-toast';
 const AdminCertificateSettings = () => {
   const queryClient = useQueryClient();
   const [form, setForm] = useState({
-    orgName: 'EduPro Learning Platform',
+    orgName: 'CourseEarn Learning Platform',
     signatoryName: 'Dr. Rajesh Sharma',
     signatoryTitle: 'Director of Academic Affairs',
     certificateTitle: 'Certificate of Completion',
@@ -31,7 +31,7 @@ const AdminCertificateSettings = () => {
   useEffect(() => {
     if (data) {
       setForm({
-        orgName: data.orgName || 'EduPro Learning Platform',
+        orgName: data.orgName || 'CourseEarn Learning Platform',
         signatoryName: data.signatoryName || 'Dr. Rajesh Sharma',
         signatoryTitle: data.signatoryTitle || 'Director of Academic Affairs',
         certificateTitle: data.certificateTitle || 'Certificate of Completion',
@@ -102,7 +102,7 @@ const AdminCertificateSettings = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
                 label="Issuing Organization Name"
-                placeholder="e.g. EduPro Learning Academy"
+                placeholder="e.g. CourseEarn Learning Academy"
                 value={form.orgName}
                 onChange={(e) => setForm({ ...form, orgName: e.target.value })}
                 required
