@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, Navigate, useSearchParams } from 'react-router-dom';
 import { User, Mail, Lock, Phone, Eye, EyeOff, GraduationCap, ArrowRight, Gift } from 'lucide-react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -11,7 +11,7 @@ import useAuthStore from '../../store/authStore';
 const Signup = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { setAuth } = useAuthStore();
+  const { isAuthenticated, user, setAuth } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
@@ -21,6 +21,10 @@ const Signup = () => {
     phone: '',
     referralCode: searchParams.get('ref') || '',
   });
+
+  if (isAuthenticated) {
+    return <Navigate to={user?.role === 'admin' ? '/admin/dashboard' : '/dashboard'} replace />;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +36,7 @@ const Signup = () => {
       const { data } = await authService.signup(form);
       setAuth(data.user, data.accessToken, data.refreshToken);
       toast.success(`Welcome to CourseEarn, ${data.user.name}! 🎉`);
-      navigate('/dashboard');
+      navigate(data.user.role === 'admin' ? '/admin/dashboard' : '/dashboard', { replace: true });
     } catch (err) {
       toast.error(err.response?.data?.message || 'Registration failed');
     } finally {

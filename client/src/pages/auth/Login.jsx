@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, Navigate, useSearchParams } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, GraduationCap, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -10,10 +10,14 @@ import useAuthStore from '../../store/authStore';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setAuth } = useAuthStore();
+  const { isAuthenticated, user, setAuth } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({ email: '', password: '' });
+
+  if (isAuthenticated) {
+    return <Navigate to={user?.role === 'admin' ? '/admin/dashboard' : '/dashboard'} replace />;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +27,7 @@ const Login = () => {
       const { data } = await authService.login(form);
       setAuth(data.user, data.accessToken, data.refreshToken);
       toast.success(`Welcome back, ${data.user.name}! 👋`);
-      navigate(data.user.role === 'admin' ? '/admin/dashboard' : '/dashboard');
+      navigate(data.user.role === 'admin' ? '/admin/dashboard' : '/dashboard', { replace: true });
     } catch (err) {
       toast.error(err.response?.data?.message || 'Login failed');
     } finally {
