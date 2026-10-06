@@ -78,14 +78,14 @@ const Footer = ({ onOpenAuth }) => {
           {/* Col 1: Brand & Bio */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-slate-900 via-slate-800 to-emerald-500 flex items-center justify-center text-white shadow-md">
-                <GraduationCap className="w-5 h-5 text-emerald-400" />
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-slate-900 via-slate-800 to-indigo-500 flex items-center justify-center text-white shadow-md">
+                <GraduationCap className="w-5 h-5 text-indigo-400" />
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="font-extrabold text-xl text-white tracking-tight">
-                  Course<span className="text-emerald-500">Earn</span>
+                  Course<span className="text-indigo-400">Earn</span>
                 </span>
-                <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
+                <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-indigo-950 text-indigo-400 border border-indigo-800">
                   LMS
                 </span>
               </div>
@@ -100,7 +100,7 @@ const Footer = ({ onOpenAuth }) => {
               {[
                 { name: 'Twitter', href: 'https://twitter.com', label: 'Twitter' },
                 { name: 'LinkedIn', href: 'https://linkedin.com', label: 'LinkedIn' },
-                { name: 'GitHub', href: 'https://github.com', label: 'GitHub' },
+                { name: 'GitHub', href: 'https://github.com/someshcoder', label: 'GitHub' },
                 { name: 'YouTube', href: 'https://youtube.com', label: 'YouTube' },
               ].map((social, i) => (
                 <a
@@ -109,7 +109,7 @@ const Footer = ({ onOpenAuth }) => {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={social.label}
-                  className="w-9 h-9 rounded-xl bg-slate-900 hover:bg-emerald-600 hover:text-white text-slate-400 transition-colors flex items-center justify-center border border-slate-800"
+                  className="w-9 h-9 rounded-xl bg-slate-900 hover:bg-indigo-600 hover:text-white text-slate-400 transition-colors flex items-center justify-center border border-slate-800"
                 >
                   <SocialIcon name={social.name} />
                 </a>
@@ -124,32 +124,32 @@ const Footer = ({ onOpenAuth }) => {
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <a href="#home" onClick={(e) => scrollToSection(e, 'home')} className="hover:text-emerald-400 transition-colors">
+                <a href="#home" onClick={(e) => scrollToSection(e, 'home')} className="hover:text-indigo-400 transition-colors">
                   Home Overview
                 </a>
               </li>
               <li>
-                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-emerald-400 transition-colors">
+                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-indigo-400 transition-colors">
                   Popular Courses
                 </a>
               </li>
               <li>
-                <a href="#categories" onClick={(e) => scrollToSection(e, 'categories')} className="hover:text-emerald-400 transition-colors">
+                <a href="#categories" onClick={(e) => scrollToSection(e, 'categories')} className="hover:text-indigo-400 transition-colors">
                   Explore Categories
                 </a>
               </li>
               <li>
-                <a href="#instructors" onClick={(e) => scrollToSection(e, 'instructors')} className="hover:text-emerald-400 transition-colors">
+                <a href="#instructors" onClick={(e) => scrollToSection(e, 'instructors')} className="hover:text-indigo-400 transition-colors">
                   Top Mentors
                 </a>
               </li>
               <li>
-                <a href="#why-us" onClick={(e) => scrollToSection(e, 'why-us')} className="hover:text-emerald-400 transition-colors">
+                <a href="#why-us" onClick={(e) => scrollToSection(e, 'why-us')} className="hover:text-indigo-400 transition-colors">
                   Why Choose CourseEarn
                 </a>
               </li>
               <li>
-                <a href="#testimonials" onClick={(e) => scrollToSection(e, 'testimonials')} className="hover:text-emerald-400 transition-colors">
+                <a href="#testimonials" onClick={(e) => scrollToSection(e, 'testimonials')} className="hover:text-indigo-400 transition-colors">
                   Student Reviews
                 </a>
               </li>
@@ -163,32 +163,32 @@ const Footer = ({ onOpenAuth }) => {
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-emerald-400 transition-colors">
+                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-indigo-400 transition-colors">
                   Full Stack MERN & Next.js
                 </a>
               </li>
               <li>
-                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-emerald-400 transition-colors">
+                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-indigo-400 transition-colors">
                   Generative AI & LLM Systems
                 </a>
               </li>
               <li>
-                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-emerald-400 transition-colors">
+                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-indigo-400 transition-colors">
                   Figma UI/UX Design Tokens
                 </a>
               </li>
               <li>
-                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-emerald-400 transition-colors">
+                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-indigo-400 transition-colors">
                   Cloud & Kubernetes DevOps
                 </a>
               </li>
               <li>
-                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-emerald-400 transition-colors">
+                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-indigo-400 transition-colors">
                   Data Science with Python
                 </a>
               </li>
               <li>
-                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-emerald-400 transition-colors">
+                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-indigo-400 transition-colors">
                   Growth Marketing & SEO
                 </a>
               </li>
@@ -211,12 +211,12 @@ const Footer = ({ onOpenAuth }) => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                  className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+                className="w-full py-2.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm"
               >
                 <span>Subscribe Now</span>
                 <Send className="w-3.5 h-3.5" />
