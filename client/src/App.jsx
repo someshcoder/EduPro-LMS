@@ -9,12 +9,13 @@ function App() {
         position="top-right" 
         toastOptions={{
           style: {
-            background: '#1e293b',
-            color: '#f8fafc',
-            border: '1px solid rgba(71, 85, 105, 0.4)',
+            background: '#ffffff',
+            color: '#1e293b',
+            border: '1px solid #e2e8f0',
+            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01)',
           },
           success: {
-            iconTheme: { primary: '#10b981', secondary: '#1e293b' },
+            iconTheme: { primary: '#06b6d4', secondary: '#ffffff' },
           },
         }} 
       />
