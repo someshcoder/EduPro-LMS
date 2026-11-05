@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bell, CheckCheck, MessageSquare, Star, Coins, AlertCircle, ExternalLink, RefreshCw } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { forumService } from '../../services/forumService';
 import toast from 'react-hot-toast';
 import Button from '../../components/common/Button';
 import ForumNavHeader from '../../components/forum/ForumNavHeader';
 import { cn } from '../../utils/cn';
+import useAuthStore from '../../store/authStore';
 
 const formatRelTime = (date) => {
   const diff = (Date.now() - new Date(date)) / 1000;
@@ -24,6 +25,12 @@ const TYPE_CONFIG = {
 };
 
 const ForumNotifications = () => {
+  const { user } = useAuthStore();
+
+  if (user?.role === 'admin') {
+    return <Navigate to="/admin/dashboard" replace />;
+  }
+
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);

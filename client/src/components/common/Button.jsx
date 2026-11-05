@@ -12,16 +12,17 @@ const Button = ({
   rightIcon,
   ...props
 }) => {
-  const base = 'inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95';
+  const base = 'inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] cursor-pointer';
 
   const variants = {
-    primary: 'bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-lg shadow-indigo-500/25 focus:ring-indigo-500',
-    secondary: 'bg-slate-700 hover:bg-slate-600 text-slate-100 border border-slate-600 focus:ring-slate-500',
-    danger: 'bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-lg shadow-red-500/25 focus:ring-red-500',
-    success: 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-lg shadow-emerald-500/25 focus:ring-emerald-500',
-    ghost: 'text-slate-400 hover:text-white hover:bg-slate-700/50 focus:ring-slate-500',
-    outline: 'border border-indigo-500/50 text-indigo-400 hover:bg-indigo-500/10 focus:ring-indigo-500',
-    warning: 'bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white shadow-lg shadow-amber-500/25 focus:ring-amber-500',
+    primary: 'bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] hover:opacity-95 text-white shadow-md shadow-cyan-500/20 focus:ring-cyan-400',
+    secondary: 'bg-white hover:bg-slate-50 text-[#1E293B] border border-[#E2E8F0] shadow-xs focus:ring-slate-300',
+    danger: 'bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-400 hover:to-red-500 text-white shadow-md shadow-rose-500/20 focus:ring-rose-400',
+    success: 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white shadow-md shadow-emerald-500/20 focus:ring-emerald-400',
+    ghost: 'text-[#64748B] hover:text-[#1E293B] hover:bg-slate-100 focus:ring-slate-300',
+    outline: 'border border-[#06B6D4] text-[#06B6D4] hover:bg-cyan-50/50 focus:ring-cyan-400',
+    warning: 'bg-gradient-to-r from-[#FDBA74] to-[#FB7185] hover:opacity-95 text-white shadow-md shadow-orange-500/20 focus:ring-orange-400',
+    reward: 'bg-gradient-to-r from-[#8B5CF6] to-[#FB7185] hover:opacity-95 text-white shadow-md shadow-purple-500/20 focus:ring-purple-400',
   };
 
   const sizes = {

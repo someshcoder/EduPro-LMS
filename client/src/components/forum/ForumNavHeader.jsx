@@ -18,7 +18,7 @@ const ForumNavHeader = ({ onAskClick }) => {
         .then((res) => {
           setUnreadCount(res.data.unreadCount || 0);
         })
-        .catch(() => {});
+        .catch(() => { });
     }
   }, [isAuthenticated, location.pathname]);
 
@@ -26,15 +26,15 @@ const ForumNavHeader = ({ onAskClick }) => {
     { to: '/forum', label: 'All Discussions', icon: MessageSquare, exact: true },
     ...(isAuthenticated
       ? [
-          { to: '/forum/my-activity', label: 'My Activity', icon: HelpCircle },
-          { to: '/forum/wallet', label: 'Forum Coins', icon: Coins },
-          {
-            to: '/forum/notifications',
-            label: 'Notifications',
-            icon: Bell,
-            badge: unreadCount > 0 ? unreadCount : null,
-          },
-        ]
+        { to: '/forum/my-activity', label: 'My Activity', icon: HelpCircle },
+        { to: '/forum/wallet', label: 'Forum Coins', icon: Coins },
+        {
+          to: '/forum/notifications',
+          label: 'Notifications',
+          icon: Bell,
+          badge: unreadCount > 0 ? unreadCount : null,
+        },
+      ]
       : []),
   ];
 

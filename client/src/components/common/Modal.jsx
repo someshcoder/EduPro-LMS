@@ -25,7 +25,7 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md', className = '' }
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
             onClick={onClose}
           />
           <motion.div
@@ -33,14 +33,14 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md', className = '' }
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className={`relative w-full ${sizes[size]} bg-slate-900 border border-slate-700/50 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden ${className}`}
+            className={`relative w-full ${sizes[size]} bg-white border border-[#E2E8F0] rounded-2xl shadow-2xl shadow-slate-900/10 overflow-hidden text-[#1E293B] ${className}`}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-700/50">
-              <h2 className="text-lg font-semibold text-white">{title}</h2>
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#F1F5F9]">
+              <h2 className="text-lg font-bold text-[#1E293B]">{title}</h2>
               <button
                 onClick={onClose}
-                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700/50 transition-colors"
+                className="p-2 rounded-lg text-[#64748B] hover:text-[#1E293B] hover:bg-slate-100 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>

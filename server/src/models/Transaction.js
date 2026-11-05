@@ -5,7 +5,7 @@ const transactionSchema = new mongoose.Schema(
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     type: {
       type: String,
-      enum: ['commission', 'payout', 'bonus', 'deduction', 'purchase'],
+      enum: ['commission', 'payout', 'bonus', 'deduction', 'purchase', 'forum_question', 'forum_best_answer'],
       required: true,
     },
     amount: { type: Number, required: true },

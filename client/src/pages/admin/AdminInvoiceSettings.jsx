@@ -70,12 +70,12 @@ const AdminInvoiceSettings = () => {
     <div className="p-6 md:p-8 w-full max-w-5xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex items-center gap-3 mb-6">
-        <div className="p-3 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
+        <div className="p-3 rounded-2xl bg-cyan-50 border border-cyan-200 text-[#06B6D4]">
           <Receipt className="w-6 h-6" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-white">Invoice & GST Tax Settings</h1>
-          <p className="text-slate-400 text-sm">
+          <h1 className="text-2xl font-bold text-[#1E293B]">Invoice & GST Tax Settings</h1>
+          <p className="text-[#64748B] text-sm">
             Configure legal company details, GSTIN tax identification, and automated invoice format.
           </p>
         </div>
@@ -85,8 +85,8 @@ const AdminInvoiceSettings = () => {
         {/* Company & GST Details */}
         <Card>
           <CardHeader>
-            <h2 className="text-lg font-bold text-white">Company & Legal Information</h2>
-            <p className="text-xs text-slate-400">These details will appear on all student tax receipts.</p>
+            <h2 className="text-lg font-bold text-[#1E293B]">Company & Legal Information</h2>
+            <p className="text-xs text-[#64748B]">These details will appear on all student tax receipts.</p>
           </CardHeader>
           <CardBody className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -107,13 +107,13 @@ const AdminInvoiceSettings = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1.5">Registered Office Address</label>
+              <label className="block text-sm font-medium text-[#64748B] mb-1.5">Registered Office Address</label>
               <textarea
                 rows={2}
                 value={form.companyAddress}
                 onChange={(e) => setForm({ ...form, companyAddress: e.target.value })}
                 placeholder="Complete company address with PIN code..."
-                className="w-full px-4 py-2.5 bg-slate-800/70 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
+                className="w-full px-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#1E293B] placeholder-slate-400 focus:outline-none focus:border-[#06B6D4] transition-colors"
                 required
               />
             </div>
@@ -139,12 +139,12 @@ const AdminInvoiceSettings = () => {
         {/* Invoice Format & Tax Rates */}
         <Card>
           <CardHeader>
-            <h2 className="text-lg font-bold text-white">Tax Rate & Invoice Numbering</h2>
+            <h2 className="text-lg font-bold text-[#1E293B]">Tax Rate & Invoice Numbering</h2>
           </CardHeader>
           <CardBody className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1.5">
+                <label className="block text-sm font-medium text-[#64748B] mb-1.5">
                   GST Tax Rate (%)
                 </label>
                 <div className="relative">
@@ -154,12 +154,12 @@ const AdminInvoiceSettings = () => {
                     max="100"
                     value={form.taxRatePercent}
                     onChange={(e) => setForm({ ...form, taxRatePercent: Number(e.target.value) })}
-                    className="w-full px-4 py-2.5 bg-slate-800/70 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full px-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#1E293B] focus:outline-none focus:border-[#06B6D4]"
                     required
                   />
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold">%</span>
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[#64748B] text-xs font-bold">%</span>
                 </div>
-                <p className="text-[11px] text-slate-500 mt-1">Split as 50% CGST + 50% SGST (e.g. 18% = 9% CGST + 9% SGST)</p>
+                <p className="text-[11px] text-[#94A3B8] mt-1">Split as 50% CGST + 50% SGST (e.g. 18% = 9% CGST + 9% SGST)</p>
               </div>
 
               <Input
@@ -172,13 +172,13 @@ const AdminInvoiceSettings = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1.5">Invoice Terms & Notes</label>
+              <label className="block text-sm font-medium text-[#64748B] mb-1.5">Invoice Terms & Notes</label>
               <textarea
                 rows={2}
                 value={form.invoiceNotes}
                 onChange={(e) => setForm({ ...form, invoiceNotes: e.target.value })}
                 placeholder="Notes displayed at the bottom of the invoice..."
-                className="w-full px-4 py-2.5 bg-slate-800/70 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
+                className="w-full px-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#1E293B] placeholder-slate-400 focus:outline-none focus:border-[#06B6D4] transition-colors"
               />
             </div>
           </CardBody>

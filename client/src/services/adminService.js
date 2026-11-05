@@ -19,6 +19,9 @@ export const adminService = {
   // Videos
   uploadVideo: (formData) =>
     api.post('/admin/videos', formData, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  toggleVideoWatermark: (id, watermarkEnabled) =>
+    api.patch(`/admin/videos/${id}/watermark`, { watermarkEnabled }),
+  updateVideo: (id, data) => api.patch(`/admin/videos/${id}`, data),
   deleteVideo: (id) => api.delete(`/admin/videos/${id}`),
   // Payouts
   getPayouts: (params) => api.get('/admin/payouts', { params }),

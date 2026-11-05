@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Wallet as WalletIcon, ArrowUpRight, ArrowDownRight, Clock, Building2, Banknote } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Wallet as WalletIcon, ArrowUpRight, ArrowDownRight, Clock, Building2, Banknote, Coins, ArrowRight } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { walletService } from '../../services/walletService';
 import useAuthStore from '../../store/authStore';
@@ -74,8 +75,8 @@ const Wallet = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-white">Wallet & Earnings</h1>
-        <p className="text-slate-400 text-sm mt-1">Manage your balance and request payouts.</p>
+        <h1 className="text-2xl font-bold text-[#1E293B]">Wallet & Earnings</h1>
+        <p className="text-[#64748B] text-sm mt-1">Manage your balance and request payouts.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -84,32 +85,57 @@ const Wallet = () => {
           <div className="stat-card border-emerald-500/30">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 bg-emerald-500/20 rounded-lg">
-                <WalletIcon className="w-6 h-6 text-emerald-400" />
+                <WalletIcon className="w-6 h-6 text-emerald-500" />
               </div>
-              <h2 className="text-emerald-400 font-semibold">Available Balance</h2>
+              <h2 className="text-emerald-600 font-semibold">Available Balance</h2>
             </div>
-            <p className="text-4xl font-bold text-white mb-2">₹{(data.stats?.walletBalance || 0).toLocaleString()}</p>
-            <p className="text-sm text-slate-400">Total earned: ₹{(data.stats?.totalEarnings || 0).toLocaleString()}</p>
+            <p className="text-4xl font-bold text-[#1E293B] mb-2">₹{(data.stats?.walletBalance || 0).toLocaleString()}</p>
+            <p className="text-sm text-[#64748B]">Total earned: ₹{(data.stats?.totalEarnings || 0).toLocaleString()}</p>
+          </div>
+
+          {/* Forum Coins Quick Access */}
+          <div className="stat-card border-amber-500/30 bg-gradient-to-br from-amber-50/40 via-white to-orange-50/30">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 bg-amber-500/20 rounded-xl text-amber-500">
+                  <Coins className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-[#1E293B]">Forum Coins</h3>
+                  <p className="text-[11px] text-[#64748B]">Earned from Q&A contributions</p>
+                </div>
+              </div>
+              <Link
+                to="/forum/wallet"
+                className="text-xs font-semibold text-[#06B6D4] hover:text-cyan-700 flex items-center gap-0.5"
+              >
+                View History <ArrowRight className="w-3 h-3" />
+              </Link>
+            </div>
+            <div className="pt-2 border-t border-amber-100/70 flex items-center justify-between text-xs text-[#64748B]">
+              <span>Post Question: <strong className="text-amber-600">+10</strong></span>
+              <span>Top 3 Answer: <strong className="text-emerald-600">+25</strong></span>
+            </div>
           </div>
 
           <Card>
             <CardHeader>
-              <h2 className="text-lg font-bold text-white">Request Payout</h2>
+              <h2 className="text-lg font-bold text-[#1E293B]">Request Payout</h2>
             </CardHeader>
             <CardBody>
               {hasPendingPayout ? (
                 <div className="text-center py-6">
-                  <Clock className="w-12 h-12 text-amber-400 mx-auto mb-4" />
-                  <h3 className="text-white font-medium mb-2">Pending Request Found</h3>
-                  <p className="text-sm text-slate-400">You already have a pending payout request. Please wait for it to be processed before requesting another.</p>
+                  <Clock className="w-12 h-12 text-amber-500 mx-auto mb-4" />
+                  <h3 className="text-[#1E293B] font-medium mb-2">Pending Request Found</h3>
+                  <p className="text-sm text-[#64748B]">You already have a pending payout request. Please wait for it to be processed before requesting another.</p>
                 </div>
               ) : user?.kycStatus !== 'approved' ? (
                 <div className="text-center py-6">
                   <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl">⚠️</span>
                   </div>
-                  <h3 className="text-white font-medium mb-2">KYC Required</h3>
-                  <p className="text-sm text-slate-400 mb-4">You must complete your KYC verification to request payouts.</p>
+                  <h3 className="text-[#1E293B] font-medium mb-2">KYC Required</h3>
+                  <p className="text-sm text-[#64748B] mb-4">You must complete your KYC verification to request payouts.</p>
                 </div>
               ) : (
                 <form onSubmit={handlePayoutSubmit} className="space-y-4">
@@ -125,15 +151,15 @@ const Wallet = () => {
                   />
                   
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-300">Payment Method</label>
+                    <label className="text-sm font-medium text-[#1E293B]">Payment Method</label>
                     <div className="grid grid-cols-2 gap-3">
                       <button
                         type="button"
                         onClick={() => setPayoutForm({ ...payoutForm, paymentMethod: 'bank' })}
                         className={`flex items-center justify-center gap-2 py-2 rounded-lg border transition-all ${
                           payoutForm.paymentMethod === 'bank' 
-                            ? 'bg-indigo-600/20 border-indigo-500/50 text-indigo-400' 
-                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'
+                            ? 'bg-cyan-50 border-[#06B6D4] text-[#0891B2] font-medium' 
+                            : 'bg-white border-[#E2E8F0] text-[#64748B] hover:bg-slate-50 hover:text-[#1E293B]'
                         }`}
                       >
                         <Building2 className="w-4 h-4" /> Bank
@@ -143,8 +169,8 @@ const Wallet = () => {
                         onClick={() => setPayoutForm({ ...payoutForm, paymentMethod: 'upi' })}
                         className={`flex items-center justify-center gap-2 py-2 rounded-lg border transition-all ${
                           payoutForm.paymentMethod === 'upi' 
-                            ? 'bg-indigo-600/20 border-indigo-500/50 text-indigo-400' 
-                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'
+                            ? 'bg-cyan-50 border-[#06B6D4] text-[#0891B2] font-medium' 
+                            : 'bg-white border-[#E2E8F0] text-[#64748B] hover:bg-slate-50 hover:text-[#1E293B]'
                         }`}
                       >
                         <Banknote className="w-4 h-4" /> UPI
@@ -201,7 +227,7 @@ const Wallet = () => {
         <div className="md:col-span-2">
           <Card className="h-full flex flex-col">
             <CardHeader>
-              <h2 className="text-lg font-bold text-white">Payout History</h2>
+              <h2 className="text-lg font-bold text-[#1E293B]">Payout History</h2>
             </CardHeader>
             <div className="flex-1 overflow-x-auto">
               {data.history.length > 0 ? (

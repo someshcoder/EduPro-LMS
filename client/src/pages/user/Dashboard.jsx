@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   BookOpen, Users, Wallet, PlayCircle, Trophy, ArrowRight, TrendingUp, 
-  Clock, DollarSign, Award, Copy, CheckCircle2, Share2, Receipt, Sparkles 
+  Clock, DollarSign, Award, Copy, CheckCircle2, Share2, Receipt, Sparkles, MessageSquare 
 } from 'lucide-react';
 import useAuthStore from '../../store/authStore';
 import { walletService } from '../../services/walletService';
@@ -90,14 +90,17 @@ const Dashboard = () => {
       {/* Welcome Banner */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-white">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-[#1E293B]">
             Welcome back, {user?.name}! 👋
           </h1>
-          <p className="text-slate-400 text-sm mt-1">
+          <p className="text-[#64748B] text-sm mt-1">
             Track your real-time earnings, course completion, and affiliate team growth.
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2.5">
+          <Button variant="secondary" size="sm" onClick={() => navigate('/forum')} leftIcon={<MessageSquare className="w-4 h-4 text-[#06B6D4]" />}>
+            Forum Community
+          </Button>
           <Button variant="secondary" size="sm" onClick={() => navigate('/invoices')} leftIcon={<Receipt className="w-4 h-4" />}>
             Invoices & Receipts
           </Button>
@@ -119,7 +122,7 @@ const Dashboard = () => {
           </div>
           <div className="flex-1">
             <h3 className="text-amber-300 font-semibold text-sm">KYC Verification Required</h3>
-            <p className="text-slate-300 text-xs mt-0.5 mb-2">
+            <p className="text-[#64748B] text-xs mt-0.5 mb-2">
               {user?.kycStatus === 'rejected'
                 ? 'Your previous KYC was rejected. Please upload valid documents to enable wallet withdrawals.'
                 : 'Complete your simple KYC (Aadhar / PAN) to unlock bank and UPI payouts.'}
@@ -148,18 +151,18 @@ const Dashboard = () => {
             value: `₹${(data.wallet?.weekEarnings || 0).toLocaleString('en-IN')}`,
             subtext: 'Weekly affiliate commission',
             icon: Clock,
-            color: 'text-indigo-400',
+            color: 'text-[#06B6D4]',
             bg: 'bg-indigo-400/10',
-            border: 'border-indigo-500/20',
+            border: 'border-cyan-200',
           },
           {
             label: 'Total Lifetime Earnings',
             value: `₹${(data.wallet?.totalEarnings || 0).toLocaleString('en-IN')}`,
             subtext: 'All-time gross commission',
             icon: TrendingUp,
-            color: 'text-violet-400',
-            bg: 'bg-violet-400/10',
-            border: 'border-violet-500/20',
+            color: 'text-[#8B5CF6]',
+            bg: 'bg-violet-50',
+            border: 'border-violet-200',
           },
           {
             label: 'Available Balance',
@@ -180,9 +183,9 @@ const Dashboard = () => {
             <Card hover className={`border ${stat.border}`}>
               <CardBody className="flex items-start justify-between">
                 <div>
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{stat.label}</p>
-                  <p className="text-2xl font-black text-white mt-1">{stat.value}</p>
-                  <p className="text-[11px] text-slate-500 mt-1">{stat.subtext}</p>
+                  <p className="text-xs font-semibold text-[#64748B] uppercase tracking-wider">{stat.label}</p>
+                  <p className="text-2xl font-black text-[#1E293B] mt-1">{stat.value}</p>
+                  <p className="text-[11px] text-[#94A3B8] mt-1">{stat.subtext}</p>
                 </div>
                 <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${stat.bg}`}>
                   <stat.icon className={`w-5 h-5 ${stat.color}`} />
@@ -194,29 +197,29 @@ const Dashboard = () => {
       </div>
 
       {/* Quick Referral Banner */}
-      <div className="bg-gradient-to-r from-indigo-900/40 via-purple-900/30 to-slate-900 border border-indigo-500/30 rounded-2xl p-5 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-cyan-50 via-violet-50/50 to-[#F8FAFC] border border-cyan-200 rounded-2xl p-5 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="space-y-1 text-center md:text-left">
           <div className="flex items-center justify-center md:justify-start gap-2">
-            <Sparkles className="w-4 h-4 text-indigo-400" />
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider">Your Referral Link</h3>
+            <Sparkles className="w-4 h-4 text-[#06B6D4]" />
+            <h3 className="text-sm font-bold text-[#1E293B] uppercase tracking-wider">Your Referral Link</h3>
           </div>
-          <p className="text-xs text-slate-300">
+          <p className="text-xs text-[#64748B]">
             Share and earn up to 40% combined affiliate commissions (Level 1 & Level 2) on every enrollment.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-3 w-full md:w-auto">
-          <div className="px-3 py-2 bg-slate-950/80 rounded-xl border border-slate-700 text-xs font-mono text-indigo-300 select-all truncate max-w-xs">
+          <div className="px-3 py-2 bg-[#F1F5F9] rounded-xl border border-[#E2E8F0] text-xs font-mono text-[#06B6D4] select-all truncate max-w-xs">
             {data.referralLink || 'Loading link...'}
           </div>
           <Button size="sm" onClick={handleCopyLink} leftIcon={copied ? <CheckCircle2 className="w-4 h-4" /> : <Copy className="w-4 h-4" />}>
             {copied ? 'Copied' : 'Copy'}
           </Button>
           <a
-            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`Join EduPro LMS and learn high-income digital skills! Enroll here: ${data.referralLink}`)}`}
+            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`Join CourseEarn LMS and learn high-income digital skills! Enroll here: ${data.referralLink}`)}`}
             target="_blank"
             rel="noreferrer"
-            className="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
+            className="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-[#1E293B] text-xs font-semibold flex items-center gap-1.5 transition-colors"
           >
             <Share2 className="w-3.5 h-3.5" /> WhatsApp
           </a>
@@ -228,8 +231,8 @@ const Dashboard = () => {
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-indigo-400" />
-              <h2 className="text-lg font-bold text-white">My Enrolled Courses ({data.courses.length})</h2>
+              <BookOpen className="w-5 h-5 text-[#06B6D4]" />
+              <h2 className="text-lg font-bold text-[#1E293B]">My Enrolled Courses ({data.courses.length})</h2>
             </div>
             <Button variant="ghost" size="sm" rightIcon={<ArrowRight className="w-4 h-4" />} onClick={() => navigate('/courses')}>
               View Library
@@ -245,7 +248,7 @@ const Dashboard = () => {
                 return (
                   <Card key={course._id} hover className="flex flex-col justify-between">
                     <div>
-                      <div className="aspect-video w-full bg-slate-800 relative overflow-hidden rounded-t-2xl">
+                      <div className="aspect-video w-full bg-[#F1F5F9] relative overflow-hidden rounded-t-2xl">
                         {course.thumbnail ? (
                           <img
                             src={`http://localhost:5000/${course.thumbnail}`}
@@ -254,26 +257,26 @@ const Dashboard = () => {
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
-                            <PlayCircle className="w-12 h-12 text-slate-600" />
+                            <PlayCircle className="w-12 h-12 text-[#64748B]" />
                           </div>
                         )}
                         <div
                           onClick={() => navigate(`/courses/${course._id}`)}
                           className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer"
                         >
-                          <PlayCircle className="w-12 h-12 text-white" />
+                          <PlayCircle className="w-12 h-12 text-[#1E293B]" />
                         </div>
                       </div>
 
                       <CardBody className="p-4">
-                        <h3 className="font-semibold text-white mb-2 line-clamp-1">{course.title}</h3>
-                        <div className="flex items-center justify-between text-xs text-slate-400 mb-1.5">
+                        <h3 className="font-semibold text-[#1E293B] mb-2 line-clamp-1">{course.title}</h3>
+                        <div className="flex items-center justify-between text-xs text-[#64748B] mb-1.5">
                           <span>Completion Progress</span>
-                          <span className={isCompleted ? 'text-emerald-400 font-bold' : 'text-slate-300'}>
+                          <span className={isCompleted ? 'text-emerald-400 font-bold' : 'text-[#64748B]'}>
                             {percent}%
                           </span>
                         </div>
-                        <div className="w-full bg-slate-700 h-2 rounded-full overflow-hidden mb-3">
+                        <div className="w-full bg-[#E2E8F0] h-2 rounded-full overflow-hidden mb-3">
                           <div
                             className={`h-full rounded-full transition-all duration-500 ${
                               isCompleted ? 'bg-emerald-500' : 'bg-indigo-500'
@@ -311,9 +314,9 @@ const Dashboard = () => {
           ) : (
             <Card className="text-center py-12">
               <CardBody>
-                <BookOpen className="w-12 h-12 text-slate-600 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-white mb-2">No enrolled courses yet</h3>
-                <p className="text-slate-400 text-sm mb-6 max-w-sm mx-auto">
+                <BookOpen className="w-12 h-12 text-[#64748B] mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-[#1E293B] mb-2">No enrolled courses yet</h3>
+                <p className="text-[#64748B] text-sm mb-6 max-w-sm mx-auto">
                   Explore our premium curriculum, gain digital skills, and unlock affiliate earning opportunities.
                 </p>
                 <Button onClick={() => navigate('/courses')}>Browse Course Library</Button>
@@ -326,25 +329,25 @@ const Dashboard = () => {
         <div className="space-y-4">
           <div className="flex items-center gap-2">
             <Users className="w-5 h-5 text-purple-400" />
-            <h2 className="text-lg font-bold text-white">Affiliate Summary</h2>
+            <h2 className="text-lg font-bold text-[#1E293B]">Affiliate Summary</h2>
           </div>
 
           <Card>
             <CardBody className="space-y-4">
-              <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-                <span className="text-slate-400 text-sm">Direct Team (Level 1)</span>
-                <span className="font-bold text-white">{data.affiliate?.directReferrals || 0} Members</span>
+              <div className="flex justify-between items-center border-b border-[#E2E8F0] pb-3">
+                <span className="text-[#64748B] text-sm">Direct Team (Level 1)</span>
+                <span className="font-bold text-[#1E293B]">{data.affiliate?.directReferrals || 0} Members</span>
               </div>
-              <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-                <span className="text-slate-400 text-sm">Indirect Team (Level 2)</span>
-                <span className="font-bold text-white">{data.affiliate?.indirectReferrals || 0} Members</span>
+              <div className="flex justify-between items-center border-b border-[#E2E8F0] pb-3">
+                <span className="text-[#64748B] text-sm">Indirect Team (Level 2)</span>
+                <span className="font-bold text-[#1E293B]">{data.affiliate?.indirectReferrals || 0} Members</span>
               </div>
-              <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-                <span className="text-slate-400 text-sm">Total Network</span>
-                <span className="font-bold text-indigo-400">{data.affiliate?.totalTeam || 0} Members</span>
+              <div className="flex justify-between items-center border-b border-[#E2E8F0] pb-3">
+                <span className="text-[#64748B] text-sm">Total Network</span>
+                <span className="font-bold text-[#06B6D4]">{data.affiliate?.totalTeam || 0} Members</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-slate-400 text-sm">Commissions Earned</span>
+                <span className="text-[#64748B] text-sm">Commissions Earned</span>
                 <span className="font-bold text-emerald-400">
                   ₹{(data.affiliate?.totalCommissionEarned || 0).toLocaleString('en-IN')}
                 </span>

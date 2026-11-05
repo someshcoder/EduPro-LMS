@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, ArrowLeft, GraduationCap, Send } from 'lucide-react';
+import { Mail, ArrowLeft, GraduationCap, Send, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import Button from '../../components/common/Button';
@@ -28,20 +28,30 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md">
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center">
+    <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-6">
+      {/* Background decoration */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#06B6D4]/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-[#8B5CF6]/5 rounded-full blur-3xl" />
+      </div>
+
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="w-full max-w-md relative">
+        {/* Logo */}
+        <div className="flex items-center gap-3 mb-8 justify-center">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#06B6D4] to-[#8B5CF6] flex items-center justify-center shadow-lg shadow-cyan-500/20">
             <GraduationCap className="w-7 h-7 text-white" />
           </div>
-          <span className="text-xl font-bold text-white">EduPro LMS</span>
+          <span className="text-xl font-bold text-[#1E293B]">CourseEarn LMS</span>
         </div>
 
-        <div className="bg-slate-900 border border-slate-700/50 rounded-2xl p-8">
+        <div className="bg-white border border-[#E2E8F0] rounded-2xl shadow-sm p-8">
           {!sent ? (
             <>
-              <h2 className="text-2xl font-bold text-white mb-2">Forgot Password?</h2>
-              <p className="text-slate-400 text-sm mb-6">
+              <div className="w-14 h-14 rounded-2xl bg-[#06B6D4]/10 flex items-center justify-center mx-auto mb-5 border border-[#06B6D4]/20">
+                <Mail className="w-7 h-7 text-[#06B6D4]" />
+              </div>
+              <h2 className="text-2xl font-bold text-[#1E293B] mb-2 text-center">Forgot Password?</h2>
+              <p className="text-[#64748B] text-sm mb-6 text-center">
                 No worries! Enter your email and we'll send you a reset link.
               </p>
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -60,18 +70,19 @@ const ForgotPassword = () => {
               </form>
             </>
           ) : (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-4">
-              <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-4">
-                <Mail className="w-8 h-8 text-emerald-400" />
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-4">
+              <div className="w-16 h-16 rounded-full bg-[#D1FAE5] flex items-center justify-center mx-auto mb-4 border border-emerald-200">
+                <CheckCircle className="w-8 h-8 text-emerald-600" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Check your email</h3>
-              <p className="text-slate-400 text-sm">
-                We've sent a password reset link to <span className="text-white">{email}</span>
+              <h3 className="text-xl font-bold text-[#1E293B] mb-2">Check your email</h3>
+              <p className="text-[#64748B] text-sm">
+                We've sent a password reset link to{' '}
+                <span className="text-[#1E293B] font-semibold">{email}</span>
               </p>
             </motion.div>
           )}
 
-          <Link to="/login" className="flex items-center gap-2 justify-center mt-6 text-sm text-slate-400 hover:text-white transition-colors">
+          <Link to="/login" className="flex items-center gap-2 justify-center mt-6 text-sm text-[#64748B] hover:text-[#1E293B] transition-colors font-medium">
             <ArrowLeft className="w-4 h-4" />
             Back to Login
           </Link>

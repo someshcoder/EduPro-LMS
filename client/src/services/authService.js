@@ -8,4 +8,9 @@ export const authService = {
   resetPassword: (token, password) => api.post(`/auth/reset-password/${token}`, { password }),
   submitKyc: (formData) =>
     api.post('/auth/kyc', formData, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  getProfile: () => api.get('/auth/profile'),
+  updateProfile: (data) => api.put('/auth/profile', data),
+  updateBankDetails: (data) => api.put('/auth/bank-details', data),
+  changePassword: (data) => api.put('/auth/change-password', data),
 };
+

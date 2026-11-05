@@ -12,25 +12,22 @@ import {
   ArrowRight,
   ChevronDown
 } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 
 const NAV_LINKS = [
-  { label: 'Home', href: '#home' },
-  { label: 'Courses', href: '#courses' },
-  { label: 'Categories', href: '#categories' },
-  { label: 'Instructors', href: '#instructors' },
-  { label: 'Why Us', href: '#why-us' },
-  { label: 'How It Works', href: '#how-it-works' },
-  { label: 'Testimonials', href: '#testimonials' },
+  { label: 'Home', href: '/' },
+  { label: 'About Us', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'Forum', href: '/forum' },
 ];
 
 const Navbar = ({ onOpenAuth, onSearchClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
   const { user, isAuthenticated, logout } = useAuthStore();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,101 +36,79 @@ const Navbar = ({ onOpenAuth, onSearchClick }) => {
       } else {
         setIsScrolled(false);
       }
-
-      // Determine active section
-      const sections = ['home', 'courses', 'categories', 'instructors', 'why-us', 'how-it-works', 'testimonials'];
-      for (const sectionId of sections) {
-        const el = document.getElementById(sectionId);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 120 && rect.bottom >= 120) {
-            setActiveSection(sectionId);
-            break;
-          }
-        }
-      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (e, href) => {
-    e.preventDefault();
-    setMobileMenuOpen(false);
-    const targetId = href.replace('#', '');
-    const element = document.getElementById(targetId);
-    if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-  };
-
   return (
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-md shadow-slate-900/5 py-3 border-b border-slate-200/80'
-            : 'bg-white/80 backdrop-blur-sm py-5 border-b border-slate-200/40'
+            ? 'bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-200/80 py-3'
+            : 'bg-transparent py-5 border-b border-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             {/* Brand Logo */}
-            <a 
-              href="#home" 
-              onClick={(e) => scrollToSection(e, '#home')}
+            <Link 
+              to="/" 
+              onClick={() => {
+                if (location.pathname === '/') {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
               className="flex items-center gap-3 group focus:outline-none"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-slate-950 via-slate-900 to-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-950/20 group-hover:scale-105 transition-transform">
-                <GraduationCap className="w-5 h-5 text-emerald-400" />
+              <div className="w-10 h-10 rounded-xl bg-white border border-[#E2E8F0] shadow-sm flex items-center justify-center overflow-hidden p-0.5 group-hover:scale-105 transition-transform">
+                <img src="/logo.jpg" alt="CourseEarn" className="w-full h-full object-contain" />
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center gap-1.5">
-                  <span className="font-extrabold text-xl tracking-tight text-slate-900">
-                    Course<span className="text-emerald-600">Earn</span>
+                  <span className="font-extrabold text-xl tracking-tight text-[#1E293B]">
+                    Course<span className="text-[#06B6D4]">Earn</span>
                   </span>
-                  <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+                  <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-cyan-50 text-[#06B6D4] border border-cyan-200/70">
                     LMS
                   </span>
                 </div>
-                <span className="text-[11px] text-slate-500 font-medium tracking-normal -mt-0.5 hidden sm:block">
+                <span className="text-[11px] text-[#64748B] font-medium tracking-normal -mt-0.5 hidden sm:block">
                   Next-Gen Learning Platform
                 </span>
               </div>
-            </a>
+            </Link>
 
-            {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-1 bg-slate-100/70 p-1 rounded-full border border-slate-200/60 shadow-inner">
+            {/* Desktop Navigation Links (Home, About Us, Contact) */}
+            <nav className="hidden lg:flex items-center gap-2 bg-white/85 p-1.5 rounded-full border border-slate-200/90 shadow-sm backdrop-blur-md">
               {NAV_LINKS.map((link) => {
-                const isActive = activeSection === link.href.replace('#', '');
+                const isActive = location.pathname === link.href;
                 return (
-                  <a
+                  <Link
                     key={link.label}
-                    href={link.href}
-                    onClick={(e) => scrollToSection(e, link.href)}
-                    className={`px-3.5 py-1.5 text-sm font-semibold rounded-full transition-all duration-200 relative ${
+                    to={link.href}
+                    onClick={() => {
+                      if (location.pathname === link.href) {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }
+                    }}
+                    className={`px-5 py-2 text-sm font-semibold rounded-full transition-all duration-200 relative ${
                       isActive
-                        ? 'text-slate-900 shadow-sm bg-white'
-                        : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                        ? 'text-white shadow-sm'
+                        : 'text-[#64748B] hover:text-[#1E293B] hover:bg-slate-100/70'
                     }`}
                   >
                     {isActive && (
                       <motion.span
                         layoutId="activePill"
-                        className="absolute inset-0 bg-white rounded-full -z-10 shadow-sm border border-slate-200/50"
+                        className="absolute inset-0 bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] rounded-full -z-10 shadow-sm"
                         transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                       />
                     )}
                     {link.label}
-                  </a>
+                  </Link>
                 );
               })}
             </nav>
@@ -143,7 +118,7 @@ const Navbar = ({ onOpenAuth, onSearchClick }) => {
               {/* Quick Search trigger */}
               <button
                 onClick={onSearchClick}
-                className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors border border-transparent hover:border-slate-200"
+                className="p-2 text-[#64748B] hover:text-[#1E293B] hover:bg-slate-100 rounded-xl transition-colors border border-transparent hover:border-slate-200 cursor-pointer"
                 title="Search courses"
               >
                 <Search className="w-4 h-4" />
@@ -153,14 +128,14 @@ const Navbar = ({ onOpenAuth, onSearchClick }) => {
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => navigate(user?.role === 'admin' ? '/admin/dashboard' : '/dashboard')}
-                    className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-xl shadow-sm transition-all hover:shadow hover:scale-[1.02]"
+                    className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-[#1E293B] bg-white hover:bg-slate-50 border border-slate-200 rounded-xl shadow-xs transition-all hover:scale-[1.02] cursor-pointer"
                   >
-                    <User className="w-4 h-4 text-emerald-400" />
+                    <User className="w-4 h-4 text-[#06B6D4]" />
                     Dashboard
                   </button>
                   <button
                     onClick={logout}
-                    className="px-3 py-2 text-xs font-semibold text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors"
+                    className="px-3 py-2 text-xs font-semibold text-rose-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer"
                   >
                     Logout
                   </button>
@@ -169,13 +144,13 @@ const Navbar = ({ onOpenAuth, onSearchClick }) => {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => onOpenAuth('login')}
-                    className="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-all"
+                    className="px-4 py-2 text-sm font-semibold text-[#64748B] hover:text-[#1E293B] hover:bg-slate-100 rounded-xl transition-all cursor-pointer"
                   >
                     Login
                   </button>
                   <button
                     onClick={() => onOpenAuth('signup')}
-                    className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 rounded-xl shadow-sm shadow-emerald-600/30 transition-all hover:shadow-md hover:shadow-emerald-600/20 hover:-translate-y-0.5"
+                    className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] hover:opacity-95 active:opacity-90 rounded-xl shadow-md shadow-cyan-500/20 transition-all hover:-translate-y-0.5 cursor-pointer"
                   >
                     <span>Get Started</span>
                     <ArrowRight className="w-4 h-4" />
@@ -188,13 +163,14 @@ const Navbar = ({ onOpenAuth, onSearchClick }) => {
             <div className="flex items-center gap-2 lg:hidden">
               <button
                 onClick={onSearchClick}
-                className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg"
+                className="p-2 text-[#64748B] hover:text-[#1E293B] hover:bg-slate-100 rounded-lg cursor-pointer"
+                aria-label="Search"
               >
                 <Search className="w-5 h-5" />
               </button>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg focus:outline-none"
+                className="p-2 text-[#64748B] hover:text-[#1E293B] hover:bg-slate-100 rounded-lg focus:outline-none cursor-pointer"
                 aria-label="Toggle Navigation Menu"
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -212,30 +188,35 @@ const Navbar = ({ onOpenAuth, onSearchClick }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 top-[65px] z-40 bg-white border-b border-slate-200 shadow-2xl p-6 lg:hidden"
+            className="fixed inset-x-0 top-[65px] z-40 bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-2xl p-6 lg:hidden"
           >
             <nav className="flex flex-col gap-2">
               {NAV_LINKS.map((link) => {
-                const isActive = activeSection === link.href.replace('#', '');
+                const isActive = location.pathname === link.href;
                 return (
-                  <a
+                  <Link
                     key={link.label}
-                    href={link.href}
-                    onClick={(e) => scrollToSection(e, link.href)}
+                    to={link.href}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      if (location.pathname === link.href) {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }
+                    }}
                     className={`px-4 py-3 rounded-xl text-base font-semibold transition-colors flex items-center justify-between ${
                       isActive
-                        ? 'bg-emerald-50 text-emerald-800 font-bold'
-                        : 'text-slate-700 hover:bg-slate-50'
+                        ? 'bg-cyan-50 text-[#06B6D4] font-bold border border-cyan-100'
+                        : 'text-[#64748B] hover:bg-slate-50 hover:text-[#1E293B]'
                     }`}
                   >
                     <span>{link.label}</span>
-                    {isActive && <div className="w-2 h-2 rounded-full bg-emerald-600" />}
-                  </a>
+                    {isActive && <div className="w-2 h-2 rounded-full bg-[#06B6D4]" />}
+                  </Link>
                 );
               })}
             </nav>
 
-            <div className="mt-6 pt-6 border-t border-slate-100 flex flex-col gap-3">
+            <div className="mt-6 pt-6 border-t border-slate-200 flex flex-col gap-3">
               {isAuthenticated ? (
                 <>
                   <button
@@ -243,7 +224,7 @@ const Navbar = ({ onOpenAuth, onSearchClick }) => {
                       setMobileMenuOpen(false);
                       navigate(user?.role === 'admin' ? '/admin/dashboard' : '/dashboard');
                     }}
-                    className="w-full py-3 text-center text-sm font-semibold text-white bg-slate-900 rounded-xl"
+                    className="w-full py-3 text-center text-sm font-semibold text-[#1E293B] bg-slate-100 hover:bg-slate-200 rounded-xl"
                   >
                     Go to Dashboard
                   </button>
@@ -252,7 +233,7 @@ const Navbar = ({ onOpenAuth, onSearchClick }) => {
                       setMobileMenuOpen(false);
                       logout();
                     }}
-                    className="w-full py-2.5 text-center text-sm font-semibold text-red-600 hover:bg-red-50 rounded-xl"
+                    className="w-full py-2.5 text-center text-sm font-semibold text-rose-500 hover:bg-rose-50 rounded-xl"
                   >
                     Logout
                   </button>
@@ -264,7 +245,7 @@ const Navbar = ({ onOpenAuth, onSearchClick }) => {
                       setMobileMenuOpen(false);
                       onOpenAuth('login');
                     }}
-                    className="w-full py-3 text-center text-sm font-semibold text-slate-800 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
+                    className="w-full py-3 text-center text-sm font-semibold text-[#64748B] hover:text-[#1E293B] bg-slate-50 border border-slate-200 rounded-xl"
                   >
                     Login
                   </button>
@@ -273,9 +254,9 @@ const Navbar = ({ onOpenAuth, onSearchClick }) => {
                       setMobileMenuOpen(false);
                       onOpenAuth('signup');
                     }}
-                    className="w-full py-3 text-center text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-500 rounded-xl shadow-md shadow-emerald-600/20"
+                    className="w-full py-3 text-center text-sm font-semibold text-white bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] rounded-xl shadow-md shadow-cyan-500/20"
                   >
-                    Create Free Account
+                    Get Started Free
                   </button>
                 </>
               )}

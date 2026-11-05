@@ -8,7 +8,7 @@ const startServer = async () => {
   try {
     await connectDB();
     app.listen(PORT, () => {
-      console.log(`🚀 EduPro LMS Server running on http://localhost:${PORT}`);
+      console.log(`🚀 CourseEarn LMS Server running on http://localhost:${PORT}`);
       console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
       console.log(`🔗 API Health: http://localhost:${PORT}/api/health`);
     });

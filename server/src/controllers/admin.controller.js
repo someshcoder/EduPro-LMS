@@ -182,7 +182,7 @@ exports.uploadVideo = async (req, res) => {
       description,
       videoUrl: req.file.path.replace(/\\/g, '/'),
       package: packageId,
-      order: order || 0,
+      order: Math.max(0, parseInt(order, 10) || 0),
       watermarkEnabled: watermarkEnabled !== 'false',
       uploadedBy: req.user.id,
     });
@@ -203,6 +203,52 @@ exports.deleteVideo = async (req, res) => {
     if (!video) return res.status(404).json({ success: false, message: 'Video not found.' });
     await Package.findByIdAndUpdate(video.package, { $pull: { videos: video._id }, $inc: { totalVideos: -1 } });
     res.json({ success: true, message: 'Video deleted.' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Toggle video watermark
+// @route   PATCH /api/admin/videos/:id/watermark
+exports.toggleVideoWatermark = async (req, res) => {
+  try {
+    const video = await Video.findById(req.params.id);
+    if (!video) return res.status(404).json({ success: false, message: 'Video not found.' });
+
+    if (typeof req.body.watermarkEnabled === 'boolean') {
+      video.watermarkEnabled = req.body.watermarkEnabled;
+    } else {
+      video.watermarkEnabled = video.watermarkEnabled === false;
+    }
+
+    await video.save();
+
+    res.json({
+      success: true,
+      message: `Watermark ${video.watermarkEnabled ? 'enabled' : 'disabled'} successfully.`,
+      watermarkEnabled: video.watermarkEnabled,
+      video,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Update video details
+// @route   PATCH /api/admin/videos/:id
+exports.updateVideo = async (req, res) => {
+  try {
+    const { title, description, order, watermarkEnabled } = req.body;
+    const updateData = {};
+    if (title !== undefined) updateData.title = title;
+    if (description !== undefined) updateData.description = description;
+    if (order !== undefined) updateData.order = Math.max(0, parseInt(order, 10) || 0);
+    if (watermarkEnabled !== undefined) updateData.watermarkEnabled = Boolean(watermarkEnabled);
+
+    const video = await Video.findByIdAndUpdate(req.params.id, updateData, { new: true, runValidators: true });
+    if (!video) return res.status(404).json({ success: false, message: 'Video not found.' });
+
+    res.json({ success: true, message: 'Video updated successfully.', video });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

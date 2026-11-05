@@ -11,19 +11,19 @@ const FAQSection = () => {
   };
 
   return (
-    <section className="py-20 bg-slate-900 relative border-t border-slate-800">
+    <section className="py-20 bg-white relative border-t border-slate-200">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 text-[#8B5CF6] text-xs font-bold uppercase tracking-wider mb-3 border border-purple-100">
+            <Sparkles className="w-3.5 h-3.5 text-[#8B5CF6]" />
             <span>Got Questions?</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1E293B] tracking-tight">
             Frequently Asked Questions
           </h2>
-          <p className="mt-2 text-base text-slate-400">
+          <p className="mt-2 text-base text-[#64748B]">
             Everything you need to know about our learning platform, certifications, and guarantees.
           </p>
         </div>
@@ -35,15 +35,15 @@ const FAQSection = () => {
             return (
               <div
                 key={idx}
-                className="rounded-2xl bg-slate-800 border border-slate-700 overflow-hidden shadow-sm transition-all duration-200"
+                className="rounded-2xl bg-[#F8FAFC] border border-slate-200 overflow-hidden shadow-xs transition-all duration-200"
               >
                 <button
                   type="button"
                   onClick={() => toggleFAQ(idx)}
-                  className="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-indigo-400 transition-colors"
+                  className="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-[#1E293B] hover:text-[#06B6D4] transition-colors"
                 >
                   <span className="text-base">{faq.question}</span>
-                  <div className={`p-1.5 rounded-lg bg-slate-700 text-slate-400 transition-transform duration-200 ${isOpen ? 'rotate-180 bg-indigo-500/20 text-indigo-400' : ''}`}>
+                  <div className={`p-1.5 rounded-lg bg-white border border-slate-200 text-[#64748B] transition-transform duration-200 shadow-2xs ${isOpen ? 'rotate-180 bg-cyan-50 border-cyan-100 text-[#06B6D4]' : ''}`}>
                     <ChevronDown className="w-4 h-4" />
                   </div>
                 </button>
@@ -56,7 +56,7 @@ const FAQSection = () => {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <div className="px-6 pb-6 text-sm text-slate-400 leading-relaxed border-t border-slate-700 pt-4">
+                      <div className="px-6 pb-6 text-sm text-[#64748B] leading-relaxed border-t border-slate-200 pt-4">
                         {faq.answer}
                       </div>
                     </motion.div>

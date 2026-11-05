@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   GraduationCap, 
   Send, 
@@ -54,6 +55,8 @@ const Footer = ({ onOpenAuth }) => {
     setEmail('');
   };
 
+  const navigate = useNavigate();
+
   const scrollToSection = (e, id) => {
     e.preventDefault();
     const element = document.getElementById(id);
@@ -65,33 +68,35 @@ const Footer = ({ onOpenAuth }) => {
         top: offsetPosition,
         behavior: 'smooth'
       });
+    } else {
+      navigate('/#' + id);
     }
   };
 
   return (
-    <footer className="bg-[#060a12] text-slate-400 pt-16 pb-12 border-t border-slate-800">
+    <footer className="bg-white text-[#64748B] pt-16 pb-12 border-t border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Top Section Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-800/80">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-200">
           
           {/* Col 1: Brand & Bio */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-slate-900 via-slate-800 to-indigo-500 flex items-center justify-center text-white shadow-md">
-                <GraduationCap className="w-5 h-5 text-indigo-400" />
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center overflow-hidden p-0.5 group-hover:scale-105 transition-transform">
+                <img src="/logo.jpg" alt="CourseEarn" className="w-full h-full object-contain" />
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="font-extrabold text-xl text-white tracking-tight">
-                  Course<span className="text-indigo-400">Earn</span>
+                <span className="font-extrabold text-xl text-[#1E293B] tracking-tight">
+                  Course<span className="text-[#06B6D4]">Earn</span>
                 </span>
-                <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-indigo-950 text-indigo-400 border border-indigo-800">
+                <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-cyan-50 text-[#06B6D4] border border-cyan-100">
                   LMS
                 </span>
               </div>
-            </div>
+            </Link>
 
-            <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
+            <p className="text-xs text-[#64748B] leading-relaxed max-w-sm">
               Empowering engineers, designers, and managers with world-class interactive curricula, hands-on production codebases, and industry-verified credentials.
             </p>
 
@@ -109,7 +114,7 @@ const Footer = ({ onOpenAuth }) => {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={social.label}
-                  className="w-9 h-9 rounded-xl bg-slate-900 hover:bg-indigo-600 hover:text-white text-slate-400 transition-colors flex items-center justify-center border border-slate-800"
+                  className="w-9 h-9 rounded-xl bg-[#F8FAFC] hover:bg-[#06B6D4] hover:text-white text-[#64748B] transition-colors flex items-center justify-center border border-slate-200 shadow-2xs"
                 >
                   <SocialIcon name={social.name} />
                 </a>
@@ -119,76 +124,82 @@ const Footer = ({ onOpenAuth }) => {
 
           {/* Col 2: Navigation Links */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#1E293B] mb-4">
               Quick Links
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <a href="#home" onClick={(e) => scrollToSection(e, 'home')} className="hover:text-indigo-400 transition-colors">
+                <a href="#home" onClick={(e) => scrollToSection(e, 'home')} className="hover:text-[#06B6D4] transition-colors">
                   Home Overview
                 </a>
               </li>
               <li>
-                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-indigo-400 transition-colors">
+                <Link to="/about" className="text-[#06B6D4] font-semibold hover:text-[#8B5CF6] transition-colors flex items-center gap-1.5">
+                  <span>About CourseEarn</span>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-50 text-[#06B6D4] border border-cyan-100">New</span>
+                </Link>
+              </li>
+              <li>
+                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-[#06B6D4] transition-colors">
                   Popular Courses
                 </a>
               </li>
               <li>
-                <a href="#categories" onClick={(e) => scrollToSection(e, 'categories')} className="hover:text-indigo-400 transition-colors">
+                <a href="#categories" onClick={(e) => scrollToSection(e, 'categories')} className="hover:text-[#06B6D4] transition-colors">
                   Explore Categories
                 </a>
               </li>
               <li>
-                <a href="#instructors" onClick={(e) => scrollToSection(e, 'instructors')} className="hover:text-indigo-400 transition-colors">
+                <a href="#instructors" onClick={(e) => scrollToSection(e, 'instructors')} className="hover:text-[#06B6D4] transition-colors">
                   Top Mentors
                 </a>
               </li>
               <li>
-                <a href="#why-us" onClick={(e) => scrollToSection(e, 'why-us')} className="hover:text-indigo-400 transition-colors">
+                <a href="#why-us" onClick={(e) => scrollToSection(e, 'why-us')} className="hover:text-[#06B6D4] transition-colors">
                   Why Choose CourseEarn
                 </a>
               </li>
               <li>
-                <a href="#testimonials" onClick={(e) => scrollToSection(e, 'testimonials')} className="hover:text-indigo-400 transition-colors">
-                  Student Reviews
-                </a>
+                <Link to="/contact" className="hover:text-[#06B6D4] transition-colors">
+                  Contact Support
+                </Link>
               </li>
             </ul>
           </div>
 
           {/* Col 3: Popular Programs */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#1E293B] mb-4">
               Featured Paths
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-indigo-400 transition-colors">
+                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-[#06B6D4] transition-colors">
                   Full Stack MERN & Next.js
                 </a>
               </li>
               <li>
-                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-indigo-400 transition-colors">
+                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-[#06B6D4] transition-colors">
                   Generative AI & LLM Systems
                 </a>
               </li>
               <li>
-                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-indigo-400 transition-colors">
+                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-[#06B6D4] transition-colors">
                   Figma UI/UX Design Tokens
                 </a>
               </li>
               <li>
-                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-indigo-400 transition-colors">
+                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-[#06B6D4] transition-colors">
                   Cloud & Kubernetes DevOps
                 </a>
               </li>
               <li>
-                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-indigo-400 transition-colors">
+                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-[#06B6D4] transition-colors">
                   Data Science with Python
                 </a>
               </li>
               <li>
-                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-indigo-400 transition-colors">
+                <a href="#courses" onClick={(e) => scrollToSection(e, 'courses')} className="hover:text-[#06B6D4] transition-colors">
                   Growth Marketing & SEO
                 </a>
               </li>
@@ -197,10 +208,10 @@ const Footer = ({ onOpenAuth }) => {
 
           {/* Col 4: Newsletter Subscription */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#1E293B] mb-4">
               Newsletter
             </h4>
-            <p className="text-xs text-slate-400 leading-relaxed mb-3">
+            <p className="text-xs text-[#64748B] leading-relaxed mb-3">
               Get weekly tutorials, free cheatsheets, and early access to newly released courses.
             </p>
 
@@ -211,19 +222,19 @@ const Footer = ({ onOpenAuth }) => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3 py-2.5 rounded-xl bg-[#F8FAFC] border border-slate-200 text-xs text-[#1E293B] placeholder-slate-400 focus:outline-none focus:border-[#06B6D4]"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full py-2.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+                className="w-full py-2.5 px-3 rounded-xl bg-linear-to-r from-[#06B6D4] to-[#8B5CF6] hover:opacity-90 text-white font-bold text-xs transition-opacity flex items-center justify-center gap-1.5 shadow-sm shadow-[#06B6D4]/20"
               >
                 <span>Subscribe Now</span>
                 <Send className="w-3.5 h-3.5" />
               </button>
             </form>
 
-            <span className="text-[10px] text-slate-500 mt-2 block">
+            <span className="text-[10px] text-slate-400 mt-2 block">
               🔒 No spam. Unsubscribe anytime in 1 click.
             </span>
           </div>
@@ -231,7 +242,7 @@ const Footer = ({ onOpenAuth }) => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#64748B]">
           <div>
             © {new Date().getFullYear()} CourseEarn LMS Platform, Inc. All rights reserved.
           </div>
@@ -239,19 +250,19 @@ const Footer = ({ onOpenAuth }) => {
           <div className="flex items-center gap-6">
             <button 
               onClick={() => toast('Privacy Policy: All student data is stored securely and never sold.', { icon: '🛡️' })}
-              className="hover:text-slate-300 transition-colors"
+              className="hover:text-[#1E293B] transition-colors"
             >
               Privacy Policy
             </button>
             <button 
               onClick={() => toast('Terms of Service: Standard educational platform licensing.', { icon: '📜' })}
-              className="hover:text-slate-300 transition-colors"
+              className="hover:text-[#1E293B] transition-colors"
             >
               Terms & Conditions
             </button>
             <button 
               onClick={() => toast('Security: TLS 1.3 encryption & ISO 27001 compliant cloud servers.', { icon: '🔒' })}
-              className="hover:text-slate-300 transition-colors"
+              className="hover:text-[#1E293B] transition-colors"
             >
               Security
             </button>

@@ -57,7 +57,7 @@ exports.getPackageCertificate = async (req, res) => {
     if (!cert) {
       const settings = await getSettings();
       const randomId = Math.floor(100000 + Math.random() * 900000);
-      const certificateId = `CERT-EDP-${Date.now().toString().slice(-4)}${randomId}`;
+      const certificateId = `CERT-CE-${Date.now().toString().slice(-4)}${randomId}`;
 
       cert = await Certificate.create({
         certificateId,
@@ -67,7 +67,7 @@ exports.getPackageCertificate = async (req, res) => {
         courseTitle: pkg.title,
         issuedAt: new Date(),
         completedAt: progress.completedAt || new Date(),
-        organizationName: settings.orgName || 'EduPro Learning Platform',
+        organizationName: settings.orgName || 'CourseEarn Learning Platform',
         signatoryName: settings.signatoryName || 'Dr. Rajesh Sharma',
         signatoryTitle: settings.signatoryTitle || 'Director of Academic Affairs',
         verificationUrl: `${process.env.CLIENT_URL || 'http://localhost:5173'}/verify-certificate/${certificateId}`,

@@ -3,25 +3,48 @@ const Video = require('../models/Video');
 const Progress = require('../models/Progress');
 const User = require('../models/User');
 
+// @desc    Get all published packages (PUBLIC — no auth required, for homepage)
+// @route   GET /api/courses/public
+exports.getPublicPackages = async (req, res) => {
+  try {
+    const { search, category } = req.query;
+    const query = { isPublished: true };
+    if (search) query.title = { $regex: search, $options: 'i' };
+    if (category) query.category = category;
+
+    const packages = await Package.find(query)
+      .select('title description thumbnail price discountPrice category level totalVideos totalDuration rating ratingCount enrolledCount isFeatured')
+      .sort({ isFeatured: -1, createdAt: -1 })
+      .limit(50);
+
+    res.json({ success: true, packages });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 // @desc    Get all published packages
 // @route   GET /api/courses
 exports.getPackages = async (req, res) => {
   try {
-    const { category, level, search, page = 1, limit = 12 } = req.query;
+    const { category, level, search, page = 1, limit = 100 } = req.query;
     const query = { isPublished: true };
     if (category) query.category = category;
     if (level) query.level = level;
     if (search) query.title = { $regex: search, $options: 'i' };
 
+    const pageNum = parseInt(page, 10) || 1;
+    const limitNum = parseInt(limit, 10) || 100;
+
     const packages = await Package.find(query)
       .select('-videos')
-      .skip((page - 1) * limit)
-      .limit(parseInt(limit))
+      .skip((pageNum - 1) * limitNum)
+      .limit(limitNum)
       .sort({ createdAt: -1 });
 
     const total = await Package.countDocuments(query);
 
-    res.json({ success: true, packages, total, page: parseInt(page), pages: Math.ceil(total / limit) });
+    res.json({ success: true, packages, total, page: pageNum, pages: Math.ceil(total / limitNum) });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

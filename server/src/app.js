@@ -11,18 +11,36 @@ const courseRoutes = require('./routes/course.routes');
 const affiliateRoutes = require('./routes/affiliate.routes');
 const walletRoutes = require('./routes/wallet.routes');
 const adminRoutes = require('./routes/admin.routes');
+const invoiceRoutes = require('./routes/invoice.routes');
+const certificateRoutes = require('./routes/certificate.routes');
+const forumRoutes = require('./routes/forum.routes');
+const adminForumRoutes = require('./routes/adminForum.routes');
 
 const app = express();
 
 // Security headers
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 
-// CORS
+// CORS — allow all localhost Vite dev ports (5173, 5174, etc.) + production CLIENT_URL
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:5175',
+  process.env.CLIENT_URL,
+].filter(Boolean); // remove undefined
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g. mobile apps, Postman, curl)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      callback(new Error(`CORS: Origin "${origin}" is not allowed.`));
+    },
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
@@ -61,10 +79,14 @@ app.use('/api/courses', courseRoutes);
 app.use('/api/affiliate', affiliateRoutes);
 app.use('/api/wallet', walletRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/invoices', invoiceRoutes);
+app.use('/api/certificates', certificateRoutes);
+app.use('/api/forum', forumRoutes);
+app.use('/api/admin/forum', adminForumRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ success: true, message: 'EduPro LMS API is running 🚀', timestamp: new Date().toISOString() });
+  res.json({ success: true, message: 'CourseEarn LMS API is running 🚀', timestamp: new Date().toISOString() });
 });
 
 // 404 handler

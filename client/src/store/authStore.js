@@ -24,7 +24,7 @@ const useAuthStore = create(
       },
     }),
     {
-      name: 'edupro-auth',
+      name: 'courseearn-auth',
       partialize: (state) => ({ user: state.user, isAuthenticated: state.isAuthenticated }),
     }
   )

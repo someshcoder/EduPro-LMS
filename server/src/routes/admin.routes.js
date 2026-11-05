@@ -27,6 +27,8 @@ router.patch('/packages/:id/commission', admin.setCommissionRules);
 
 // Videos
 router.post('/videos', uploadVideo.single('video'), admin.uploadVideo);
+router.patch('/videos/:id/watermark', admin.toggleVideoWatermark);
+router.patch('/videos/:id', admin.updateVideo);
 router.delete('/videos/:id', admin.deleteVideo);
 
 // Payouts

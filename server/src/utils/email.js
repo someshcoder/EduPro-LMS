@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 
 const sendEmail = async ({ to, subject, html }) => {
   const mailOptions = {
-    from: `"EduPro LMS" <${process.env.EMAIL_USER}>`,
+    from: `"CourseEarn LMS" <${process.env.EMAIL_USER}>`,
     to,
     subject,
     html,
@@ -24,7 +24,7 @@ exports.sendPasswordResetEmail = async (email, resetUrl) => {
   const html = `
     <div style="font-family: Inter, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0f172a; color: #e2e8f0; padding: 40px; border-radius: 12px;">
       <div style="text-align: center; margin-bottom: 32px;">
-        <h1 style="color: #6366f1; font-size: 28px; margin: 0;">EduPro LMS</h1>
+        <h1 style="color: #6366f1; font-size: 28px; margin: 0;">CourseEarn LMS</h1>
       </div>
       <h2 style="color: #f8fafc; font-size: 22px;">Reset Your Password</h2>
       <p style="color: #94a3b8; line-height: 1.6;">You requested a password reset. Click the button below to set a new password. This link expires in 1 hour.</p>
@@ -34,17 +34,17 @@ exports.sendPasswordResetEmail = async (email, resetUrl) => {
       <p style="color: #64748b; font-size: 14px;">If you didn't request this, please ignore this email.</p>
     </div>
   `;
-  await sendEmail({ to: email, subject: '🔐 Password Reset - EduPro LMS', html });
+  await sendEmail({ to: email, subject: '🔐 Password Reset - CourseEarn LMS', html });
 };
 
 exports.sendWelcomeEmail = async (email, name) => {
   const html = `
     <div style="font-family: Inter, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0f172a; color: #e2e8f0; padding: 40px; border-radius: 12px;">
       <div style="text-align: center; margin-bottom: 32px;">
-        <h1 style="color: #6366f1; font-size: 28px; margin: 0;">EduPro LMS</h1>
+        <h1 style="color: #6366f1; font-size: 28px; margin: 0;">CourseEarn LMS</h1>
       </div>
       <h2 style="color: #f8fafc;">Welcome, ${name}! 🎉</h2>
-      <p style="color: #94a3b8; line-height: 1.6;">Your account has been created successfully. Start learning and earning with EduPro LMS today!</p>
+      <p style="color: #94a3b8; line-height: 1.6;">Your account has been created successfully. Start learning and earning with CourseEarn LMS today!</p>
       <div style="background: #1e293b; border-radius: 8px; padding: 20px; margin: 24px 0;">
         <p style="color: #6366f1; font-weight: 600; margin: 0 0 8px;">Next Steps:</p>
         <ul style="color: #94a3b8; padding-left: 20px; margin: 0;">
@@ -55,14 +55,14 @@ exports.sendWelcomeEmail = async (email, name) => {
       </div>
     </div>
   `;
-  await sendEmail({ to: email, subject: '🎉 Welcome to EduPro LMS!', html });
+  await sendEmail({ to: email, subject: '🎉 Welcome to CourseEarn LMS!', html });
 };
 
 exports.sendKycStatusEmail = async (email, name, status, reason = '') => {
   const isApproved = status === 'approved';
   const html = `
     <div style="font-family: Inter, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0f172a; color: #e2e8f0; padding: 40px; border-radius: 12px;">
-      <h1 style="color: #6366f1;">EduPro LMS</h1>
+      <h1 style="color: #6366f1;">CourseEarn LMS</h1>
       <h2 style="color: ${isApproved ? '#10b981' : '#ef4444'};">
         KYC ${isApproved ? 'Approved ✅' : 'Rejected ❌'}
       </h2>
@@ -70,5 +70,5 @@ exports.sendKycStatusEmail = async (email, name, status, reason = '') => {
       ${!isApproved && reason ? `<p style="color: #fbbf24;">Reason: ${reason}</p>` : ''}
     </div>
   `;
-  await sendEmail({ to: email, subject: `KYC ${isApproved ? 'Approved' : 'Rejected'} - EduPro LMS`, html });
+  await sendEmail({ to: email, subject: `KYC ${isApproved ? 'Approved' : 'Rejected'} - CourseEarn LMS`, html });
 };

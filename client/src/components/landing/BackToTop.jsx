@@ -39,10 +39,10 @@ const BackToTop = () => {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 z-40 p-3 rounded-2xl bg-slate-900/90 hover:bg-slate-950 text-white shadow-xl shadow-slate-900/20 border border-slate-700/60 transition-all hover:scale-110 flex items-center justify-center group"
+          className="fixed bottom-6 right-6 z-40 p-3 rounded-2xl bg-white/95 hover:bg-white text-[#1E293B] shadow-xl shadow-[#06B6D4]/15 border border-slate-200 transition-all hover:scale-110 flex items-center justify-center group"
           aria-label="Back to Top"
         >
-          <ArrowUp className="w-5 h-5 text-emerald-400 group-hover:-translate-y-0.5 transition-transform" />
+          <ArrowUp className="w-5 h-5 text-[#06B6D4] group-hover:-translate-y-0.5 transition-transform" />
         </motion.button>
       )}
     </AnimatePresence>

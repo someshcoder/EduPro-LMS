@@ -81,8 +81,8 @@ const AdminCertificateSettings = () => {
             <Award className="w-6 h-6" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">Certificate Manager</h1>
-            <p className="text-slate-400 text-sm">
+            <h1 className="text-2xl font-bold text-[#1E293B]">Certificate Manager</h1>
+            <p className="text-[#64748B] text-sm">
               Customize course completion certificate template, authorized signatures, and issuer details.
             </p>
           </div>
@@ -96,7 +96,7 @@ const AdminCertificateSettings = () => {
       <form onSubmit={handleSubmit} className="space-y-6">
         <Card>
           <CardHeader>
-            <h2 className="text-lg font-bold text-white">Signatory & Organization Details</h2>
+            <h2 className="text-lg font-bold text-[#1E293B]">Signatory & Organization Details</h2>
           </CardHeader>
           <CardBody className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -133,15 +133,15 @@ const AdminCertificateSettings = () => {
               />
             </div>
 
-            <div className="pt-4 border-t border-slate-800 flex items-center gap-3">
+            <div className="pt-4 border-t border-[#E2E8F0] flex items-center gap-3">
               <input
                 type="checkbox"
                 id="autoIssue"
                 checked={form.autoIssueCertificate}
                 onChange={(e) => setForm({ ...form, autoIssueCertificate: e.target.checked })}
-                className="w-4 h-4 rounded border-slate-700 text-indigo-600 focus:ring-indigo-500 accent-indigo-600"
+                className="w-4 h-4 rounded border-[#E2E8F0] text-indigo-600 focus:ring-indigo-500 accent-indigo-600"
               />
-              <label htmlFor="autoIssue" className="text-sm font-medium text-slate-300 cursor-pointer">
+              <label htmlFor="autoIssue" className="text-sm font-medium text-[#64748B] cursor-pointer">
                 Automatically issue certificate when user reaches 100% video completion
               </label>
             </div>

@@ -131,7 +131,7 @@ const ForumPage = () => {
             Ask questions, share knowledge, and earn Forum Coins.
           </p>
         </div>
-        {isAuthenticated && (
+        {/* {isAuthenticated && (
           <Button
             onClick={() => setShowAskModal(true)}
             leftIcon={<Plus className="w-4 h-4" />}
@@ -139,7 +139,7 @@ const ForumPage = () => {
           >
             Ask Question
           </Button>
-        )}
+        )} */}
       </motion.div>
 
       {/* Stats bar */}
