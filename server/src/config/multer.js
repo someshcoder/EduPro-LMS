@@ -33,6 +33,13 @@ const videoStorage = multer.diskStorage({
   },
 });
 
+// Safe filename generator preventing path traversal and invalid characters
+const generateSafeFileName = (originalname) => {
+  const ext = path.extname(originalname).toLowerCase();
+  const base = path.basename(originalname, ext).replace(/[^a-zA-Z0-9.\-_]/g, '_');
+  return `${Date.now()}-${Math.random().toString(36).substring(2, 8)}-${base}${ext}`;
+};
+
 // Storage for course resources (PDFs, docs)
 const resourceStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -41,8 +48,7 @@ const resourceStorage = multer.diskStorage({
     cb(null, dir);
   },
   filename: (req, file, cb) => {
-    const uniqueName = `${Date.now()}-${file.originalname.replace(/\s+/g, '-')}`;
-    cb(null, uniqueName);
+    cb(null, generateSafeFileName(file.originalname));
   },
 });
 
@@ -54,8 +60,7 @@ const thumbnailStorage = multer.diskStorage({
     cb(null, dir);
   },
   filename: (req, file, cb) => {
-    const uniqueName = `${Date.now()}-${file.originalname.replace(/\s+/g, '-')}`;
-    cb(null, uniqueName);
+    cb(null, generateSafeFileName(file.originalname));
   },
 });
 

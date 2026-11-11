@@ -17,14 +17,14 @@ exports.generateReferralCode = () => {
 exports.getTeamTree = async (userId, UserModel) => {
   // Level 1 - Direct referrals
   const level1 = await UserModel.find({ referredBy: userId })
-    .select('name email phone createdAt walletBalance totalEarnings kycStatus isBlocked referralCode enrolledPackages')
+    .select('name email phone createdAt totalEarnings kycStatus referralCode enrolledPackages')
     .populate('enrolledPackages', 'title price')
     .lean();
 
   // Level 2 - Indirect referrals (referrals of referrals)
   const level1Ids = level1.map((u) => u._id);
   const level2 = await UserModel.find({ referredBy: { $in: level1Ids } })
-    .select('name email phone createdAt walletBalance totalEarnings kycStatus isBlocked referredBy referralCode enrolledPackages')
+    .select('name email phone createdAt totalEarnings kycStatus referredBy referralCode enrolledPackages')
     .populate('enrolledPackages', 'title price')
     .populate('referredBy', 'name email')
     .lean();

@@ -12,28 +12,33 @@ exports.signup = async (req, res) => {
   try {
     const { name, email, password, phone, referralCode } = req.body;
 
-    const existingUser = await User.findOne({ email });
+    if (!name || !email || !password || typeof name !== 'string' || typeof email !== 'string' || typeof password !== 'string') {
+      return res.status(400).json({ success: false, message: 'Please provide valid name, email, and password.' });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+    const existingUser = await User.findOne({ email: cleanEmail });
     if (existingUser) {
       return res.status(400).json({ success: false, message: 'Email already registered.' });
     }
 
     let referredBy = null;
-    if (referralCode) {
-      const referrer = await User.findOne({ referralCode });
+    if (referralCode && typeof referralCode === 'string') {
+      const referrer = await User.findOne({ referralCode: referralCode.trim() });
       if (referrer) referredBy = referrer._id;
     }
 
     const newReferralCode = generateReferralCode();
     const user = await User.create({
-      name,
-      email,
+      name: name.trim(),
+      email: cleanEmail,
       password,
-      phone,
+      phone: typeof phone === 'string' ? phone.trim() : '',
       referralCode: newReferralCode,
       referredBy,
     });
 
-    sendWelcomeEmail(email, name).catch(console.error);
+    sendWelcomeEmail(cleanEmail, user.name).catch(console.error);
 
     const accessToken = generateAccessToken(user._id, user.role);
     const refreshToken = generateRefreshToken(user._id);
@@ -73,7 +78,12 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email }).select('+password');
+    if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
+      return res.status(401).json({ success: false, message: 'Invalid email or password.' });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+    const user = await User.findOne({ email: cleanEmail }).select('+password');
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ success: false, message: 'Invalid email or password.' });
     }
@@ -165,7 +175,11 @@ exports.logout = async (req, res) => {
 exports.forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
-    const user = await User.findOne({ email });
+    if (!email || typeof email !== 'string') {
+      return res.status(400).json({ success: false, message: 'Valid email address is required.' });
+    }
+    const cleanEmail = email.trim().toLowerCase();
+    const user = await User.findOne({ email: cleanEmail });
     if (!user) return res.status(404).json({ success: false, message: 'No user with that email.' });
 
     const resetToken = crypto.randomBytes(32).toString('hex');
@@ -174,7 +188,7 @@ exports.forgotPassword = async (req, res) => {
     await user.save();
 
     const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
-    await sendPasswordResetEmail(email, resetUrl);
+    await sendPasswordResetEmail(cleanEmail, resetUrl);
 
     res.json({ success: true, message: 'Password reset link sent to your email.' });
   } catch (error) {
@@ -306,7 +320,7 @@ exports.updateBankDetails = async (req, res) => {
 exports.changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
-    if (!newPassword || newPassword.length < 6) {
+    if (typeof currentPassword !== 'string' || typeof newPassword !== 'string' || newPassword.length < 6) {
       return res.status(400).json({ success: false, message: 'New password must be at least 6 characters.' });
     }
 

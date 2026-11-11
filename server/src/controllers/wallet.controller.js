@@ -54,15 +54,14 @@ exports.getWalletStats = async (req, res) => {
 exports.requestPayout = async (req, res) => {
   try {
     const { amount, paymentMethod, bankDetails, upiId, requestNote } = req.body;
-    const user = await User.findById(req.user.id);
 
-    if (amount <= 0) return res.status(400).json({ success: false, message: 'Invalid amount.' });
-    if (user.walletBalance < amount) {
-      return res.status(400).json({ success: false, message: 'Insufficient wallet balance.' });
+    const numAmount = Number(amount);
+    if (!Number.isFinite(numAmount) || numAmount <= 0) {
+      return res.status(400).json({ success: false, message: 'Invalid payout amount.' });
     }
 
     const minPayout = 500;
-    if (amount < minPayout) {
+    if (numAmount < minPayout) {
       return res.status(400).json({ success: false, message: `Minimum payout amount is ₹${minPayout}.` });
     }
 
@@ -71,32 +70,46 @@ exports.requestPayout = async (req, res) => {
       return res.status(400).json({ success: false, message: 'You have a pending payout request.' });
     }
 
-    const payout = await PayoutRequest.create({
-      user: req.user.id,
-      amount,
-      paymentMethod,
-      bankDetails: paymentMethod === 'bank' ? bankDetails : undefined,
-      upiId: paymentMethod === 'upi' ? upiId : undefined,
-      requestNote,
-    });
+    // Atomic conditional decrement to eliminate race conditions
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: req.user.id, walletBalance: { $gte: numAmount } },
+      { $inc: { walletBalance: -numAmount } },
+      { new: true }
+    );
 
-    // Deduct from wallet (hold)
-    user.walletBalance -= amount;
-    await user.save();
+    if (!updatedUser) {
+      return res.status(400).json({ success: false, message: 'Insufficient wallet balance.' });
+    }
 
-    // Create transaction record
-    await Transaction.create({
-      user: req.user.id,
-      type: 'payout',
-      amount: -amount,
-      description: 'Payout request created',
-      reference: payout._id.toString(),
-      status: 'pending',
-      balanceAfter: user.walletBalance,
-    });
+    let payout;
+    try {
+      payout = await PayoutRequest.create({
+        user: req.user.id,
+        amount: numAmount,
+        paymentMethod,
+        bankDetails: paymentMethod === 'bank' ? bankDetails : undefined,
+        upiId: paymentMethod === 'upi' ? upiId : undefined,
+        requestNote,
+      });
+
+      // Create transaction record
+      await Transaction.create({
+        user: req.user.id,
+        type: 'payout',
+        amount: -numAmount,
+        description: 'Payout request created',
+        reference: payout._id.toString(),
+        status: 'pending',
+        balanceAfter: updatedUser.walletBalance,
+      });
+    } catch (createErr) {
+      // Rollback deduction if record creation fails
+      await User.findByIdAndUpdate(req.user.id, { $inc: { walletBalance: numAmount } });
+      throw createErr;
+    }
 
     // Fraud check async
-    checkFraud(req.user.id, 'suspicious_payout', { amount, ip: req.ip });
+    checkFraud(req.user.id, 'suspicious_payout', { amount: numAmount, ip: req.ip });
 
     res.status(201).json({ success: true, message: 'Payout request submitted!', payout });
   } catch (error) {

@@ -4,6 +4,24 @@ import { UserCheck, CheckCircle, XCircle, Eye, Clock } from 'lucide-react';
 import { adminService } from '../../services/adminService';
 import toast from 'react-hot-toast';
 
+const API_ORIGIN = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/api$/, '');
+
+const openKycDocument = async (docPath) => {
+  const token = localStorage.getItem('accessToken');
+  try {
+    const res = await fetch(`${API_ORIGIN}/${docPath}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) throw new Error('Failed to load document');
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+  } catch {
+    toast.error('Failed to open document');
+  }
+};
+
 const AdminKyc = () => {
   const [statusFilter, setStatusFilter] = useState('submitted');
   const [selectedUser, setSelectedUser] = useState(null);
@@ -120,15 +138,13 @@ const AdminKyc = () => {
                               panCard: 'PAN Card',
                             }).map(([key, label]) =>
                               user.kycDocuments[key] ? (
-                                <a
+                                <button
                                   key={key}
-                                  href={`http://localhost:5000/${user.kycDocuments[key]}`}
-                                  target="_blank"
-                                  rel="noreferrer"
+                                  onClick={() => openKycDocument(user.kycDocuments[key])}
                                   className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#06B6D4] hover:text-[#0891B2] hover:border-[#06B6D4] transition-colors"
                                 >
                                   <Eye className="w-3 h-3" /> {label}
-                                </a>
+                                </button>
                               ) : null
                             )
                           : <span className="text-[#64748B] text-xs">No documents</span>

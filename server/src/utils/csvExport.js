@@ -30,7 +30,14 @@ exports.generatePayoutCSV = (payouts) => {
       p.status,
       p.createdAt ? new Date(p.createdAt).toLocaleDateString('en-IN') : '',
       p.approvedAt ? new Date(p.approvedAt).toLocaleDateString('en-IN') : '',
-    ].map((v) => `"${String(v).replace(/"/g, '""')}"`);
+    ].map((v) => {
+      let str = String(v ?? '').replace(/"/g, '""');
+      // Prevent CSV / Excel formula injection
+      if (/^[=+\-@\t\r]/.test(str)) {
+        str = `'${str}`;
+      }
+      return `"${str}"`;
+    });
   });
 
   const csvContent = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');

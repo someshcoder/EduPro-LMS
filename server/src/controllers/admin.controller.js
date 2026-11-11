@@ -285,15 +285,14 @@ exports.updatePayoutStatus = async (req, res) => {
     const payout = await PayoutRequest.findById(req.params.id).populate('user');
     if (!payout) return res.status(404).json({ success: false, message: 'Payout not found.' });
 
-    payout.status = status;
-    payout.adminNote = adminNote;
-    payout.approvedBy = req.user.id;
-    payout.approvedAt = new Date();
-    if (transactionRef) payout.transactionRef = transactionRef;
-    if (status === 'paid') payout.paidAt = new Date();
-
-    // If rejected, refund to wallet
+    // Guard: Prevent double-processing or invalid status transitions
     if (status === 'rejected') {
+      if (payout.status !== 'pending') {
+        return res.status(400).json({
+          success: false,
+          message: `Cannot reject payout: Current status is '${payout.status}'. Only pending requests can be rejected.`,
+        });
+      }
       await User.findByIdAndUpdate(payout.user._id, { $inc: { walletBalance: payout.amount } });
       await Transaction.create({
         user: payout.user._id,
@@ -304,6 +303,22 @@ exports.updatePayoutStatus = async (req, res) => {
         status: 'reversed',
       });
     }
+
+    if (status === 'approved' || status === 'paid') {
+      if (payout.status === 'rejected') {
+        return res.status(400).json({
+          success: false,
+          message: 'Cannot approve an already rejected and refunded payout.',
+        });
+      }
+    }
+
+    payout.status = status;
+    payout.adminNote = adminNote;
+    payout.approvedBy = req.user.id;
+    payout.approvedAt = new Date();
+    if (transactionRef) payout.transactionRef = transactionRef;
+    if (status === 'paid') payout.paidAt = new Date();
 
     await payout.save();
     res.json({ success: true, message: `Payout ${status}.`, payout });

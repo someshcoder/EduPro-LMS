@@ -56,21 +56,92 @@ const authLimiter = rateLimit({
   max: 10,
   message: { success: false, message: 'Too many auth attempts. Try again after 15 minutes.' },
 });
+const forgotPasswordLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: { success: false, message: 'Too many password reset requests. Please try again after 15 minutes.' },
+});
 
 app.use('/api', limiter);
 app.use('/api/auth/login', authLimiter);
 app.use('/api/auth/signup', authLimiter);
+app.use('/api/auth/forgot-password', forgotPasswordLimiter);
 
 // Body parser
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Sanitize request data against NoSQL operator injection
+const sanitizeNoSQL = (obj) => {
+  if (!obj || typeof obj !== 'object') return obj;
+  for (const key of Object.keys(obj)) {
+    if (key.startsWith('$') || key.includes('.')) {
+      delete obj[key];
+    } else if (typeof obj[key] === 'object') {
+      sanitizeNoSQL(obj[key]);
+    }
+  }
+  return obj;
+};
+
+app.use((req, res, next) => {
+  if (req.body) sanitizeNoSQL(req.body);
+  if (req.query) sanitizeNoSQL(req.query);
+  if (req.params) sanitizeNoSQL(req.params);
+  next();
+});
 
 // Logger
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// Static files (uploaded media)
+// Protect KYC documents: Only authenticated admins or document owners can access
+app.use(
+  '/uploads/kyc',
+  async (req, res, next) => {
+    try {
+      const { verifyAccessToken } = require('./utils/jwt');
+      const Session = require('./models/Session');
+      const User = require('./models/User');
+
+      let token = null;
+      if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+        token = req.headers.authorization.split(' ')[1];
+      } else if (req.query && req.query.token) {
+        token = req.query.token;
+      }
+
+      if (!token) {
+        return res.status(401).json({ success: false, message: 'Authentication required to access KYC documents.' });
+      }
+
+      const decoded = verifyAccessToken(token);
+      const session = await Session.findOne({ token, isActive: true });
+      if (!session) {
+        return res.status(401).json({ success: false, message: 'Session expired or invalid.' });
+      }
+
+      const user = await User.findById(decoded.id);
+      if (!user) {
+        return res.status(401).json({ success: false, message: 'User not found.' });
+      }
+
+      // Admin or owner only
+      const isOwner = req.path.includes(user._id.toString());
+      if (user.role !== 'admin' && !isOwner) {
+        return res.status(403).json({ success: false, message: 'Access denied.' });
+      }
+
+      next();
+    } catch {
+      return res.status(401).json({ success: false, message: 'Invalid or expired authentication token.' });
+    }
+  },
+  express.static(path.join(process.cwd(), 'uploads/kyc'))
+);
+
+// Static files (uploaded media: thumbnails, videos, forum attachments, resources)
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 // Routes
