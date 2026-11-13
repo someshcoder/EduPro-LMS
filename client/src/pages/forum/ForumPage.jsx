@@ -173,6 +173,8 @@ const ForumPage = () => {
             <div className="flex items-center gap-2 bg-slate-50 border border-[#E2E8F0] rounded-xl px-3 py-2 focus-within:border-[#06B6D4] focus-within:ring-2 focus-within:ring-cyan-100 transition-all">
               <Search className="w-4 h-4 text-[#64748B] flex-shrink-0" />
               <input
+                id="forum-search"
+                name="q"
                 type="text"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}

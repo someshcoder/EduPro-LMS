@@ -55,8 +55,8 @@ const AdminKyc = () => {
   ];
 
   return (
-    <div className="p-6 md:p-8 w-full max-w-7xl mx-auto">
-      <div className="flex items-center gap-3 mb-8">
+    <div className="w-full max-w-7xl mx-auto space-y-6">
+      <div className="flex items-center gap-3">
         <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200">
           <UserCheck className="w-6 h-6 text-amber-600" />
         </div>
@@ -67,7 +67,7 @@ const AdminKyc = () => {
       </div>
 
       {/* Tab filters */}
-      <div className="flex gap-1 mb-6 p-1 bg-[#F8FAFC] rounded-xl border border-[#E2E8F0] w-fit">
+      <div className="flex flex-wrap gap-1 p-1 bg-[#F8FAFC] rounded-xl border border-[#E2E8F0] w-full sm:w-fit">
         {tabs.map((tab) => (
           <button
             key={tab.value}
@@ -188,20 +188,22 @@ const AdminKyc = () => {
 
       {/* Reject Modal */}
       {selectedUser && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xl p-6 w-full max-w-md mx-4">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
+          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xl p-4 sm:p-6 w-full max-w-md">
             <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Reject KYC</h3>
             <p className="text-[#64748B] text-sm mb-4">
               Rejecting KYC for <strong className="text-[#1E293B]">{selectedUser.name}</strong>. Please provide a reason.
             </p>
             <textarea
+              id="kyc-reject-reason"
+              name="kyc-reject-reason"
               value={rejectReason}
               onChange={(e) => setRejectReason(e.target.value)}
               placeholder="Reason for rejection..."
               rows={3}
               className="w-full px-4 py-3 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#1E293B] placeholder-slate-400 focus:outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-100 transition-all resize-none mb-4"
             />
-            <div className="flex gap-3">
+            <div className="flex flex-col-reverse sm:flex-row gap-2.5 sm:gap-3">
               <button
                 onClick={() => { setSelectedUser(null); setRejectReason(''); }}
                 className="flex-1 py-2.5 rounded-xl border border-[#E2E8F0] text-[#64748B] hover:text-[#1E293B] hover:bg-[#F8FAFC] transition-colors text-sm font-medium"
@@ -211,7 +213,7 @@ const AdminKyc = () => {
               <button
                 onClick={() => updateMutation.mutate({ id: selectedUser._id, status: 'rejected', reason: rejectReason })}
                 disabled={updateMutation.isPending}
-                className="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-[#1E293B] text-sm font-medium transition-colors disabled:opacity-60"
+                className="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-sm font-medium transition-colors disabled:opacity-60"
               >
                 Reject KYC
               </button>

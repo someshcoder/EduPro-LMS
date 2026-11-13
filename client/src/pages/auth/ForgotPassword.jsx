@@ -28,7 +28,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-6">
+    <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-4 sm:p-6">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#06B6D4]/5 rounded-full blur-3xl" />
@@ -37,14 +37,14 @@ const ForgotPassword = () => {
 
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="w-full max-w-md relative">
         {/* Logo */}
-        <div className="flex items-center gap-3 mb-8 justify-center">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#06B6D4] to-[#8B5CF6] flex items-center justify-center shadow-lg shadow-cyan-500/20">
-            <GraduationCap className="w-7 h-7 text-white" />
+        <Link to="/" className="flex items-center gap-3 mb-8 justify-center group" title="Go to Home">
+          <div className="w-12 h-12 rounded-2xl bg-white border border-[#E2E8F0] shadow-sm flex items-center justify-center overflow-hidden p-1 group-hover:scale-105 transition-transform">
+            <img src="/logo.jpg" alt="CourseEarn" className="w-full h-full object-contain" />
           </div>
           <span className="text-xl font-bold text-[#1E293B]">CourseEarn LMS</span>
-        </div>
+        </Link>
 
-        <div className="bg-white border border-[#E2E8F0] rounded-2xl shadow-sm p-8">
+        <div className="bg-white border border-[#E2E8F0] rounded-2xl shadow-sm p-5 sm:p-8">
           {!sent ? (
             <>
               <div className="w-14 h-14 rounded-2xl bg-[#06B6D4]/10 flex items-center justify-center mx-auto mb-5 border border-[#06B6D4]/20">
@@ -56,6 +56,9 @@ const ForgotPassword = () => {
               </p>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <Input
+                  id="forgot-email"
+                  name="email"
+                  autoComplete="email"
                   label="Email address"
                   type="email"
                   placeholder="you@example.com"

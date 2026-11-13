@@ -30,9 +30,9 @@ const AdminDashboard = () => {
 
   if (isLoading) {
     return (
-      <div className="p-6 md:p-8 w-full max-w-7xl mx-auto space-y-6">
+      <div className="w-full max-w-7xl mx-auto space-y-6">
         <div className="h-8 w-64 bg-[#E2E8F0] rounded animate-pulse mb-8"></div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
             <div key={i} className="stat-card h-32 animate-pulse bg-slate-100"></div>
           ))}
@@ -121,16 +121,16 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <div className="p-6 md:p-8 w-full max-w-7xl mx-auto space-y-8">
+    <div className="w-full max-w-7xl mx-auto space-y-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-[#1E293B] tracking-tight">Admin Executive Dashboard</h1>
-          <p className="text-[#64748B] text-sm mt-1">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#1E293B] tracking-tight">Admin Executive Dashboard</h1>
+          <p className="text-[#64748B] text-xs sm:text-sm mt-1">
             Real-time business performance, net profit analysis, and operational controls.
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <Button variant="secondary" size="sm" onClick={() => navigate('/admin/analytics')} leftIcon={<BarChart3 className="w-4 h-4" />}>
             Analytics & Reports
           </Button>
@@ -141,7 +141,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* KPI Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {statCards.map((stat, index) => {
           const Icon = stat.icon;
           return (

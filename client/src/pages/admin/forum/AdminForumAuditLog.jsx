@@ -55,7 +55,7 @@ const AdminForumAuditLog = () => {
   };
 
   return (
-    <div className="p-6 md:p-8 w-full max-w-7xl mx-auto space-y-6">
+    <div className="w-full max-w-7xl mx-auto space-y-6">
       <AdminForumNavHeader
         title="Administrative Audit History"
         subtitle="Append-only record of best-answer publications, moderation decisions, report resolutions, and reward distributions."
@@ -68,6 +68,8 @@ const AdminForumAuditLog = () => {
           <div className="flex items-center gap-2">
             <span className="text-xs font-semibold text-[#1E293B]">Filter Action:</span>
             <select
+              id="audit-action-filter"
+              name="action"
               value={action}
               onChange={(e) => {
                 setAction(e.target.value);
@@ -188,7 +190,7 @@ const AdminForumAuditLog = () => {
 
         {/* Pagination Bar */}
         {data?.pagination && data.pagination.totalPages > 1 && (
-          <div className="p-4 border-t border-[#F1F5F9] flex items-center justify-between text-xs text-[#64748B]">
+          <div className="p-4 border-t border-[#F1F5F9] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#64748B]">
             <span>
               Showing {(page - 1) * 20 + 1} to{' '}
               {Math.min(page * 20, data.pagination.total)} of {data.pagination.total} audit events

@@ -81,8 +81,8 @@ const AdminPayouts = () => {
   const totalPages = data ? Math.ceil(data.total / 15) : 0;
 
   return (
-    <div className="p-6 md:p-8 w-full max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
+    <div className="w-full max-w-7xl mx-auto space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-blue-50 border border-blue-200">
             <CreditCard className="w-6 h-6 text-blue-600" />
@@ -94,15 +94,15 @@ const AdminPayouts = () => {
         </div>
         <button
           onClick={handleExport}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-[#F8FAFC] border border-[#E2E8F0] text-[#64748B] hover:text-[#1E293B] text-sm font-medium transition-all shadow-xs"
+          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-[#F8FAFC] border border-[#E2E8F0] text-[#64748B] hover:text-[#1E293B] text-sm font-medium transition-all shadow-xs w-full sm:w-auto"
         >
           <Download className="w-4 h-4" /> Export CSV
         </button>
       </div>
 
       {/* Filters + Bulk */}
-      <div className="flex flex-wrap items-center gap-3 mb-6">
-        <div className="flex gap-1 p-1 bg-[#F8FAFC] rounded-xl border border-[#E2E8F0]">
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap gap-1 p-1 bg-[#F8FAFC] rounded-xl border border-[#E2E8F0] w-full sm:w-fit">
           {['pending', 'approved', 'paid', 'rejected'].map((s) => (
             <button
               key={s}
@@ -164,6 +164,8 @@ const AdminPayouts = () => {
                     {statusFilter === 'pending' && (
                       <td>
                         <input
+                          id={`payout-select-${payout._id}`}
+                          name={`payout-select-${payout._id}`}
                           type="checkbox"
                           checked={selected.includes(payout._id)}
                           onChange={() => toggleSelect(payout._id)}
@@ -245,8 +247,8 @@ const AdminPayouts = () => {
 
       {/* Action Modal */}
       {selectedPayout && actionType && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xl p-6 w-full max-w-md mx-4">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
+          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xl p-4 sm:p-6 w-full max-w-md">
             <h3 className="text-lg font-semibold text-[#1E293B] mb-2 capitalize">
               {actionType === 'paid' ? 'Mark as Paid' : `${actionType} Payout`}
             </h3>
@@ -257,6 +259,8 @@ const AdminPayouts = () => {
               <div className="mb-4">
                 <label className="block text-sm font-medium text-[#1E293B] mb-1.5">Transaction Reference</label>
                 <input
+                  id="payout-transaction-ref"
+                  name="transactionRef"
                   value={transactionRef}
                   onChange={(e) => setTransactionRef(e.target.value)}
                   placeholder="UTR / Transaction ID"
@@ -267,6 +271,8 @@ const AdminPayouts = () => {
             <div className="mb-4">
               <label className="block text-sm font-medium text-[#1E293B] mb-1.5">Admin Note (optional)</label>
               <textarea
+                id="payout-admin-note"
+                name="adminNote"
                 value={adminNote}
                 onChange={(e) => setAdminNote(e.target.value)}
                 rows={2}
@@ -274,7 +280,7 @@ const AdminPayouts = () => {
                 className="w-full px-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#1E293B] placeholder-slate-400 focus:outline-none focus:border-[#06B6D4] focus:ring-2 focus:ring-cyan-100 transition-all resize-none"
               />
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-col-reverse sm:flex-row gap-2.5 sm:gap-3">
               <button
                 onClick={() => { setSelectedPayout(null); setActionType(null); setAdminNote(''); setTransactionRef(''); }}
                 className="flex-1 py-2.5 rounded-xl border border-[#E2E8F0] text-[#64748B] hover:text-[#1E293B] hover:bg-[#F8FAFC] transition-colors text-sm font-medium"
@@ -284,7 +290,7 @@ const AdminPayouts = () => {
               <button
                 onClick={handleAction}
                 disabled={updateMutation.isPending}
-                className={`flex-1 py-2.5 rounded-xl text-[#1E293B] text-sm font-medium transition-colors disabled:opacity-60 ${actionType === 'reject' ? 'bg-rose-600 hover:bg-rose-500' : 'bg-emerald-600 hover:bg-emerald-500'}`}
+                className={`flex-1 py-2.5 rounded-xl text-white text-sm font-medium transition-colors disabled:opacity-60 ${actionType === 'reject' ? 'bg-rose-600 hover:bg-rose-500' : 'bg-emerald-600 hover:bg-emerald-500'}`}
               >
                 {updateMutation.isPending ? 'Processing...' : actionType === 'paid' ? 'Mark as Paid' : actionType === 'approve' ? 'Approve' : 'Reject'}
               </button>

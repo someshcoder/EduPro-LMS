@@ -34,7 +34,7 @@ const AdminForumDashboard = () => {
 
   if (isLoading) {
     return (
-      <div className="p-6 md:p-8 w-full max-w-7xl mx-auto space-y-6">
+      <div className="w-full max-w-7xl mx-auto space-y-6">
         <AdminForumNavHeader
           title="Forum Administration Dashboard"
           subtitle="Overview of forum health, discussions, moderation, and rewards"
@@ -55,7 +55,7 @@ const AdminForumDashboard = () => {
 
   if (isError || !data?.success) {
     return (
-      <div className="p-6 md:p-8 w-full max-w-7xl mx-auto">
+      <div className="w-full max-w-7xl mx-auto space-y-6">
         <AdminForumNavHeader title="Forum Administration Dashboard" />
         <Card className="text-center p-12">
           <AlertCircle className="w-12 h-12 text-rose-500 mx-auto mb-4" />
@@ -175,7 +175,7 @@ const AdminForumDashboard = () => {
   ];
 
   return (
-    <div className="p-6 md:p-8 w-full max-w-7xl mx-auto space-y-6">
+    <div className="w-full max-w-7xl mx-auto space-y-6">
       <AdminForumNavHeader
         title="Forum Administration Dashboard"
         subtitle="Complete control over questions, answer review, Top 3 Best Answers selection, rewards, and reports"

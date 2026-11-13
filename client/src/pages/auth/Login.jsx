@@ -74,7 +74,7 @@ const Login = () => {
       </div>
 
       {/* Right Panel - Login Form */}
-      <div className="flex-1 flex items-center justify-center p-8 bg-[#F8FAFC]">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-8 bg-[#F8FAFC]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -82,14 +82,14 @@ const Login = () => {
           className="w-full max-w-md"
         >
           {/* Mobile Logo */}
-          <Link to="/" className="lg:hidden flex items-center gap-3 mb-8 group" title="Go to Home">
+          <Link to="/" className="lg:hidden flex items-center gap-3 mb-6 sm:mb-8 group" title="Go to Home">
             <div className="w-10 h-10 rounded-xl bg-white border border-[#E2E8F0] flex items-center justify-center shadow-sm overflow-hidden p-0.5 group-hover:scale-105 transition-transform">
               <img src="/logo.jpg" alt="CourseEarn" className="w-full h-full object-contain" />
             </div>
             <span className="text-xl font-bold text-[#1E293B]">CourseEarn LMS</span>
           </Link>
 
-          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-8">
+          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-5 sm:p-8">
             <div className="flex items-center gap-2 mb-6">
               <Sparkles className="w-5 h-5 text-[#06B6D4]" />
               <span className="text-xs font-semibold text-[#06B6D4] uppercase tracking-wider">Sign In</span>

@@ -68,18 +68,20 @@ const EditQuestionModal = ({ question, onClose, onSuccess }) => {
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
           className="relative w-full max-w-2xl bg-white border border-[#E2E8F0] rounded-2xl shadow-2xl overflow-hidden"
         >
-          <div className="flex items-center justify-between px-6 py-4 border-b border-[#F1F5F9]">
+          <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-[#F1F5F9]">
             <h2 className="text-base font-bold text-[#1E293B]">Edit Question</h2>
             <button onClick={onClose} className="p-2 rounded-lg text-[#64748B] hover:bg-slate-100 transition-colors">
               <X className="w-4 h-4" />
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto max-h-[70vh]">
+          <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 overflow-y-auto max-h-[75vh]">
             {/* Title */}
             <div className="space-y-1.5">
               <label className="text-sm font-semibold text-[#1E293B]">Title <span className="text-rose-500">*</span></label>
               <input
+                id="edit-question-title"
+                name="title"
                 value={title}
                 onChange={(e) => { setTitle(e.target.value); if (errors.title) setErrors({...errors, title: ''}); }}
                 maxLength={300}
@@ -92,6 +94,8 @@ const EditQuestionModal = ({ question, onClose, onSuccess }) => {
             <div className="space-y-1.5">
               <label className="text-sm font-semibold text-[#1E293B]">Description <span className="text-rose-500">*</span></label>
               <textarea
+                id="edit-question-description"
+                name="description"
                 value={description}
                 onChange={(e) => { setDescription(e.target.value); if (errors.description) setErrors({...errors, description: ''}); }}
                 maxLength={10000}
@@ -115,6 +119,8 @@ const EditQuestionModal = ({ question, onClose, onSuccess }) => {
                 ))}
                 {tags.length < MAX_TAGS && (
                   <input
+                    id="edit-question-tag-input"
+                    name="tagInput"
                     type="text"
                     value={tagInput}
                     onChange={(e) => setTagInput(e.target.value)}

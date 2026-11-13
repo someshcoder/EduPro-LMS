@@ -55,6 +55,8 @@ const Courses = () => {
         <div className="relative w-full sm:w-64">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8]" />
           <input
+            id="courses-search"
+            name="search"
             type="text"
             placeholder="Search courses..."
             value={search}
@@ -71,7 +73,7 @@ const Courses = () => {
           <p className="text-[#94A3B8] text-sm mt-1">Check back later for new content.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {filtered.map(course => {
             const isEnrolled = enrolledIds.includes(course._id);
             return (

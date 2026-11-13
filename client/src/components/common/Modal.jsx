@@ -20,7 +20,7 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md', className = '' }
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -36,17 +36,17 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md', className = '' }
             className={`relative w-full ${sizes[size]} bg-white border border-[#E2E8F0] rounded-2xl shadow-2xl shadow-slate-900/10 overflow-hidden text-[#1E293B] ${className}`}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-[#F1F5F9]">
-              <h2 className="text-lg font-bold text-[#1E293B]">{title}</h2>
+            <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4 border-b border-[#F1F5F9]">
+              <h2 className="text-base sm:text-lg font-bold text-[#1E293B]">{title}</h2>
               <button
                 onClick={onClose}
-                className="p-2 rounded-lg text-[#64748B] hover:text-[#1E293B] hover:bg-slate-100 transition-colors"
+                className="p-1.5 sm:p-2 rounded-lg text-[#64748B] hover:text-[#1E293B] hover:bg-slate-100 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
             {/* Content */}
-            <div className="p-6 overflow-y-auto max-h-[75vh]">{children}</div>
+            <div className="p-4 sm:p-6 overflow-y-auto max-h-[80vh]">{children}</div>
           </motion.div>
         </div>
       )}

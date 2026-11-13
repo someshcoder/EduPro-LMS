@@ -98,7 +98,7 @@ const MyForumActivity = () => {
       </motion.div>
 
       {/* Tabs */}
-      <div className="bg-white border border-[#E2E8F0] rounded-2xl p-1.5 flex gap-1 w-fit shadow-xs">
+      <div className="bg-white border border-[#E2E8F0] rounded-2xl p-1.5 flex gap-1 w-full sm:w-fit overflow-x-auto no-scrollbar shadow-xs">
         {tabs.map(({ key, label, count, icon: Icon }) => (
           <button
             key={key}

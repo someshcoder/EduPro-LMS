@@ -36,8 +36,8 @@ const AdminSessions = () => {
   const isMobile = (ua) => /mobile|android|iphone|ipad/i.test(ua || '');
 
   return (
-    <div className="p-6 md:p-8 w-full max-w-7xl mx-auto">
-      <div className="flex items-center gap-3 mb-8">
+    <div className="w-full max-w-7xl mx-auto space-y-6">
+      <div className="flex items-center gap-3">
         <div className="p-2.5 rounded-xl bg-violet-500/10 border border-violet-200">
           <Shield className="w-6 h-6 text-[#8B5CF6]" />
         </div>
@@ -134,25 +134,27 @@ const AdminSessions = () => {
 
       {/* Revoke Modal */}
       {revokeTarget && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs p-6 w-full max-w-md mx-4">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
+          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs p-4 sm:p-6 w-full max-w-md">
             <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Revoke Session</h3>
             <p className="text-[#64748B] text-sm mb-4">
               Revoke session for <strong className="text-[#1E293B]">{revokeTarget.user?.name}</strong>. They will be logged out immediately.
             </p>
             <textarea
+              id="session-revoke-reason"
+              name="revokeReason"
               value={revokeReason}
               onChange={(e) => setRevokeReason(e.target.value)}
               placeholder="Reason for revocation (optional)"
               rows={2}
               className="w-full px-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#1E293B] placeholder-slate-400 focus:outline-none focus:border-rose-500 transition-colors resize-none mb-4"
             />
-            <div className="flex gap-3">
+            <div className="flex flex-col-reverse sm:flex-row gap-2.5 sm:gap-3">
               <button onClick={() => { setRevokeTarget(null); setRevokeReason(''); }} className="flex-1 py-2.5 rounded-xl border border-[#E2E8F0] text-[#64748B] hover:text-[#1E293B] hover:bg-[#F1F5F9] transition-colors text-sm font-medium">Cancel</button>
               <button
                 onClick={() => revokeMutation.mutate({ id: revokeTarget._id, reason: revokeReason })}
                 disabled={revokeMutation.isPending}
-                className="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-[#1E293B] text-sm font-medium transition-colors disabled:opacity-60"
+                className="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-sm font-medium transition-colors disabled:opacity-60"
               >
                 {revokeMutation.isPending ? 'Revoking...' : 'Revoke Session'}
               </button>

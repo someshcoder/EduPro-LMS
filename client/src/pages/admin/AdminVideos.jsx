@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Video, Upload, Trash2, AlertCircle, X, Play, Eye, Clock } from 'lucide-react';
+import { Video, Upload, Trash2, AlertCircle, X, Play, Eye, Clock, Loader2 } from 'lucide-react';
 import { adminService } from '../../services/adminService';
 import toast from 'react-hot-toast';
 
@@ -80,20 +80,20 @@ const AdminVideos = () => {
   ) || [];
 
   return (
-    <div className="p-6 md:p-8 w-full max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
+    <div className="space-y-6 w-full max-w-7xl mx-auto">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20">
+          <div className="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20 flex-shrink-0">
             <Video className="w-6 h-6 text-blue-400" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-[#1E293B]">Videos</h1>
-            <p className="text-[#64748B] text-sm">Manage course video content</p>
+            <h1 className="text-xl sm:text-2xl font-bold text-[#1E293B]">Videos</h1>
+            <p className="text-[#64748B] text-xs sm:text-sm">Manage course video content</p>
           </div>
         </div>
         <button
           onClick={() => setShowUpload(true)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-[#1E293B] text-sm font-medium transition-all shadow-lg shadow-indigo-500/20"
+          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-all shadow-lg shadow-indigo-500/20 w-full sm:w-auto"
         >
           <Upload className="w-4 h-4" /> Upload Video
         </button>
@@ -108,12 +108,12 @@ const AdminVideos = () => {
       ) : (
         <div className="space-y-6">
           {packages?.map((pkg) => (
-            <div key={pkg._id} className="bg-white rounded-xl border border-[#E2E8F0] shadow-xs shadow-xs overflow-hidden">
-              <div className="flex items-center justify-between px-6 py-4 border-b border-[#E2E8F0]/60 bg-white/40">
+            <div key={pkg._id} className="bg-white rounded-xl border border-[#E2E8F0] shadow-xs overflow-hidden">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-[#E2E8F0]/60 bg-white/40 gap-2">
                 <div className="flex items-center gap-3">
-                  <Play className="w-4 h-4 text-[#06B6D4]" />
-                  <h3 className="text-[#1E293B] font-semibold">{pkg.title}</h3>
-                  <span className="text-xs text-[#94A3B8] bg-[#F1F5F9] px-2 py-0.5 rounded-full">{pkg.totalVideos || 0} videos</span>
+                  <Play className="w-4 h-4 text-[#06B6D4] flex-shrink-0" />
+                  <h3 className="text-[#1E293B] font-semibold text-sm sm:text-base">{pkg.title}</h3>
+                  <span className="text-xs text-[#94A3B8] bg-[#F1F5F9] px-2 py-0.5 rounded-full flex-shrink-0">{pkg.totalVideos || 0} videos</span>
                 </div>
               </div>
               {(!pkg.videos || pkg.videos.length === 0) ? (
@@ -146,23 +146,41 @@ const AdminVideos = () => {
                           </td>
                           <td className="text-[#64748B] font-medium">{video.order ?? 0}</td>
                           <td>
+                            {/* Watermark Toggle Switch */}
                             <button
                               type="button"
                               disabled={toggleWatermarkMutation.isPending && toggleWatermarkMutation.variables?.id === video._id}
                               onClick={() => handleToggleWatermark(video)}
-                              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border transition-all cursor-pointer ${
-                                video.watermarkEnabled !== false
-                                  ? 'bg-cyan-50 text-[#06B6D4] border-cyan-200 hover:bg-cyan-100 hover:border-cyan-300 shadow-xs'
-                                  : 'bg-slate-100 text-[#64748B] border-slate-200 hover:bg-slate-200 hover:border-slate-300'
-                              } disabled:opacity-50 disabled:cursor-not-allowed`}
                               title={video.watermarkEnabled !== false ? 'Click to disable watermark' : 'Click to enable watermark'}
+                              className="inline-flex items-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
                             >
+                              {/* Track */}
                               <span
-                                className={`w-1.5 h-1.5 rounded-full ${
-                                  video.watermarkEnabled !== false ? 'bg-[#06B6D4]' : 'bg-slate-400'
+                                className={`relative inline-flex h-5 w-9 flex-shrink-0 rounded-full border-2 transition-colors duration-200 ease-in-out focus:outline-none ${
+                                  video.watermarkEnabled !== false
+                                    ? 'bg-[#06B6D4] border-[#06B6D4]'
+                                    : 'bg-slate-200 border-slate-200'
                                 }`}
-                              />
-                              <span>{video.watermarkEnabled !== false ? 'Enabled' : 'Disabled'}</span>
+                              >
+                                {/* Thumb */}
+                                {toggleWatermarkMutation.isPending && toggleWatermarkMutation.variables?.id === video._id ? (
+                                  <span className="absolute inset-0 flex items-center justify-center">
+                                    <Loader2 className="w-3 h-3 text-white animate-spin" />
+                                  </span>
+                                ) : (
+                                  <span
+                                    className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition-transform duration-200 ease-in-out ${
+                                      video.watermarkEnabled !== false ? 'translate-x-4' : 'translate-x-0'
+                                    }`}
+                                  />
+                                )}
+                              </span>
+                              {/* Label */}
+                              <span className={`text-xs font-medium ${
+                                video.watermarkEnabled !== false ? 'text-[#06B6D4]' : 'text-[#94A3B8]'
+                              }`}>
+                                {video.watermarkEnabled !== false ? 'Enabled' : 'Disabled'}
+                              </span>
                             </button>
                           </td>
                           <td className="text-[#64748B] text-xs">
@@ -197,8 +215,8 @@ const AdminVideos = () => {
 
       {/* Upload Modal */}
       {showUpload && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs p-6 w-full max-w-lg">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
+          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs p-4 sm:p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-semibold text-[#1E293B]">Upload Video</h3>
               <button onClick={() => setShowUpload(false)} className="p-1.5 rounded-lg hover:bg-[#F1F5F9] text-[#64748B] hover:text-[#1E293B] transition-colors">
@@ -209,6 +227,8 @@ const AdminVideos = () => {
               <div>
                 <label className="block text-sm font-medium text-[#64748B] mb-1.5">Package</label>
                 <select
+                  id="video-package"
+                  name="packageId"
                   required
                   value={form.packageId}
                   onChange={(e) => setForm({ ...form, packageId: e.target.value })}
@@ -223,6 +243,8 @@ const AdminVideos = () => {
               <div>
                 <label className="block text-sm font-medium text-[#64748B] mb-1.5">Video Title</label>
                 <input
+                  id="video-title"
+                  name="title"
                   required
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
@@ -233,6 +255,8 @@ const AdminVideos = () => {
               <div>
                 <label className="block text-sm font-medium text-[#64748B] mb-1.5">Description (optional)</label>
                 <textarea
+                  id="video-description"
+                  name="description"
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
                   rows={2}
@@ -240,10 +264,12 @@ const AdminVideos = () => {
                   placeholder="Brief description"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-[#64748B] mb-1.5">Order</label>
                   <input
+                    id="video-order"
+                    name="order"
                     type="number"
                     min="0"
                     value={form.order}
@@ -272,6 +298,8 @@ const AdminVideos = () => {
                 <div>
                   <label className="block text-sm font-medium text-[#64748B] mb-1.5">Watermark</label>
                   <select
+                    id="video-watermark"
+                    name="watermarkEnabled"
                     value={form.watermarkEnabled}
                     onChange={(e) => setForm({ ...form, watermarkEnabled: e.target.value === 'true' })}
                     className="w-full px-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#1E293B] focus:outline-none focus:border-[#06B6D4] transition-colors"
@@ -284,6 +312,8 @@ const AdminVideos = () => {
               <div>
                 <label className="block text-sm font-medium text-[#64748B] mb-1.5">Video File</label>
                 <input
+                  id="video-file"
+                  name="video"
                   type="file"
                   accept="video/*"
                   onChange={(e) => setVideoFile(e.target.files[0])}
@@ -304,11 +334,11 @@ const AdminVideos = () => {
 
       {/* Video Preview Modal */}
       {previewVideo && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
           <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs w-full max-w-3xl overflow-hidden">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-[#E2E8F0]">
+            <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-4 border-b border-[#E2E8F0]">
               <div>
-                <h3 className="text-base font-semibold text-[#1E293B]">{previewVideo.title}</h3>
+                <h3 className="text-sm sm:text-base font-semibold text-[#1E293B]">{previewVideo.title}</h3>
                 <p className="text-xs text-[#64748B] mt-0.5">Admin Preview — Users see this with watermark</p>
               </div>
               <button onClick={() => setPreviewVideo(null)} className="p-1.5 rounded-lg hover:bg-[#F1F5F9] text-[#64748B] hover:text-[#1E293B] transition-colors">
@@ -325,7 +355,7 @@ const AdminVideos = () => {
                 Your browser does not support the video tag.
               </video>
             </div>
-            <div className="px-5 py-3 border-t border-[#E2E8F0] flex items-center gap-4 text-xs text-[#64748B]">
+            <div className="px-4 sm:px-5 py-3 border-t border-[#E2E8F0] flex flex-wrap items-center gap-2 sm:gap-4 text-xs text-[#64748B]">
               <span>Order: #{previewVideo.order ?? 0}</span>
               <span>Watermark: {previewVideo.watermarkEnabled !== false ? 'Enabled' : 'Disabled'}</span>
               <span>Uploaded: {previewVideo.createdAt ? new Date(previewVideo.createdAt).toLocaleDateString('en-IN') : '—'}</span>

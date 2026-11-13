@@ -57,7 +57,7 @@ const AnswerCard = ({ answer, isBest = false, onAnswerUpdated }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.2 }}
         className={cn(
-          'rounded-2xl border p-5 transition-all duration-200',
+          'rounded-2xl border p-3.5 sm:p-5 transition-all duration-200',
           isBest
             ? 'bg-emerald-50/60 border-emerald-200 shadow-sm'
             : 'bg-white border-[#E2E8F0]'
@@ -65,8 +65,8 @@ const AnswerCard = ({ answer, isBest = false, onAnswerUpdated }) => {
       >
         {/* Best Answer Badge */}
         {isBest && (
-          <div className="flex items-center justify-between gap-2 mb-3 pb-3 border-b border-emerald-200/80">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-3 pb-3 border-b border-emerald-200/80">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
               <div className="flex items-center gap-1.5 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-xs">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>Best Answer {answer.bestAnswerPosition ? `#${answer.bestAnswerPosition}` : ''}</span>
@@ -145,6 +145,8 @@ const AnswerCard = ({ answer, isBest = false, onAnswerUpdated }) => {
               className="space-y-3"
             >
               <textarea
+                id={`answer-edit-${answer?._id || 'new'}`}
+                name="answerContent"
                 value={editContent}
                 onChange={(e) => setEditContent(e.target.value)}
                 rows={4}
@@ -171,7 +173,7 @@ const AnswerCard = ({ answer, isBest = false, onAnswerUpdated }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className={cn(
-                'text-sm leading-relaxed whitespace-pre-wrap',
+                'text-sm leading-relaxed whitespace-pre-wrap break-words',
                 isBest ? 'text-emerald-900' : 'text-[#1E293B]'
               )}
             >

@@ -132,7 +132,7 @@ const AskQuestionModal = ({ isOpen, onClose, onSuccess }) => {
             className="relative w-full max-w-2xl bg-white border border-[#E2E8F0] rounded-2xl shadow-2xl overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-[#F1F5F9]">
+            <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-[#F1F5F9]">
               <div className="flex items-center gap-2">
                 <HelpCircle className="w-5 h-5 text-[#06B6D4]" />
                 <h2 className="text-lg font-bold text-[#1E293B]">Ask a Question</h2>
@@ -147,7 +147,7 @@ const AskQuestionModal = ({ isOpen, onClose, onSuccess }) => {
             </div>
 
             {/* Coin reward hint */}
-            <div className="mx-6 mt-4 mb-0 bg-amber-50 border border-amber-200 rounded-xl px-4 py-2.5 flex items-center gap-2">
+            <div className="mx-4 sm:mx-6 mt-4 mb-0 bg-amber-50 border border-amber-200 rounded-xl px-4 py-2.5 flex items-center gap-2">
               <span className="text-base">🪙</span>
               <p className="text-xs font-medium text-amber-700">
                 You'll earn <strong>+10 Forum Coins</strong> automatically after successfully posting your question.
@@ -155,13 +155,15 @@ const AskQuestionModal = ({ isOpen, onClose, onSuccess }) => {
             </div>
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto max-h-[70vh]">
+            <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 overflow-y-auto max-h-[75vh]">
               {/* Title */}
               <div className="space-y-1.5">
                 <label className="text-sm font-semibold text-[#1E293B]">
                   Question Title <span className="text-rose-500">*</span>
                 </label>
                 <input
+                  id="ask-title"
+                  name="title"
                   type="text"
                   value={title}
                   onChange={(e) => { setTitle(e.target.value); if (errors.title) setErrors({...errors, title: ''}); }}
@@ -187,6 +189,8 @@ const AskQuestionModal = ({ isOpen, onClose, onSuccess }) => {
                   Detailed Description <span className="text-rose-500">*</span>
                 </label>
                 <textarea
+                  id="ask-description"
+                  name="description"
                   value={description}
                   onChange={(e) => { setDescription(e.target.value); if (errors.description) setErrors({...errors, description: ''}); }}
                   placeholder="Describe your problem in detail. Include what you've tried, error messages, and relevant context..."
@@ -222,6 +226,8 @@ const AskQuestionModal = ({ isOpen, onClose, onSuccess }) => {
                   ))}
                   {tags.length < MAX_TAGS && (
                     <input
+                      id="ask-tag-input"
+                      name="tagInput"
                       type="text"
                       value={tagInput}
                       onChange={(e) => setTagInput(e.target.value)}
@@ -255,6 +261,8 @@ const AskQuestionModal = ({ isOpen, onClose, onSuccess }) => {
                 </div>
                 <input
                   ref={fileInputRef}
+                  id="ask-attachments"
+                  name="attachments"
                   type="file"
                   multiple
                   accept="image/*,.pdf,.txt"

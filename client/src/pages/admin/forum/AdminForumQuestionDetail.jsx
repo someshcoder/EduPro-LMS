@@ -108,7 +108,7 @@ const AdminForumQuestionDetail = () => {
 
   if (isLoading) {
     return (
-      <div className="p-6 md:p-8 w-full max-w-7xl mx-auto space-y-6">
+      <div className="w-full max-w-7xl mx-auto space-y-6">
         <div className="h-6 w-32 bg-slate-100 rounded animate-pulse" />
         <div className="h-48 bg-slate-100 rounded-2xl animate-pulse" />
         <div className="h-96 bg-slate-100 rounded-2xl animate-pulse" />
@@ -118,7 +118,7 @@ const AdminForumQuestionDetail = () => {
 
   if (isError || !data?.success) {
     return (
-      <div className="p-6 md:p-8 w-full max-w-7xl mx-auto">
+      <div className="w-full max-w-7xl mx-auto">
         <Card className="text-center p-12">
           <ShieldAlert className="w-12 h-12 text-rose-500 mx-auto mb-4" />
           <h2 className="text-xl font-bold text-[#1E293B]">Discussion not found</h2>
@@ -209,7 +209,7 @@ const AdminForumQuestionDetail = () => {
   };
 
   return (
-    <div className="p-6 md:p-8 w-full max-w-7xl mx-auto space-y-6">
+    <div className="w-full max-w-7xl mx-auto space-y-6">
       {/* Top Breadcrumb & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <Link
@@ -420,13 +420,15 @@ const AdminForumQuestionDetail = () => {
                       </div>
 
                       {/* Best Answer Selection Widget */}
-                      <div className="flex items-center gap-3 self-end sm:self-center">
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-3 self-start sm:self-center">
                         {isSelected && (
                           <div className="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-xl border border-cyan-300 shadow-xs">
-                            <label className="text-[11px] font-bold text-[#06B6D4]">
+                            <label htmlFor={`rank-select-${ans._id}`} className="text-[11px] font-bold text-[#06B6D4]">
                               Rank:
                             </label>
                             <select
+                              id={`rank-select-${ans._id}`}
+                              name={`rank-${ans._id}`}
                               value={currentPosition}
                               onChange={(e) => handlePositionChange(ans._id, e.target.value)}
                               className="text-xs font-bold text-[#1E293B] bg-transparent focus:outline-none cursor-pointer"
@@ -583,11 +585,12 @@ const AdminForumQuestionDetail = () => {
             </p>
           </div>
 
-          <div className="flex justify-end gap-2 pt-2 border-t border-[#F1F5F9]">
+          <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 pt-2 border-t border-[#F1F5F9]">
             <Button
               variant="outline"
               onClick={() => setConfirmModalOpen(false)}
               disabled={publishMutation.isPending}
+              className="w-full sm:w-auto"
             >
               Cancel
             </Button>
@@ -595,7 +598,7 @@ const AdminForumQuestionDetail = () => {
               variant="primary"
               onClick={handleExecutePublish}
               loading={publishMutation.isPending}
-              className="bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] text-white"
+              className="w-full sm:w-auto bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] text-white"
             >
               Confirm & Publish Now
             </Button>
@@ -611,8 +614,10 @@ const AdminForumQuestionDetail = () => {
       >
         <div className="space-y-4 text-xs">
           <div>
-            <label className="block font-semibold text-[#1E293B] mb-1">Status</label>
+            <label htmlFor="mod-question-status" className="block font-semibold text-[#1E293B] mb-1">Status</label>
             <select
+              id="mod-question-status"
+              name="questionStatus"
               value={questionStatus}
               onChange={(e) => setQuestionStatus(e.target.value)}
               className="w-full px-3 py-2 rounded-xl border border-[#E2E8F0] bg-white focus:outline-none focus:border-[#06B6D4]"
@@ -624,10 +629,12 @@ const AdminForumQuestionDetail = () => {
           </div>
 
           <div>
-            <label className="block font-semibold text-[#1E293B] mb-1">
+            <label htmlFor="mod-question-reason" className="block font-semibold text-[#1E293B] mb-1">
               Reason / Moderation Notes
             </label>
             <textarea
+              id="mod-question-reason"
+              name="questionReason"
               rows={3}
               placeholder="Provide reason for status change..."
               value={questionReason}
@@ -636,11 +643,12 @@ const AdminForumQuestionDetail = () => {
             />
           </div>
 
-          <div className="flex justify-end gap-2 pt-2 border-t border-[#F1F5F9]">
+          <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 pt-2 border-t border-[#F1F5F9]">
             <Button
               variant="outline"
               onClick={() => setModQuestionModal(false)}
               disabled={modQuestionMutation.isPending}
+              className="w-full sm:w-auto"
             >
               Cancel
             </Button>
@@ -653,6 +661,7 @@ const AdminForumQuestionDetail = () => {
                 })
               }
               loading={modQuestionMutation.isPending}
+              className="w-full sm:w-auto"
             >
               Update Status
             </Button>

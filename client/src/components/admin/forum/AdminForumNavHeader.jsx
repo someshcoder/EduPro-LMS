@@ -49,7 +49,7 @@ const AdminForumNavHeader = ({ title, subtitle, badge }) => {
       </div>
 
       {/* Sub Tabs */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar py-0.5 scroll-smooth">
         {navTabs.map((tab) => {
           const Icon = tab.icon;
           return (

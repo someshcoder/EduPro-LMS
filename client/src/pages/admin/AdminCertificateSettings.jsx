@@ -73,7 +73,7 @@ const AdminCertificateSettings = () => {
   }
 
   return (
-    <div className="p-6 md:p-8 w-full max-w-5xl mx-auto space-y-6">
+    <div className="w-full max-w-5xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
@@ -88,7 +88,7 @@ const AdminCertificateSettings = () => {
           </div>
         </div>
 
-        <Button variant="secondary" onClick={() => setShowPreview(true)} leftIcon={<Eye className="w-4 h-4" />}>
+        <Button variant="secondary" className="w-full sm:w-auto justify-center" onClick={() => setShowPreview(true)} leftIcon={<Eye className="w-4 h-4" />}>
           Preview Certificate
         </Button>
       </div>
@@ -101,6 +101,8 @@ const AdminCertificateSettings = () => {
           <CardBody className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
+                id="cert-org-name"
+                name="orgName"
                 label="Issuing Organization Name"
                 placeholder="e.g. CourseEarn Learning Academy"
                 value={form.orgName}
@@ -108,6 +110,8 @@ const AdminCertificateSettings = () => {
                 required
               />
               <Input
+                id="cert-title"
+                name="certificateTitle"
                 label="Certificate Title"
                 placeholder="e.g. Certificate of Completion & Excellence"
                 value={form.certificateTitle}
@@ -118,6 +122,8 @@ const AdminCertificateSettings = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
+                id="cert-signatory-name"
+                name="signatoryName"
                 label="Authorized Signatory Name"
                 placeholder="e.g. Dr. Rajesh Sharma"
                 value={form.signatoryName}
@@ -125,6 +131,8 @@ const AdminCertificateSettings = () => {
                 required
               />
               <Input
+                id="cert-signatory-title"
+                name="signatoryTitle"
                 label="Signatory Title / Designation"
                 placeholder="e.g. Director of Academic Affairs"
                 value={form.signatoryTitle}
@@ -137,6 +145,7 @@ const AdminCertificateSettings = () => {
               <input
                 type="checkbox"
                 id="autoIssue"
+                name="autoIssueCertificate"
                 checked={form.autoIssueCertificate}
                 onChange={(e) => setForm({ ...form, autoIssueCertificate: e.target.checked })}
                 className="w-4 h-4 rounded border-[#E2E8F0] text-indigo-600 focus:ring-indigo-500 accent-indigo-600"
@@ -154,6 +163,7 @@ const AdminCertificateSettings = () => {
             isLoading={updateMutation.isPending}
             leftIcon={<Save className="w-4 h-4" />}
             size="lg"
+            className="w-full sm:w-auto justify-center"
           >
             Save Certificate Settings
           </Button>

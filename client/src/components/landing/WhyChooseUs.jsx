@@ -51,7 +51,7 @@ const WhyChooseUs = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-30px' }}
                 transition={{ duration: 0.4, delay: idx * 0.08 }}
-                className="p-8 rounded-2xl bg-[#F8FAFC] border border-slate-200 hover:border-[#06B6D4]/50 hover:shadow-xl hover:shadow-[#06B6D4]/10 transition-all duration-300 group flex flex-col justify-between shadow-xs"
+                className="p-5 sm:p-8 rounded-2xl bg-[#F8FAFC] border border-slate-200 hover:border-[#06B6D4]/50 hover:shadow-xl hover:shadow-[#06B6D4]/10 transition-all duration-300 group flex flex-col justify-between shadow-xs"
               >
                 <div>
                   {/* Icon & Tag */}

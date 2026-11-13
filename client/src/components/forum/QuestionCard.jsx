@@ -80,7 +80,7 @@ const QuestionCard = ({ question, onUpvoteChange }) => {
         whileHover={{ y: -2 }}
         transition={{ duration: 0.2 }}
         onClick={handleCardClick}
-        className="bg-white border border-[#E2E8F0] rounded-2xl p-5 cursor-pointer hover:border-cyan-300 hover:shadow-md transition-all duration-200 group"
+        className="bg-white border border-[#E2E8F0] rounded-2xl p-3.5 sm:p-5 cursor-pointer hover:border-cyan-300 hover:shadow-md transition-all duration-200 group"
       >
         {/* Header row */}
         <div className="flex items-start justify-between gap-3 mb-3">
@@ -149,7 +149,7 @@ const QuestionCard = ({ question, onUpvoteChange }) => {
         )}
 
         {/* Stats row */}
-        <div className="flex items-center gap-4 pt-3 border-t border-[#F1F5F9]">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 pt-3 border-t border-[#F1F5F9]">
           {/* Upvote */}
           <button
             onClick={handleUpvote}

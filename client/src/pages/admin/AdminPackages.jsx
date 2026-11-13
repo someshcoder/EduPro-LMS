@@ -87,20 +87,20 @@ const AdminPackages = () => {
   };
 
   return (
-    <div className="p-6 md:p-8 w-full max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
+    <div className="space-y-6 w-full max-w-7xl mx-auto">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/20">
+          <div className="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/20 flex-shrink-0">
             <BookOpen className="w-6 h-6 text-purple-400" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-[#1E293B]">Packages</h1>
-            <p className="text-[#64748B] text-sm">{data?.length || 0} packages in catalog</p>
+            <h1 className="text-xl sm:text-2xl font-bold text-[#1E293B]">Packages</h1>
+            <p className="text-[#64748B] text-xs sm:text-sm">{data?.length || 0} packages in catalog</p>
           </div>
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-[#1E293B] text-sm font-medium transition-all shadow-lg shadow-indigo-500/20"
+          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-all shadow-lg shadow-indigo-500/20 w-full sm:w-auto"
         >
           <Plus className="w-4 h-4" /> New Package
         </button>
@@ -171,8 +171,8 @@ const AdminPackages = () => {
 
       {/* Create/Edit Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
+          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs p-4 sm:p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-semibold text-[#1E293B]">{editPkg ? 'Edit Package' : 'Create Package'}</h3>
               <button onClick={closeModal} className="p-1.5 rounded-lg hover:bg-[#F1F5F9] text-[#64748B] hover:text-[#1E293B] transition-colors">
@@ -183,6 +183,8 @@ const AdminPackages = () => {
               <div>
                 <label className="block text-sm font-medium text-[#64748B] mb-1.5">Title</label>
                 <input
+                  id="pkg-title"
+                  name="title"
                   required
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
@@ -193,6 +195,8 @@ const AdminPackages = () => {
               <div>
                 <label className="block text-sm font-medium text-[#64748B] mb-1.5">Description</label>
                 <textarea
+                  id="pkg-description"
+                  name="description"
                   required
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
@@ -204,6 +208,8 @@ const AdminPackages = () => {
               <div>
                 <label className="block text-sm font-medium text-[#64748B] mb-1.5">Price (₹)</label>
                 <input
+                  id="pkg-price"
+                  name="price"
                   required
                   type="number"
                   value={form.price}
@@ -212,10 +218,12 @@ const AdminPackages = () => {
                   placeholder="4999"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-[#64748B] mb-1.5">Level 1 Commission (%)</label>
                   <input
+                    id="pkg-level1"
+                    name="level1Percent"
                     type="number"
                     value={form.level1Percent}
                     onChange={(e) => setForm({ ...form, level1Percent: e.target.value })}
@@ -225,6 +233,8 @@ const AdminPackages = () => {
                 <div>
                   <label className="block text-sm font-medium text-[#64748B] mb-1.5">Level 2 Commission (%)</label>
                   <input
+                    id="pkg-level2"
+                    name="level2Percent"
                     type="number"
                     value={form.level2Percent}
                     onChange={(e) => setForm({ ...form, level2Percent: e.target.value })}
@@ -235,6 +245,8 @@ const AdminPackages = () => {
               <div>
                 <label className="block text-sm font-medium text-[#64748B] mb-1.5">Thumbnail</label>
                 <input
+                  id="pkg-thumbnail"
+                  name="thumbnail"
                   type="file"
                   accept="image/*"
                   onChange={(e) => setThumbnail(e.target.files[0])}
@@ -245,6 +257,7 @@ const AdminPackages = () => {
                 <input
                   type="checkbox"
                   id="isPublished"
+                  name="isPublished"
                   checked={form.isPublished}
                   onChange={(e) => setForm({ ...form, isPublished: e.target.checked })}
                   className="w-4 h-4 rounded border-slate-600 text-indigo-600 focus:ring-indigo-500 accent-indigo-600"

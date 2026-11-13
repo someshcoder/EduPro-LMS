@@ -78,7 +78,7 @@ const ForumNotifications = () => {
   return (
     <div className="space-y-6">
       <ForumNavHeader />
-      <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between gap-4">
+      <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-[#1E293B] flex items-center gap-2">
             <Bell className="w-6 h-6 text-[#06B6D4]" />

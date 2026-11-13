@@ -220,7 +220,7 @@ const ForumThread = () => {
           </div>
         )}
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {/* Author row */}
           <div className="flex items-center justify-between gap-3 mb-4">
             <div className="flex items-center gap-3">
@@ -269,6 +269,8 @@ const ForumThread = () => {
                 <div>
                   <label className="text-xs font-semibold text-[#64748B] uppercase tracking-wide mb-1.5 block">Title</label>
                   <input
+                    id="thread-edit-title"
+                    name="editTitle"
                     value={editTitle}
                     onChange={(e) => setEditTitle(e.target.value)}
                     maxLength={300}
@@ -278,6 +280,8 @@ const ForumThread = () => {
                 <div>
                   <label className="text-xs font-semibold text-[#64748B] uppercase tracking-wide mb-1.5 block">Description</label>
                   <textarea
+                    id="thread-edit-description"
+                    name="editDescription"
                     value={editDescription}
                     onChange={(e) => setEditDescription(e.target.value)}
                     maxLength={10000}
@@ -328,7 +332,7 @@ const ForumThread = () => {
           )}
 
           {/* Stats & Upvote */}
-          <div className="flex items-center gap-4 pt-4 border-t border-[#F1F5F9]">
+          <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-[#F1F5F9]">
             <button
               onClick={handleUpvote}
               disabled={isVoting}
@@ -452,13 +456,15 @@ const ForumThread = () => {
           ref={answerFormRef}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white border border-[#E2E8F0] rounded-2xl p-6 shadow-xs"
+          className="bg-white border border-[#E2E8F0] rounded-2xl p-4 sm:p-6 shadow-xs"
         >
           <h3 className="text-base font-bold text-[#1E293B] mb-4 flex items-center gap-2">
             <Send className="w-4 h-4 text-[#06B6D4]" /> Your Answer
           </h3>
           <form onSubmit={handleSubmitAnswer} className="space-y-3">
             <textarea
+              id="thread-answer-content"
+              name="answerContent"
               value={answerContent}
               onChange={(e) => setAnswerContent(e.target.value)}
               placeholder="Write a clear, helpful answer. Include code examples, steps, or explanations as needed..."

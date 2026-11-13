@@ -218,6 +218,9 @@ const Footer = ({ onOpenAuth }) => {
             <form onSubmit={handleSubscribe} className="space-y-2">
               <div className="relative">
                 <input
+                  id="footer-newsletter-email"
+                  name="email"
+                  autoComplete="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -247,7 +250,7 @@ const Footer = ({ onOpenAuth }) => {
             © {new Date().getFullYear()} CourseEarn LMS Platform, Inc. All rights reserved.
           </div>
 
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
             <button 
               onClick={() => toast('Privacy Policy: All student data is stored securely and never sold.', { icon: '🛡️' })}
               className="hover:text-[#1E293B] transition-colors"

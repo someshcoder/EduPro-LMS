@@ -43,8 +43,8 @@ const AdminFraudAlerts = () => {
   const totalPages = data ? Math.ceil(data.total / 15) : 0;
 
   return (
-    <div className="p-6 md:p-8 w-full max-w-7xl mx-auto">
-      <div className="flex items-center gap-3 mb-8">
+    <div className="w-full max-w-7xl mx-auto space-y-6">
+      <div className="flex items-center gap-3">
         <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20">
           <AlertTriangle className="w-6 h-6 text-rose-400" />
         </div>
@@ -55,7 +55,7 @@ const AdminFraudAlerts = () => {
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-3 mb-6">
+      <div className="flex flex-wrap gap-3">
         <div className="flex gap-1 p-1 bg-[#F8FAFC] rounded-xl border border-[#E2E8F0]">
           <button
             onClick={() => { setShowResolved(false); setPage(1); }}
@@ -71,6 +71,8 @@ const AdminFraudAlerts = () => {
           </button>
         </div>
         <select
+          id="fraud-severity-filter"
+          name="severity"
           value={severity}
           onChange={(e) => { setSeverity(e.target.value); setPage(1); }}
           className="px-4 py-2 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#64748B] focus:outline-none focus:border-[#06B6D4] transition-colors"
@@ -173,8 +175,8 @@ const AdminFraudAlerts = () => {
 
       {/* Resolve Modal */}
       {resolveTarget && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs p-6 w-full max-w-md mx-4">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
+          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-xs p-4 sm:p-6 w-full max-w-md">
             <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Resolve Fraud Alert</h3>
             <p className="text-[#64748B] text-sm mb-1">
               Alert: <strong className="text-[#1E293B]">{resolveTarget.alertType?.replace(/_/g, ' ')}</strong>
@@ -183,18 +185,20 @@ const AdminFraudAlerts = () => {
               User: <strong className="text-[#1E293B]">{resolveTarget.user?.name}</strong>
             </p>
             <textarea
+              id="fraud-resolve-note"
+              name="resolveNote"
               value={resolveNote}
               onChange={(e) => setResolveNote(e.target.value)}
               placeholder="Resolution note (e.g., investigated and cleared, action taken)..."
               rows={3}
               className="w-full px-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#1E293B] placeholder-slate-400 focus:outline-none focus:border-emerald-500 transition-colors resize-none mb-4"
             />
-            <div className="flex gap-3">
+            <div className="flex flex-col-reverse sm:flex-row gap-2.5 sm:gap-3">
               <button onClick={() => { setResolveTarget(null); setResolveNote(''); }} className="flex-1 py-2.5 rounded-xl border border-[#E2E8F0] text-[#64748B] hover:text-[#1E293B] hover:bg-[#F1F5F9] transition-colors text-sm font-medium">Cancel</button>
               <button
                 onClick={() => resolveMutation.mutate({ id: resolveTarget._id, note: resolveNote })}
                 disabled={resolveMutation.isPending}
-                className="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-[#1E293B] text-sm font-medium transition-colors disabled:opacity-60"
+                className="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-colors disabled:opacity-60"
               >
                 {resolveMutation.isPending ? 'Resolving...' : 'Mark Resolved'}
               </button>

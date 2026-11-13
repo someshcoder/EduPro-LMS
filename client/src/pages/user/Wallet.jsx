@@ -112,7 +112,7 @@ const Wallet = () => {
                 View History <ArrowRight className="w-3 h-3" />
               </Link>
             </div>
-            <div className="pt-2 border-t border-amber-100/70 flex items-center justify-between text-xs text-[#64748B]">
+            <div className="pt-2 border-t border-amber-100/70 flex flex-wrap items-center justify-between gap-1.5 text-xs text-[#64748B]">
               <span>Post Question: <strong className="text-amber-600">+10</strong></span>
               <span>Top 3 Answer: <strong className="text-emerald-600">+25</strong></span>
             </div>
@@ -140,6 +140,8 @@ const Wallet = () => {
               ) : (
                 <form onSubmit={handlePayoutSubmit} className="space-y-4">
                   <Input
+                    id="payout-amount"
+                    name="amount"
                     label="Amount (₹)"
                     type="number"
                     min="₹500"
@@ -181,23 +183,32 @@ const Wallet = () => {
                   {payoutForm.paymentMethod === 'bank' ? (
                     <div className="space-y-3 pt-2">
                       <Input 
+                        id="bank-account-holder"
+                        name="accountHolder"
+                        autoComplete="name"
                         placeholder="Account Holder Name" 
                         value={payoutForm.bankDetails.accountHolder}
                         onChange={(e) => setPayoutForm({...payoutForm, bankDetails: {...payoutForm.bankDetails, accountHolder: e.target.value}})}
                       />
                       <Input 
+                        id="bank-account-number"
+                        name="accountNumber"
                         placeholder="Account Number" 
                         type="password"
                         value={payoutForm.bankDetails.accountNumber}
                         onChange={(e) => setPayoutForm({...payoutForm, bankDetails: {...payoutForm.bankDetails, accountNumber: e.target.value}})}
                       />
-                      <div className="grid grid-cols-2 gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <Input 
+                          id="bank-ifsc"
+                          name="ifscCode"
                           placeholder="IFSC Code" 
                           value={payoutForm.bankDetails.ifscCode}
                           onChange={(e) => setPayoutForm({...payoutForm, bankDetails: {...payoutForm.bankDetails, ifscCode: e.target.value}})}
                         />
                         <Input 
+                          id="bank-name"
+                          name="bankName"
                           placeholder="Bank Name" 
                           value={payoutForm.bankDetails.bankName}
                           onChange={(e) => setPayoutForm({...payoutForm, bankDetails: {...payoutForm.bankDetails, bankName: e.target.value}})}
@@ -207,6 +218,8 @@ const Wallet = () => {
                   ) : (
                     <div className="pt-2">
                       <Input 
+                        id="payout-upi"
+                        name="upiId"
                         placeholder="UPI ID (e.g. user@okicici)" 
                         value={payoutForm.upiId}
                         onChange={(e) => setPayoutForm({...payoutForm, upiId: e.target.value})}

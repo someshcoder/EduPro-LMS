@@ -223,9 +223,9 @@ const Watch = () => {
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Certificate Achieved Banner */}
           {isCompleted && (
-            <div className="mb-4 bg-gradient-to-r from-amber-500/20 via-amber-600/10 to-slate-900 border border-amber-500/40 rounded-2xl p-4 flex items-center justify-between gap-4">
+            <div className="mb-4 bg-gradient-to-r from-amber-500/20 via-amber-600/10 to-slate-900 border border-amber-500/40 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-400">
+                <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-400 flex-shrink-0">
                   <Award className="w-6 h-6" />
                 </div>
                 <div>
@@ -233,7 +233,7 @@ const Watch = () => {
                   <p className="text-xs text-[#64748B]">Your verified certificate of completion is ready to download.</p>
                 </div>
               </div>
-              <Button size="sm" variant="warning" onClick={handleClaimCertificate}>
+              <Button size="sm" variant="warning" className="w-full sm:w-auto" onClick={handleClaimCertificate}>
                 View Certificate
               </Button>
             </div>
@@ -361,7 +361,7 @@ const Watch = () => {
                   </div>
 
                   {/* Player Quick Actions */}
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     {/* Speed Selector */}
                     <div className="flex items-center bg-[#F1F5F9]/80 rounded-xl p-1 border border-[#E2E8F0] text-xs text-[#64748B]">
                       {[0.75, 1, 1.25, 1.5, 2].map((spd) => (
@@ -454,7 +454,7 @@ const Watch = () => {
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className={`text-xs font-medium line-clamp-2 ${isActive ? 'text-[#06B6D4] font-bold' : 'text-slate-200'}`}>
+                      <p className={`text-xs font-medium line-clamp-2 ${isActive ? 'text-[#06B6D4] font-bold' : 'text-[#334155]'}`}>
                         {index + 1}. {video.title}
                       </p>
                       <div className="flex items-center gap-2 mt-0.5">

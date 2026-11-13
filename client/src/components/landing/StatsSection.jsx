@@ -16,7 +16,7 @@ const StatsSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Statistics Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {PLATFORM_STATS.map((stat, index) => {
             const IconComponent = iconMap[stat.icon] || Users;
             return (
@@ -26,7 +26,7 @@ const StatsSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="relative p-6 rounded-2xl bg-slate-50/60 border border-slate-200/80 hover:border-cyan-300 hover:bg-cyan-50/20 hover:shadow-md transition-all duration-300 group"
+                className="relative p-4 sm:p-6 rounded-2xl bg-slate-50/60 border border-slate-200/80 hover:border-cyan-300 hover:bg-cyan-50/20 hover:shadow-md transition-all duration-300 group"
               >
                 <div className="flex items-center gap-3.5 mb-3">
                   <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 text-[#06B6D4] flex items-center justify-center shadow-xs group-hover:scale-105 group-hover:bg-gradient-to-r group-hover:from-[#06B6D4] group-hover:to-[#8B5CF6] group-hover:text-white transition-all">

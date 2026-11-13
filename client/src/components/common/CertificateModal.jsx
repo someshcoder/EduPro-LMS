@@ -39,11 +39,11 @@ const CertificateModal = ({ certificate, onClose }) => {
         </div>
 
         {/* Certificate Frame (Printable View) */}
-        <div className="p-6 md:p-8 flex items-center justify-center bg-slate-950/50">
+        <div className="p-3 sm:p-6 md:p-8 flex items-center justify-center bg-slate-950/50">
           <div
             ref={certRef}
             id="printable-certificate"
-            className="w-full bg-[#0a0f1d] text-slate-100 rounded-2xl border-4 border-amber-500/60 p-8 md:p-12 relative overflow-hidden shadow-2xl font-serif text-center"
+            className="w-full bg-[#0a0f1d] text-slate-100 rounded-2xl border-4 border-amber-500/60 p-4 sm:p-8 md:p-12 relative overflow-hidden shadow-2xl font-serif text-center"
             style={{
               backgroundImage: 'radial-gradient(circle at center, rgba(30, 41, 59, 0.5) 0%, rgba(10, 15, 29, 0.95) 100%)',
             }}
@@ -141,7 +141,7 @@ const CertificateModal = ({ certificate, onClose }) => {
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
             <span>Digital verification code: <strong className="text-white font-mono">{certificate.certificateId}</strong></span>
           </div>
-          <Button onClick={handlePrint} leftIcon={<Download className="w-4 h-4" />}>
+          <Button onClick={handlePrint} className="w-full sm:w-auto" leftIcon={<Download className="w-4 h-4" />}>
             Download / Print Certificate
           </Button>
         </div>

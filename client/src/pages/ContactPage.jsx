@@ -259,7 +259,7 @@ export default function ContactPage() {
             initial="hidden"
             animate="show"
             custom={1}
-            className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight leading-[1.1] mb-6 text-[#1E293B]"
+            className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight leading-[1.1] mb-6 text-[#1E293B]"
           >
             Let's{' '}
             <span style={{
@@ -345,12 +345,12 @@ export default function ContactPage() {
                 <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center mb-4 shadow-lg`}>
                   <Icon className="w-5 h-5 text-white" />
                 </div>
-                <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-1">{item.label}</p>
-                <p className="text-base font-bold text-white leading-snug">{item.value}</p>
-                <p className="text-xs text-slate-400 mt-1">{item.sub}</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-[#64748B] mb-1">{item.label}</p>
+                <p className="text-base font-bold text-[#1E293B] leading-snug">{item.value}</p>
+                <p className="text-xs text-[#64748B] mt-1">{item.sub}</p>
 
                 {item.href && (
-                  <div className="mt-4 text-xs font-semibold text-indigo-400 group-hover:text-indigo-300 transition-colors">
+                  <div className="mt-4 text-xs font-semibold text-[#06B6D4] group-hover:text-[#0891B2] transition-colors">
                     {item.href.startsWith('mailto') ? 'Send email →' : item.href.includes('wa.me') ? 'Open WhatsApp →' : 'Open Maps →'}
                   </div>
                 )}
@@ -377,7 +377,7 @@ export default function ContactPage() {
             whileInView="show"
             viewport={{ once: true }}
             custom={0}
-            className="lg:col-span-3 bg-slate-900/60 border border-slate-800 rounded-3xl p-8 sm:p-10 backdrop-blur-sm"
+            className="lg:col-span-3 bg-slate-900/60 border border-slate-800 rounded-3xl p-5 sm:p-10 backdrop-blur-sm"
           >
             <AnimatePresence mode="wait">
               {submitted ? (
@@ -461,7 +461,7 @@ export default function ContactPage() {
                       <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
                         Department <span className="text-rose-500">*</span>
                       </label>
-                      <div className="grid grid-cols-2 gap-2.5">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                         {DEPARTMENTS.map(dept => {
                           const Icon = dept.icon;
                           const active = form.department === dept.label;
@@ -587,7 +587,7 @@ export default function ContactPage() {
                 width="100%" height="100%"
                 className="absolute inset-0 w-full h-full grayscale brightness-50"
                 style={{ border: 0, minHeight: '220px' }}
-                allowFullScreen="" loading="lazy"
+                allowFullScreen=""
                 referrerPolicy="no-referrer-when-downgrade"
               />
               <a
@@ -619,11 +619,11 @@ export default function ContactPage() {
           viewport={{ once: true }}
           className="text-center mb-10"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 mb-4 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 mb-4 rounded-full bg-cyan-50 border border-cyan-100 text-[#06B6D4] text-xs font-bold uppercase tracking-wider">
             <MessageSquare className="w-3.5 h-3.5" />
             Quick Answers
           </div>
-          <h2 className="text-3xl font-extrabold text-white">Frequently Asked Questions</h2>
+          <h2 className="text-3xl font-extrabold text-[#1E293B]">Frequently Asked Questions</h2>
         </motion.div>
 
         <div className="space-y-3">
@@ -633,12 +633,12 @@ export default function ContactPage() {
       </section>
 
       {/* ── Footer ── */}
-      <div className="border-t border-slate-800/60 py-6 text-center">
-        <p className="text-xs text-slate-600">
+      <div className="border-t border-slate-200 py-6 text-center">
+        <p className="text-xs text-[#64748B]">
           © {new Date().getFullYear()} CourseEarn LMS · Made with ♥ in India ·{' '}
           <a href={`https://wa.me/${WA_NUMBER}`} target="_blank" rel="noreferrer" className="text-emerald-500 hover:text-emerald-400 transition-colors">WhatsApp</a>
           {' · '}
-          <a href="mailto:support@courseearn.io" className="text-indigo-400 hover:text-indigo-300 transition-colors">support@courseearn.io</a>
+          <a href="mailto:support@courseearn.io" className="text-[#06B6D4] hover:text-[#0891B2] transition-colors">support@courseearn.io</a>
         </p>
       </div>
     </div>

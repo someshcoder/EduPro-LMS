@@ -80,22 +80,22 @@ const Signup = () => {
       </div>
 
       {/* Right Panel - Signup Form */}
-      <div className="flex-1 flex items-center justify-center p-8 bg-[#F8FAFC] overflow-y-auto">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-8 bg-[#F8FAFC] overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="w-full max-w-md py-8"
+          className="w-full max-w-md py-4 sm:py-8"
         >
           {/* Mobile Logo */}
-          <div className="lg:hidden flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#06B6D4] to-[#8B5CF6] flex items-center justify-center shadow-lg shadow-cyan-500/20">
-              <GraduationCap className="w-6 h-6 text-white" />
+          <Link to="/" className="lg:hidden flex items-center gap-3 mb-6 sm:mb-8 group" title="Go to Home">
+            <div className="w-10 h-10 rounded-xl bg-white border border-[#E2E8F0] flex items-center justify-center shadow-sm overflow-hidden p-0.5 group-hover:scale-105 transition-transform">
+              <img src="/logo.jpg" alt="CourseEarn" className="w-full h-full object-contain" />
             </div>
             <span className="text-xl font-bold text-[#1E293B]">CourseEarn LMS</span>
-          </div>
+          </Link>
 
-          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-8">
+          <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-5 sm:p-8">
             <div className="flex items-center gap-2 mb-6">
               <Sparkles className="w-5 h-5 text-[#8B5CF6]" />
               <span className="text-xs font-semibold text-[#8B5CF6] uppercase tracking-wider">Create Account</span>
@@ -112,6 +112,9 @@ const Signup = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Input
+                  id="signup-name"
+                  name="name"
+                  autoComplete="name"
                   label="Full Name *"
                   placeholder="Your Name"
                   leftIcon={<User className="w-4 h-4" />}
@@ -120,6 +123,9 @@ const Signup = () => {
                   required
                 />
                 <Input
+                  id="signup-phone"
+                  name="phone"
+                  autoComplete="tel"
                   label="Phone"
                   type="tel"
                   placeholder="+91 9876543210"
@@ -132,6 +138,9 @@ const Signup = () => {
                 />
               </div>
               <Input
+                id="signup-email"
+                name="email"
+                autoComplete="email"
                 label="Email address *"
                 type="email"
                 placeholder="you@example.com"
@@ -141,6 +150,9 @@ const Signup = () => {
                 required
               />
               <Input
+                id="signup-password"
+                name="password"
+                autoComplete="new-password"
                 label="Password *"
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Min. 6 characters"
@@ -155,6 +167,9 @@ const Signup = () => {
                 required
               />
               <Input
+                id="signup-referral"
+                name="referralCode"
+                autoComplete="off"
                 label="Referral Code (Optional)"
                 placeholder="CE-XXXXXX"
                 leftIcon={<Gift className="w-4 h-4" />}

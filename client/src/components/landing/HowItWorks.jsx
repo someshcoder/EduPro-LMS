@@ -50,7 +50,7 @@ const HowItWorks = ({ onStartAction }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.4, delay: idx * 0.12 }}
-                className="relative z-10 p-8 rounded-2xl bg-white border border-slate-200 hover:border-[#06B6D4]/50 hover:shadow-xl hover:shadow-[#06B6D4]/10 transition-all duration-300 flex flex-col justify-between shadow-xs"
+                className="relative z-10 p-5 sm:p-8 rounded-2xl bg-white border border-slate-200 hover:border-[#06B6D4]/50 hover:shadow-xl hover:shadow-[#06B6D4]/10 transition-all duration-300 flex flex-col justify-between shadow-xs"
               >
                 <div>
                   {/* Step Header: Step Number & Icon */}
@@ -94,7 +94,7 @@ const HowItWorks = ({ onStartAction }) => {
         <div className="mt-14 text-center">
           <button
             onClick={onStartAction}
-            className="px-8 py-4 rounded-xl bg-linear-to-r from-[#06B6D4] to-[#8B5CF6] hover:opacity-90 text-white font-bold text-sm shadow-lg shadow-[#06B6D4]/20 transition-all hover:scale-105 inline-flex items-center gap-2"
+            className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-linear-to-r from-[#06B6D4] to-[#8B5CF6] hover:opacity-90 text-white font-bold text-xs sm:text-sm shadow-lg shadow-[#06B6D4]/20 transition-all hover:scale-105 inline-flex items-center gap-2"
           >
             <span>Start Your Learning Journey Now</span>
             <ArrowRight className="w-4 h-4 text-white" />

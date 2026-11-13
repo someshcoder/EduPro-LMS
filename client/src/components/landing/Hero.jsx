@@ -65,7 +65,7 @@ const Hero = ({ onExploreClick, onStartLearning, onWatchDemo, onQuickSearch }) =
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#1E293B] leading-[1.12]">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#1E293B] leading-[1.12]">
               Learn New Skills.{' '}
               <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#06B6D4] via-[#8B5CF6] to-[#FB7185]">
                 Build Your Future.
@@ -98,6 +98,8 @@ const Hero = ({ onExploreClick, onStartLearning, onWatchDemo, onQuickSearch }) =
               <div className="relative flex-1 w-full flex items-center pl-3">
                 <Search className="w-5 h-5 text-[#64748B] shrink-0" />
                 <input
+                  id="hero-search-query"
+                  name="q"
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -197,7 +199,7 @@ const Hero = ({ onExploreClick, onStartLearning, onWatchDemo, onQuickSearch }) =
             className="lg:col-span-5 relative"
           >
             {/* Main Interactive LMS Dashboard Card */}
-            <div className="relative z-10 bg-white rounded-3xl p-6 shadow-2xl shadow-slate-200/80 border border-slate-200 overflow-hidden">
+            <div className="relative z-10 bg-white rounded-3xl p-4 sm:p-6 shadow-2xl shadow-slate-200/80 border border-slate-200 overflow-hidden">
               
               {/* Window Header Bar */}
               <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
@@ -256,7 +258,7 @@ const Hero = ({ onExploreClick, onStartLearning, onWatchDemo, onQuickSearch }) =
               </div>
 
               {/* Weekly Learning Analytics Mini Grid */}
-              <div className="grid grid-cols-2 gap-3 mb-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
                 <div className="bg-slate-50/80 rounded-xl p-3 border border-slate-200">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-xs text-[#64748B] font-medium">Weekly Goal</span>
@@ -277,7 +279,7 @@ const Hero = ({ onExploreClick, onStartLearning, onWatchDemo, onQuickSearch }) =
               </div>
 
               {/* Upcoming Live Mentorship Session */}
-              <div className="bg-slate-50 rounded-xl p-3.5 border border-slate-200 flex items-center justify-between">
+              <div className="bg-slate-50 rounded-xl p-3.5 border border-slate-200 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <img
                     src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80"

@@ -527,7 +527,7 @@ const Rewards = () => {
         <Card>
           <CardBody className={expandJourney ? 'space-y-4' : ''}>
             {/* Compact horizontal scroll */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 flex-nowrap">
+            <div className="flex items-center gap-2 overflow-x-auto pb-1.5 flex-nowrap no-scrollbar scroll-smooth">
               {d.journey.map((step, i) => (
                 <React.Fragment key={step.step}>
                   <div className="flex items-center gap-1.5 flex-shrink-0">

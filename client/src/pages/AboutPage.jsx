@@ -618,10 +618,10 @@ export default function AboutPage() {
                 </p>
 
                 {/* CTA Action Buttons */}
-                <div className="flex flex-wrap items-center gap-4 pt-2">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-2">
                   <button
                     onClick={() => scrollTo('ecosystem')}
-                    className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] hover:from-cyan-400 hover:to-purple-500 text-white font-semibold text-sm sm:text-base shadow-lg shadow-cyan-200 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2 group cursor-pointer"
+                    className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] hover:from-cyan-400 hover:to-purple-500 text-white font-semibold text-sm sm:text-base shadow-lg shadow-cyan-200 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group cursor-pointer"
                   >
                     <span>Explore Our Platform</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -629,7 +629,7 @@ export default function AboutPage() {
 
                   <button
                     onClick={() => scrollTo('story')}
-                    className="px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-[#1E293B] font-semibold text-sm sm:text-base border border-slate-200 shadow-md transition-all duration-200 hover:border-[#06B6D4] flex items-center gap-2 cursor-pointer"
+                    className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-[#1E293B] font-semibold text-sm sm:text-base border border-slate-200 shadow-md transition-all duration-200 hover:border-[#06B6D4] flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <span>Our Purpose & Story</span>
                     <Sparkles className="w-4 h-4 text-[#8B5CF6]" />
@@ -637,7 +637,7 @@ export default function AboutPage() {
                 </div>
 
                 {/* Micro Highlights Pill Row */}
-                <div className="pt-4 grid grid-cols-3 gap-3 sm:gap-6 border-t border-slate-200 text-xs text-[#64748B]">
+                <div className="pt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 border-t border-slate-200 text-xs text-[#64748B]">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                     <span>Curated Modules</span>
@@ -703,7 +703,7 @@ export default function AboutPage() {
                   </div>
 
                   {/* Dual Grid: Achievement + Referral Stream */}
-                  <div className="grid grid-cols-2 gap-3 mb-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                     {/* Mini card: Verified Credential */}
                     <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200">
                       <div className="flex items-center justify-between mb-1.5">
@@ -861,7 +861,7 @@ export default function AboutPage() {
             SECTION 3: OUR MISSION & VISION
             Side-by-side distinctive cards
         ═════════════════════════════════════════════════════════════ */}
-        <section id="mission-vision" className="py-24 relative border-b border-slate-800/60">
+        <section id="mission-vision" className="py-24 relative border-b border-slate-800/60 bg-[#0F172A]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div className="text-center max-w-2xl mx-auto mb-16">
@@ -904,7 +904,7 @@ export default function AboutPage() {
                   We believe no student should waste months on outdated theory. By crafting curriculum with practical relevance and coupling it with ethical partner avenues, we empower individuals to unlock their true potential.
                 </p>
 
-                <div className="grid grid-cols-3 gap-3 pt-6 border-t border-slate-800 text-center">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 border-t border-slate-800 text-center">
                   <div className="p-3 rounded-xl bg-slate-800/40 border border-slate-700/50">
                     <div className="text-xs font-bold text-indigo-300">Accessibility</div>
                     <div className="text-[11px] text-slate-400 mt-0.5">Zero friction entry</div>
@@ -945,7 +945,7 @@ export default function AboutPage() {
                   We envision a transparent global community where learning and sustainable growth reinforce one another, creating an evergreen cycle of mastery, collaboration, and personal achievement.
                 </p>
 
-                <div className="grid grid-cols-3 gap-3 pt-6 border-t border-slate-800 text-center">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 border-t border-slate-800 text-center">
                   <div className="p-3 rounded-xl bg-slate-800/40 border border-slate-700/50">
                     <div className="text-xs font-bold text-purple-300">Trust</div>
                     <div className="text-[11px] text-slate-400 mt-0.5">Documented policies</div>
@@ -1070,12 +1070,12 @@ export default function AboutPage() {
             </div>
 
             {/* Stepper Selection Chips (Desktop & Mobile Friendly) */}
-            <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap mb-12">
+            <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-3 overflow-x-auto no-scrollbar scroll-smooth pb-2 sm:pb-0 mb-8 sm:mb-12 w-full">
               {WORKFLOW_STEPS.map((step, idx) => (
                 <button
                   key={step.step}
                   onClick={() => setActiveWorkflowStep(idx)}
-                  className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-2 cursor-pointer ${
+                  className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-2 shrink-0 cursor-pointer ${
                     activeWorkflowStep === idx
                       ? 'bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] text-white shadow-lg shadow-cyan-200 scale-105'
                       : 'bg-white text-[#64748B] hover:text-[#1E293B] border border-slate-200 hover:border-[#06B6D4]'
@@ -1093,12 +1093,12 @@ export default function AboutPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35 }}
-              className="max-w-4xl mx-auto rounded-3xl bg-gradient-to-br from-cyan-50 to-purple-50 p-8 sm:p-10 border border-cyan-200 shadow-md mb-16"
+              className="max-w-4xl mx-auto rounded-3xl bg-gradient-to-br from-cyan-50 to-purple-50 p-5 sm:p-8 md:p-10 border border-cyan-200 shadow-md mb-12 sm:mb-16"
             >
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div className="flex items-start gap-5">
-                  <div className="w-14 h-14 rounded-2xl bg-white text-[#06B6D4] flex items-center justify-center shrink-0 border border-cyan-200 shadow-sm">
-                    {React.createElement(WORKFLOW_STEPS[activeWorkflowStep].icon, { className: 'w-7 h-7' })}
+                <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-5">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white text-[#06B6D4] flex items-center justify-center shrink-0 border border-cyan-200 shadow-sm">
+                    {React.createElement(WORKFLOW_STEPS[activeWorkflowStep].icon, { className: 'w-6 h-6 sm:w-7 sm:h-7' })}
                   </div>
                   <div>
                     <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#06B6D4] uppercase tracking-wider mb-1">

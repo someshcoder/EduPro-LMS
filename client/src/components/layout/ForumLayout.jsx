@@ -14,18 +14,34 @@ import LandingNavbar from '../landing/Navbar';
 const ForumLayout = () => {
   const { isAuthenticated } = useAuthStore();
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
 
   if (isAuthenticated) {
     return (
       <div className="min-h-screen bg-[#F8FAFC] text-[#1E293B]">
-        <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
-        <Navbar onMenuToggle={() => setCollapsed(!collapsed)} sidebarCollapsed={collapsed} />
+        <Sidebar
+          collapsed={collapsed}
+          onToggle={() => setCollapsed(!collapsed)}
+          mobileOpen={mobileOpen}
+          onCloseMobile={() => setMobileOpen(false)}
+        />
+        <Navbar
+          onMenuToggle={() => {
+            if (window.innerWidth < 1024) {
+              setMobileOpen(!mobileOpen);
+            } else {
+              setCollapsed(!collapsed);
+            }
+          }}
+          sidebarCollapsed={collapsed}
+        />
         <main
-          className="pt-20 min-h-screen transition-all duration-300 bg-[#F8FAFC]"
-          style={{ paddingLeft: collapsed ? 72 : 260 }}
+          className={`pt-16 sm:pt-20 min-h-screen transition-all duration-300 bg-[#F8FAFC] ${
+            collapsed ? 'lg:pl-[72px]' : 'lg:pl-[260px]'
+          } pl-0`}
         >
-          <div className="p-6 max-w-7xl mx-auto">
+          <div className="p-3 sm:p-4 md:p-6 lg:p-8 max-w-7xl mx-auto w-full">
             <Outlet />
           </div>
         </main>

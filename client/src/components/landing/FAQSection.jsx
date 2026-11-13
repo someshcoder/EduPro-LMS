@@ -40,10 +40,10 @@ const FAQSection = () => {
                 <button
                   type="button"
                   onClick={() => toggleFAQ(idx)}
-                  className="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-[#1E293B] hover:text-[#06B6D4] transition-colors"
+                  className="w-full p-4 sm:p-6 text-left flex items-center justify-between gap-4 font-bold text-[#1E293B] hover:text-[#06B6D4] transition-colors"
                 >
-                  <span className="text-base">{faq.question}</span>
-                  <div className={`p-1.5 rounded-lg bg-white border border-slate-200 text-[#64748B] transition-transform duration-200 shadow-2xs ${isOpen ? 'rotate-180 bg-cyan-50 border-cyan-100 text-[#06B6D4]' : ''}`}>
+                  <span className="text-sm sm:text-base">{faq.question}</span>
+                  <div className={`p-1.5 rounded-lg bg-white border border-slate-200 text-[#64748B] transition-transform duration-200 shadow-2xs flex-shrink-0 ${isOpen ? 'rotate-180 bg-cyan-50 border-cyan-100 text-[#06B6D4]' : ''}`}>
                     <ChevronDown className="w-4 h-4" />
                   </div>
                 </button>
@@ -56,7 +56,7 @@ const FAQSection = () => {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <div className="px-6 pb-6 text-sm text-[#64748B] leading-relaxed border-t border-slate-200 pt-4">
+                      <div className="px-4 sm:px-6 pb-4 sm:pb-6 text-xs sm:text-sm text-[#64748B] leading-relaxed border-t border-slate-200 pt-3 sm:pt-4">
                         {faq.answer}
                       </div>
                     </motion.div>

@@ -24,12 +24,16 @@
     font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    width: 100%;
   }
 
   body {
     background-color: #F8FAFC;
     color: #1E293B;
     min-height: 100vh;
+    overflow-x: hidden;
+    width: 100%;
   }
 
   ::-webkit-scrollbar {
@@ -171,5 +175,83 @@
 
   .data-table tr:hover td {
     background: #F8FAFC;
+  }
+
+  /* Utility to hide scrollbars while allowing touch/mouse drag scroll */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* ========================================================
+   PRINT STYLES FOR OFFICIAL INVOICES & CERTIFICATES
+   ======================================================== */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm 10mm;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    width: 100% !important;
+  }
+
+  /* Hide all elements on page */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Unclip modal wrappers so only the printable element prints */
+  .fixed.inset-0,
+  div[class*="backdrop-blur"],
+  div[class*="overflow-y-auto"] {
+    position: static !important;
+    overflow: visible !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-height: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Explicitly hide non-printable UI elements */
+  .no-print,
+  .no-print * {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Show only printable invoice */
+  #printable-invoice,
+  #printable-invoice * {
+    visibility: visible !important;
+  }
+
+  #printable-invoice {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 20px 24px !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 }

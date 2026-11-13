@@ -43,8 +43,8 @@ const AdminUsers = () => {
   const totalPages = data ? Math.ceil(data.total / 15) : 0;
 
   return (
-    <div className="p-6 md:p-8 w-full max-w-7xl mx-auto">
-      <div className="flex items-center gap-3 mb-8">
+    <div className="w-full max-w-7xl mx-auto space-y-6">
+      <div className="flex items-center gap-3">
         <div className="p-2.5 rounded-xl bg-[#06B6D4]/10 border border-[#06B6D4]/20">
           <Users className="w-6 h-6 text-[#06B6D4]" />
         </div>
@@ -55,10 +55,12 @@ const AdminUsers = () => {
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-3 mb-6">
+      <div className="flex flex-col sm:flex-row flex-wrap gap-3">
         <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
           <input
+            id="users-search"
+            name="users-search"
             type="text"
             placeholder="Search by name, email, or referral code..."
             value={search}
@@ -67,9 +69,11 @@ const AdminUsers = () => {
           />
         </div>
         <select
+          id="users-kyc-filter"
+          name="users-kyc-filter"
           value={kycStatus}
           onChange={(e) => { setKycStatus(e.target.value); setPage(1); }}
-          className="px-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#1E293B] focus:outline-none focus:border-[#06B6D4] focus:ring-2 focus:ring-cyan-100 transition-all"
+          className="w-full sm:w-auto px-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#1E293B] focus:outline-none focus:border-[#06B6D4] focus:ring-2 focus:ring-cyan-100 transition-all"
         >
           <option value="">All KYC Status</option>
           <option value="approved">Approved</option>
@@ -78,9 +82,11 @@ const AdminUsers = () => {
           <option value="pending">Pending</option>
         </select>
         <select
+          id="users-blocked-filter"
+          name="users-blocked-filter"
           value={isBlocked}
           onChange={(e) => { setIsBlocked(e.target.value); setPage(1); }}
-          className="px-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#1E293B] focus:outline-none focus:border-[#06B6D4] focus:ring-2 focus:ring-cyan-100 transition-all"
+          className="w-full sm:w-auto px-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#1E293B] focus:outline-none focus:border-[#06B6D4] focus:ring-2 focus:ring-cyan-100 transition-all"
         >
           <option value="">All Users</option>
           <option value="false">Active Only</option>

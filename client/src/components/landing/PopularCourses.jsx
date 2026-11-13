@@ -198,6 +198,8 @@ const PopularCourses = ({ onPreviewCourse, onEnrollCourse, externalSearchQuery }
           <div className="flex items-center gap-2 self-start md:self-auto">
             <span className="text-xs font-bold text-[#64748B] hidden sm:inline">Level:</span>
             <select
+              id="course-level-filter"
+              name="level"
               value={selectedLevel}
               onChange={(e) => setSelectedLevel(e.target.value)}
               className="px-3 py-2 bg-white rounded-xl border border-slate-200 text-xs font-semibold text-[#1E293B] focus:outline-none focus:border-[#06B6D4] shadow-xs cursor-pointer"
@@ -214,7 +216,7 @@ const PopularCourses = ({ onPreviewCourse, onEnrollCourse, externalSearchQuery }
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-8">
 
           {/* Category Tabs Pill List */}
-          <div className="flex items-center gap-1.5 overflow-x-auto w-full lg:w-auto pb-2 lg:pb-0 scrollbar-none">
+          <div className="flex items-center gap-1.5 overflow-x-auto w-full lg:w-auto pb-2 lg:pb-0 no-scrollbar scroll-smooth">
             {categoryTabs.map((tab) => {
               const isActive = selectedTab === tab.id;
               return (
@@ -236,6 +238,8 @@ const PopularCourses = ({ onPreviewCourse, onEnrollCourse, externalSearchQuery }
           <div className="relative w-full lg:w-72">
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
+              id="course-filter-search"
+              name="searchFilter"
               type="text"
               value={searchFilter}
               onChange={(e) => setSearchFilter(e.target.value)}

@@ -71,14 +71,14 @@ const CTASection = ({ onExploreClick, onCreateAccount }) => {
         >
           <button
             onClick={onExploreClick}
-            className="px-8 py-4 rounded-xl bg-white hover:bg-slate-100 text-[#1E293B] font-bold text-sm border border-slate-200 shadow-xs transition-all hover:scale-105"
+            className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-white hover:bg-slate-100 text-[#1E293B] font-bold text-sm border border-slate-200 shadow-xs transition-all hover:scale-105"
           >
             Explore Courses
           </button>
 
           <button
             onClick={onCreateAccount}
-            className="px-8 py-4 rounded-xl bg-linear-to-r from-[#06B6D4] to-[#8B5CF6] hover:opacity-90 text-white font-bold text-sm shadow-xl shadow-[#06B6D4]/25 transition-all hover:scale-105 flex items-center gap-2"
+            className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-linear-to-r from-[#06B6D4] to-[#8B5CF6] hover:opacity-90 text-white font-bold text-sm shadow-xl shadow-[#06B6D4]/25 transition-all hover:scale-105 flex items-center justify-center gap-2"
           >
             <span>Create Free Account</span>
             <ArrowRight className="w-4 h-4 text-white" />

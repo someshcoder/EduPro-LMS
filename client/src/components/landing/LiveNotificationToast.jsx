@@ -43,7 +43,7 @@ const LiveNotificationToast = () => {
           animate={{ opacity: 1, y: 0, x: 0 }}
           exit={{ opacity: 0, y: 20, x: -20 }}
           transition={{ duration: 0.3 }}
-          className="fixed bottom-6 left-6 z-40 max-w-sm bg-white rounded-2xl p-3.5 shadow-2xl shadow-slate-900/10 border border-slate-200/90 flex items-center gap-3.5"
+          className="fixed bottom-4 left-3 sm:bottom-6 sm:left-6 z-40 w-[calc(100vw-1.5rem)] max-w-sm bg-white rounded-2xl p-3.5 shadow-2xl shadow-slate-900/10 border border-slate-200/90 flex items-center gap-3.5"
         >
           {/* Green Pulse Ring */}
           <div className="relative shrink-0">

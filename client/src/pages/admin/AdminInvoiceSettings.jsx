@@ -67,7 +67,7 @@ const AdminInvoiceSettings = () => {
   }
 
   return (
-    <div className="p-6 md:p-8 w-full max-w-5xl mx-auto space-y-6">
+    <div className="w-full max-w-5xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex items-center gap-3 mb-6">
         <div className="p-3 rounded-2xl bg-cyan-50 border border-cyan-200 text-[#06B6D4]">
@@ -91,6 +91,8 @@ const AdminInvoiceSettings = () => {
           <CardBody className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
+                id="inv-company-name"
+                name="companyName"
                 label="Legal Registered Entity Name"
                 placeholder="e.g. CourseEarn Learning Technologies Pvt. Ltd."
                 value={form.companyName}
@@ -98,6 +100,8 @@ const AdminInvoiceSettings = () => {
                 required
               />
               <Input
+                id="inv-company-gstin"
+                name="companyGstin"
                 label="GSTIN / Tax Identification Number"
                 placeholder="e.g. 07AAAAA0000A1Z5"
                 value={form.companyGstin}
@@ -107,8 +111,10 @@ const AdminInvoiceSettings = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[#64748B] mb-1.5">Registered Office Address</label>
+              <label htmlFor="inv-company-address" className="block text-sm font-medium text-[#64748B] mb-1.5">Registered Office Address</label>
               <textarea
+                id="inv-company-address"
+                name="companyAddress"
                 rows={2}
                 value={form.companyAddress}
                 onChange={(e) => setForm({ ...form, companyAddress: e.target.value })}
@@ -120,6 +126,9 @@ const AdminInvoiceSettings = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
+                id="inv-company-email"
+                name="companyEmail"
+                autoComplete="email"
                 label="Billing Support Email"
                 type="email"
                 placeholder="billing@courseearn.com"
@@ -127,6 +136,9 @@ const AdminInvoiceSettings = () => {
                 onChange={(e) => setForm({ ...form, companyEmail: e.target.value })}
               />
               <Input
+                id="inv-company-phone"
+                name="companyPhone"
+                autoComplete="tel"
                 label="Support Contact Phone"
                 placeholder="+91 98765 43210"
                 value={form.companyPhone}
@@ -144,11 +156,13 @@ const AdminInvoiceSettings = () => {
           <CardBody className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-[#64748B] mb-1.5">
+                <label htmlFor="inv-tax-rate" className="block text-sm font-medium text-[#64748B] mb-1.5">
                   GST Tax Rate (%)
                 </label>
                 <div className="relative">
                   <input
+                    id="inv-tax-rate"
+                    name="taxRatePercent"
                     type="number"
                     min="0"
                     max="100"
@@ -163,6 +177,8 @@ const AdminInvoiceSettings = () => {
               </div>
 
               <Input
+                id="inv-prefix"
+                name="invoicePrefix"
                 label="Invoice Number Prefix"
                 placeholder="e.g. INV-EDP or INV-2026"
                 value={form.invoicePrefix}
@@ -172,8 +188,10 @@ const AdminInvoiceSettings = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[#64748B] mb-1.5">Invoice Terms & Notes</label>
+              <label htmlFor="inv-notes" className="block text-sm font-medium text-[#64748B] mb-1.5">Invoice Terms & Notes</label>
               <textarea
+                id="inv-notes"
+                name="invoiceNotes"
                 rows={2}
                 value={form.invoiceNotes}
                 onChange={(e) => setForm({ ...form, invoiceNotes: e.target.value })}
@@ -190,6 +208,7 @@ const AdminInvoiceSettings = () => {
             isLoading={updateMutation.isPending}
             leftIcon={<Save className="w-4 h-4" />}
             size="lg"
+            className="w-full sm:w-auto justify-center"
           >
             Save GST & Invoice Settings
           </Button>

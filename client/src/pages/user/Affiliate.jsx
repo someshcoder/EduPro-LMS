@@ -165,7 +165,7 @@ const Affiliate = () => {
               {data.referralLink}
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <Button onClick={handleCopy} leftIcon={copied ? <CheckCircle className="w-4 h-4" /> : <Copy className="w-4 h-4" />}>
                 {copied ? 'Copied' : 'Copy Link'}
               </Button>
@@ -176,7 +176,7 @@ const Affiliate = () => {
 
             <div className="pt-3 border-t border-[#E2E8F0]">
               <p className="text-xs font-semibold text-[#64748B] mb-2.5">1-Click Instant Share:</p>
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 <a
                   href={shareLinks.whatsapp}
                   target="_blank"
@@ -229,10 +229,10 @@ const Affiliate = () => {
         <div className="lg:col-span-2 space-y-4">
           {/* Tabs & Search */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-[#E2E8F0]">
+            <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-[#E2E8F0] overflow-x-auto no-scrollbar scroll-smooth w-full sm:w-auto">
               <button
                 onClick={() => setActiveTab('level1')}
-                className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+                className={`px-3 sm:px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all ${
                   activeTab === 'level1'
                     ? 'bg-indigo-600 text-[#1E293B] shadow'
                     : 'text-[#64748B] hover:text-[#1E293B]'
@@ -242,7 +242,7 @@ const Affiliate = () => {
               </button>
               <button
                 onClick={() => setActiveTab('level2')}
-                className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+                className={`px-3 sm:px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all ${
                   activeTab === 'level2'
                     ? 'bg-indigo-600 text-[#1E293B] shadow'
                     : 'text-[#64748B] hover:text-[#1E293B]'
@@ -252,7 +252,7 @@ const Affiliate = () => {
               </button>
               <button
                 onClick={() => setActiveTab('commissions')}
-                className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+                className={`px-3 sm:px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all ${
                   activeTab === 'commissions'
                     ? 'bg-indigo-600 text-[#1E293B] shadow'
                     : 'text-[#64748B] hover:text-[#1E293B]'
@@ -266,6 +266,8 @@ const Affiliate = () => {
               <div className="relative">
                 <Search className="w-4 h-4 text-[#94A3B8] absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
+                  id="affiliate-member-search"
+                  name="searchMember"
                   type="text"
                   placeholder="Search member..."
                   value={searchQuery}

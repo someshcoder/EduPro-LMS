@@ -29,7 +29,7 @@ const CoursePreviewModal = ({ course, isOpen, onClose, onEnroll }) => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -67,8 +67,8 @@ const CoursePreviewModal = ({ course, isOpen, onClose, onEnroll }) => {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
             
-            <div className="absolute bottom-6 left-6 right-6 text-white space-y-2">
-              <div className="flex items-center gap-2">
+            <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 text-white space-y-1.5 sm:space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <span className="px-2.5 py-0.5 rounded-full bg-white/90 text-[#06B6D4] text-xs font-bold border border-slate-200/50 shadow-xs">
                   {course.category}
                 </span>
@@ -76,17 +76,17 @@ const CoursePreviewModal = ({ course, isOpen, onClose, onEnroll }) => {
                   {course.level}
                 </span>
               </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-white line-clamp-2">
+              <h2 className="text-lg sm:text-2xl font-extrabold text-white line-clamp-2">
                 {course.title}
               </h2>
             </div>
           </div>
 
           {/* Content Body */}
-          <div className="p-6 sm:p-8 space-y-6">
+          <div className="p-4 sm:p-8 space-y-5 sm:space-y-6">
             
             {/* Quick Metrics Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#F8FAFC] p-4 rounded-2xl border border-slate-200">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#F8FAFC] p-3 sm:p-4 rounded-2xl border border-slate-200">
               <div className="flex flex-col">
                 <span className="text-[11px] text-[#64748B] font-medium">Student Rating</span>
                 <div className="flex items-center gap-1 font-bold text-[#1E293B] text-sm">
@@ -180,11 +180,11 @@ const CoursePreviewModal = ({ course, isOpen, onClose, onEnroll }) => {
             </div>
 
             {/* Bottom Checkout Action */}
-            <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-black text-[#1E293B]">₹{Number(course.price || 0).toLocaleString('en-IN')}</span>
+            <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+              <div className="flex flex-wrap items-baseline gap-2">
+                <span className="text-2xl sm:text-3xl font-black text-[#1E293B]">₹{Number(course.price || 0).toLocaleString('en-IN')}</span>
                 {course.originalPrice && (
-                  <span className="text-sm text-slate-400 line-through font-medium">
+                  <span className="text-xs sm:text-sm text-slate-400 line-through font-medium">
                     ₹{Number(course.originalPrice).toLocaleString('en-IN')}
                   </span>
                 )}
@@ -193,18 +193,18 @@ const CoursePreviewModal = ({ course, isOpen, onClose, onEnroll }) => {
                 </span>
               </div>
 
-              <div className="flex items-center gap-3 w-full sm:w-auto">
+              <div className="flex items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-5 py-3 rounded-xl border border-slate-200 hover:bg-slate-100 text-[#64748B] text-xs font-bold transition-colors w-1/2 sm:w-auto text-center"
+                  className="px-4 sm:px-5 py-3 rounded-xl border border-slate-200 hover:bg-slate-100 text-[#64748B] text-xs font-bold transition-colors flex-1 sm:flex-initial text-center"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
                   onClick={handleEnrollClick}
-                  className="px-7 py-3 rounded-xl bg-linear-to-r from-[#06B6D4] to-[#8B5CF6] hover:opacity-90 text-white text-xs font-bold shadow-lg shadow-[#06B6D4]/20 transition-all hover:scale-105 flex items-center justify-center gap-2 w-1/2 sm:w-auto"
+                  className="px-5 sm:px-7 py-3 rounded-xl bg-linear-to-r from-[#06B6D4] to-[#8B5CF6] hover:opacity-90 text-white text-xs font-bold shadow-lg shadow-[#06B6D4]/20 transition-all hover:scale-105 flex items-center justify-center gap-2 flex-1 sm:flex-initial"
                 >
                   <span>Enroll in Course</span>
                   <ArrowRight className="w-4 h-4" />

@@ -90,21 +90,21 @@ const Dashboard = () => {
       {/* Welcome Banner */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-[#1E293B]">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#1E293B]">
             Welcome back, {user?.name}! 👋
           </h1>
-          <p className="text-[#64748B] text-sm mt-1">
+          <p className="text-[#64748B] text-xs sm:text-sm mt-1">
             Track your real-time earnings, course completion, and affiliate team growth.
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-2.5">
-          <Button variant="secondary" size="sm" onClick={() => navigate('/forum')} leftIcon={<MessageSquare className="w-4 h-4 text-[#06B6D4]" />}>
-            Forum Community
+        <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 w-full sm:w-auto">
+          <Button variant="secondary" size="sm" className="flex-1 sm:flex-initial justify-center" onClick={() => navigate('/forum')} leftIcon={<MessageSquare className="w-4 h-4 text-[#06B6D4]" />}>
+            Forum
           </Button>
-          <Button variant="secondary" size="sm" onClick={() => navigate('/invoices')} leftIcon={<Receipt className="w-4 h-4" />}>
-            Invoices & Receipts
+          <Button variant="secondary" size="sm" className="flex-1 sm:flex-initial justify-center" onClick={() => navigate('/invoices')} leftIcon={<Receipt className="w-4 h-4" />}>
+            Invoices
           </Button>
-          <Button size="sm" onClick={() => navigate('/wallet')} leftIcon={<Wallet className="w-4 h-4" />}>
+          <Button size="sm" className="w-full sm:w-auto justify-center" onClick={() => navigate('/wallet')} leftIcon={<Wallet className="w-4 h-4" />}>
             Wallet Payouts
           </Button>
         </div>
@@ -115,19 +115,19 @@ const Dashboard = () => {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex items-start gap-4"
+          className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex flex-col sm:flex-row items-start gap-3 sm:gap-4"
         >
-          <div className="bg-amber-500/20 p-2.5 rounded-xl text-amber-400 mt-0.5">
+          <div className="bg-amber-500/20 p-2.5 rounded-xl text-amber-400 mt-0.5 flex-shrink-0">
             <Trophy className="w-5 h-5" />
           </div>
-          <div className="flex-1">
-            <h3 className="text-amber-300 font-semibold text-sm">KYC Verification Required</h3>
-            <p className="text-[#64748B] text-xs mt-0.5 mb-2">
+          <div className="flex-1 min-w-0">
+            <h3 className="text-amber-500 font-semibold text-sm">KYC Verification Required</h3>
+            <p className="text-[#64748B] text-xs mt-0.5 mb-2.5">
               {user?.kycStatus === 'rejected'
                 ? 'Your previous KYC was rejected. Please upload valid documents to enable wallet withdrawals.'
                 : 'Complete your simple KYC (Aadhar / PAN) to unlock bank and UPI payouts.'}
             </p>
-            <Button size="sm" variant="warning" onClick={() => navigate('/profile')}>
+            <Button size="sm" variant="warning" className="w-full sm:w-auto justify-center" onClick={() => navigate('/profile')}>
               Verify KYC Documents
             </Button>
           </div>
@@ -197,10 +197,10 @@ const Dashboard = () => {
       </div>
 
       {/* Quick Referral Banner */}
-      <div className="bg-gradient-to-r from-cyan-50 via-violet-50/50 to-[#F8FAFC] border border-cyan-200 rounded-2xl p-5 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="space-y-1 text-center md:text-left">
-          <div className="flex items-center justify-center md:justify-start gap-2">
-            <Sparkles className="w-4 h-4 text-[#06B6D4]" />
+      <div className="bg-gradient-to-r from-cyan-50 via-violet-50/50 to-[#F8FAFC] border border-cyan-200 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="space-y-1 text-left w-full md:w-auto">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-[#06B6D4] flex-shrink-0" />
             <h3 className="text-sm font-bold text-[#1E293B] uppercase tracking-wider">Your Referral Link</h3>
           </div>
           <p className="text-xs text-[#64748B]">
@@ -208,8 +208,8 @@ const Dashboard = () => {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-3 w-full md:w-auto">
-          <div className="px-3 py-2 bg-[#F1F5F9] rounded-xl border border-[#E2E8F0] text-xs font-mono text-[#06B6D4] select-all truncate max-w-xs">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 w-full md:w-auto">
+          <div className="px-3 py-2 bg-[#F1F5F9] rounded-xl border border-[#E2E8F0] text-xs font-mono text-[#06B6D4] select-all truncate max-w-full sm:max-w-[260px] flex-1 sm:flex-initial">
             {data.referralLink || 'Loading link...'}
           </div>
           <Button size="sm" onClick={handleCopyLink} leftIcon={copied ? <CheckCircle2 className="w-4 h-4" /> : <Copy className="w-4 h-4" />}>
@@ -219,7 +219,7 @@ const Dashboard = () => {
             href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`Join CourseEarn LMS and learn high-income digital skills! Enroll here: ${data.referralLink}`)}`}
             target="_blank"
             rel="noreferrer"
-            className="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-[#1E293B] text-xs font-semibold flex items-center gap-1.5 transition-colors"
+            className="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
           >
             <Share2 className="w-3.5 h-3.5" /> WhatsApp
           </a>

@@ -37,7 +37,7 @@ const ReportModal = ({ targetType, targetId, onClose }) => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={(e) => e.stopPropagation()}>
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4" onClick={(e) => e.stopPropagation()}>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -53,13 +53,13 @@ const ReportModal = ({ targetType, targetId, onClose }) => {
           className="relative w-full max-w-md bg-white border border-[#E2E8F0] rounded-2xl shadow-2xl overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-center justify-between px-6 py-4 border-b border-[#F1F5F9]">
+          <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4 border-b border-[#F1F5F9]">
             <h2 className="text-base font-bold text-[#1E293B]">Report {targetType === 'question' ? 'Question' : 'Answer'}</h2>
-            <button onClick={onClose} className="p-2 rounded-lg text-[#64748B] hover:bg-slate-100 transition-colors">
+            <button onClick={onClose} className="p-1.5 sm:p-2 rounded-lg text-[#64748B] hover:bg-slate-100 transition-colors">
               <X className="w-4 h-4" />
             </button>
           </div>
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             {submitted ? (
               <div className="text-center py-4">
                 <div className="w-14 h-14 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center mx-auto mb-3">
@@ -74,8 +74,9 @@ const ReportModal = ({ targetType, targetId, onClose }) => {
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-[#1E293B]">Reason *</label>
                   {REASONS.map((r) => (
-                    <label key={r.value} className="flex items-center gap-3 cursor-pointer group">
+                    <label key={r.value} htmlFor={`report-reason-${r.value}`} className="flex items-center gap-3 cursor-pointer group">
                       <input
+                        id={`report-reason-${r.value}`}
                         type="radio"
                         name="reason"
                         value={r.value}
@@ -90,6 +91,8 @@ const ReportModal = ({ targetType, targetId, onClose }) => {
                 <div className="space-y-1">
                   <label className="text-sm font-medium text-[#1E293B]">Additional details (optional)</label>
                   <textarea
+                    id="report-details"
+                    name="reportDetails"
                     value={details}
                     onChange={(e) => setDetails(e.target.value)}
                     maxLength={500}
@@ -99,11 +102,11 @@ const ReportModal = ({ targetType, targetId, onClose }) => {
                   />
                   <p className="text-[11px] text-[#94A3B8] text-right">{details.length}/500</p>
                 </div>
-                <div className="flex gap-3 pt-2">
-                  <Button type="button" variant="secondary" size="sm" className="flex-1" onClick={onClose}>
+                <div className="flex flex-col-reverse sm:flex-row gap-2.5 sm:gap-3 pt-2">
+                  <Button type="button" variant="secondary" size="sm" className="w-full sm:flex-1 justify-center" onClick={onClose}>
                     Cancel
                   </Button>
-                  <Button type="submit" variant="danger" size="sm" className="flex-1" isLoading={isSubmitting}>
+                  <Button type="submit" variant="danger" size="sm" className="w-full sm:flex-1 justify-center" isLoading={isSubmitting}>
                     Submit Report
                   </Button>
                 </div>

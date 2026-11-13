@@ -86,7 +86,7 @@ const AdminForumQuestions = () => {
   };
 
   return (
-    <div className="p-6 md:p-8 w-full max-w-7xl mx-auto space-y-6">
+    <div className="w-full max-w-7xl mx-auto space-y-6">
       <AdminForumNavHeader
         title="Discussion Moderation & Best Answers"
         subtitle="Manage student discussions, check flagged reports and select Top 3 Best Answers"
@@ -99,6 +99,8 @@ const AdminForumQuestions = () => {
           <div className="relative flex-1">
             <Search className="w-4 h-4 text-[#64748B] absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
+              id="forum-admin-search"
+              name="search"
               type="text"
               placeholder="Search discussions by title, content or tags..."
               value={search}
@@ -112,6 +114,8 @@ const AdminForumQuestions = () => {
 
           <div className="flex flex-wrap items-center gap-2">
             <select
+              id="forum-status-filter"
+              name="status"
               value={status}
               onChange={(e) => {
                 setStatus(e.target.value);
@@ -126,6 +130,8 @@ const AdminForumQuestions = () => {
             </select>
 
             <select
+              id="forum-solved-filter"
+              name="solved"
               value={solved}
               onChange={(e) => {
                 setSolved(e.target.value);
@@ -139,6 +145,8 @@ const AdminForumQuestions = () => {
             </select>
 
             <select
+              id="forum-reports-filter"
+              name="hasReports"
               value={hasReports}
               onChange={(e) => {
                 setHasReports(e.target.value);
@@ -151,6 +159,8 @@ const AdminForumQuestions = () => {
             </select>
 
             <input
+              id="forum-tag-filter"
+              name="tag"
               type="text"
               placeholder="Filter by tag..."
               value={tag}
@@ -158,10 +168,12 @@ const AdminForumQuestions = () => {
                 setTag(e.target.value);
                 setPage(1);
               }}
-              className="w-28 px-3 py-2 text-xs rounded-xl border border-[#E2E8F0] bg-white text-[#1E293B] focus:outline-none focus:border-[#06B6D4]"
+              className="w-full sm:w-28 px-3 py-2 text-xs rounded-xl border border-[#E2E8F0] bg-white text-[#1E293B] focus:outline-none focus:border-[#06B6D4]"
             />
 
             <select
+              id="forum-sort-filter"
+              name="sort"
               value={sort}
               onChange={(e) => {
                 setSort(e.target.value);
@@ -329,7 +341,7 @@ const AdminForumQuestions = () => {
 
         {/* Pagination Bar */}
         {data?.pagination && data.pagination.totalPages > 1 && (
-          <div className="p-4 border-t border-[#F1F5F9] flex items-center justify-between text-xs text-[#64748B]">
+          <div className="p-4 border-t border-[#F1F5F9] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#64748B]">
             <span>
               Showing {(page - 1) * 12 + 1} to{' '}
               {Math.min(page * 12, data.pagination.total)} of {data.pagination.total} discussions
@@ -375,8 +387,10 @@ const AdminForumQuestions = () => {
           </div>
 
           <div>
-            <label className="block font-semibold text-[#1E293B] mb-1">Status</label>
+            <label htmlFor="mod-status-select" className="block font-semibold text-[#1E293B] mb-1">Status</label>
             <select
+              id="mod-status-select"
+              name="modStatus"
               value={modStatus}
               onChange={(e) => setModStatus(e.target.value)}
               className="w-full px-3 py-2 rounded-xl border border-[#E2E8F0] bg-white focus:outline-none focus:border-[#06B6D4]"
@@ -388,10 +402,12 @@ const AdminForumQuestions = () => {
           </div>
 
           <div>
-            <label className="block font-semibold text-[#1E293B] mb-1">
+            <label htmlFor="mod-reason-text" className="block font-semibold text-[#1E293B] mb-1">
               Reason / Moderation Notes (Optional)
             </label>
             <textarea
+              id="mod-reason-text"
+              name="modReason"
               rows={3}
               placeholder="e.g. Inappropriate language, off-topic, spam..."
               value={modReason}
@@ -400,11 +416,12 @@ const AdminForumQuestions = () => {
             />
           </div>
 
-          <div className="flex justify-end gap-2 pt-2 border-t border-[#F1F5F9]">
+          <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 pt-2 border-t border-[#F1F5F9]">
             <Button
               variant="outline"
               onClick={() => setSelectedQuestion(null)}
               disabled={moderateMutation.isPending}
+              className="w-full sm:w-auto"
             >
               Cancel
             </Button>
@@ -412,6 +429,7 @@ const AdminForumQuestions = () => {
               variant="primary"
               onClick={handleApplyModeration}
               loading={moderateMutation.isPending}
+              className="w-full sm:w-auto"
             >
               Save Changes
             </Button>

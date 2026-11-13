@@ -146,7 +146,7 @@ const ForumWallet = () => {
         transition={{ delay: 0.3 }}
         className="bg-white border border-[#E2E8F0] rounded-2xl shadow-xs overflow-hidden"
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#F1F5F9]">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4 border-b border-[#F1F5F9]">
           <h2 className="text-base font-bold text-[#1E293B]">Recent Transactions</h2>
           <span className="text-xs text-[#94A3B8]">Last 20 records</span>
         </div>

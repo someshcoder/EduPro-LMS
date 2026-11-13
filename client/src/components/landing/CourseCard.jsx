@@ -26,7 +26,8 @@ const CourseCard = ({ course, onPreview, onEnroll }) => {
           src={course.image}
           alt={course.title}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
-          loading="lazy"
+          loading="eager"
+          decoding="async"
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80';

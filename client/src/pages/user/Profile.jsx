@@ -260,7 +260,7 @@ const Profile = () => {
       </Card>
 
       {/* Tabs Navigation */}
-      <div className="flex items-center gap-2 border-b border-[#E2E8F0] pb-2 overflow-x-auto">
+      <div className="flex items-center gap-2 border-b border-[#E2E8F0] pb-2 overflow-x-auto no-scrollbar py-1 scroll-smooth">
         {[
           { id: 'kyc', label: 'KYC Verification', icon: ShieldCheck },
           { id: 'bank', label: 'Bank & UPI Details', icon: Building2 },
@@ -347,6 +347,8 @@ const Profile = () => {
                           </div>
                         )}
                         <input
+                          id={`kyc-file-${field.id}`}
+                          name={field.id}
                           type="file"
                           accept="image/*,.pdf"
                           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
@@ -379,6 +381,9 @@ const Profile = () => {
             <form onSubmit={handleBankSubmit} className="space-y-4 max-w-2xl">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input
+                  id="bank-account-holder"
+                  name="accountHolder"
+                  autoComplete="name"
                   label="Account Holder Name"
                   placeholder="e.g. Sitaram Sharma"
                   value={bankForm.accountHolder}
@@ -386,6 +391,9 @@ const Profile = () => {
                   error={bankErrors.accountHolder}
                 />
                 <Input
+                  id="bank-name"
+                  name="bankName"
+                  autoComplete="organization"
                   label="Bank Name"
                   placeholder="e.g. State Bank of India / HDFC"
                   value={bankForm.bankName}
@@ -396,6 +404,8 @@ const Profile = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input
+                  id="bank-account-number"
+                  name="accountNumber"
                   label="Bank Account Number"
                   placeholder="e.g. 50100234567890"
                   type="password"
@@ -404,6 +414,8 @@ const Profile = () => {
                   error={bankErrors.accountNumber}
                 />
                 <Input
+                  id="bank-ifsc"
+                  name="ifscCode"
                   label="IFSC Code"
                   placeholder="e.g. SBIN0001234"
                   value={bankForm.ifscCode}
@@ -414,6 +426,8 @@ const Profile = () => {
 
               <div className="pt-2 border-t border-[#E2E8F0]">
                 <Input
+                  id="bank-upi"
+                  name="upiId"
                   label="UPI ID (VPA)"
                   placeholder="e.g. yourname@okaxis or user@paytm"
                   value={bankForm.upiId}
@@ -422,7 +436,7 @@ const Profile = () => {
                 />
               </div>
 
-              <Button type="submit" isLoading={isUpdatingBank} leftIcon={<Save className="w-4 h-4" />}>
+              <Button type="submit" className="w-full sm:w-auto" isLoading={isUpdatingBank} leftIcon={<Save className="w-4 h-4" />}>
                 Save Bank & UPI Details
               </Button>
             </form>
@@ -439,6 +453,9 @@ const Profile = () => {
           <CardBody>
             <form onSubmit={handlePersonalSubmit} className="space-y-4 max-w-lg">
               <Input
+                id="profile-name"
+                name="name"
+                autoComplete="name"
                 label="Full Name"
                 value={personalForm.name}
                 onChange={(e) => handlePersonalInputChange('name', e.target.value)}
@@ -446,11 +463,17 @@ const Profile = () => {
                 required
               />
               <Input
+                id="profile-email"
+                name="email"
+                autoComplete="email"
                 label="Email Address"
                 value={user?.email || ''}
                 disabled
               />
               <Input
+                id="profile-phone"
+                name="phone"
+                autoComplete="tel"
                 label="Phone Number"
                 placeholder="+91 98765 43210"
                 value={personalForm.phone}
@@ -458,7 +481,7 @@ const Profile = () => {
                 error={personalErrors.phone}
               />
 
-              <Button type="submit" isLoading={isUpdatingProfile} leftIcon={<Save className="w-4 h-4" />}>
+              <Button type="submit" className="w-full sm:w-auto" isLoading={isUpdatingProfile} leftIcon={<Save className="w-4 h-4" />}>
                 Save Profile
               </Button>
             </form>
@@ -475,6 +498,9 @@ const Profile = () => {
           <CardBody>
             <form onSubmit={handlePasswordSubmit} className="space-y-4 max-w-lg">
               <Input
+                id="profile-current-password"
+                name="currentPassword"
+                autoComplete="current-password"
                 label="Current Password"
                 type="password"
                 placeholder="Enter current password"
@@ -483,6 +509,9 @@ const Profile = () => {
                 required
               />
               <Input
+                id="profile-new-password"
+                name="newPassword"
+                autoComplete="new-password"
                 label="New Password"
                 type="password"
                 placeholder="At least 6 characters"
@@ -491,6 +520,9 @@ const Profile = () => {
                 required
               />
               <Input
+                id="profile-confirm-password"
+                name="confirmPassword"
+                autoComplete="new-password"
                 label="Confirm New Password"
                 type="password"
                 placeholder="Re-enter new password"
@@ -499,7 +531,7 @@ const Profile = () => {
                 required
               />
 
-              <Button type="submit" isLoading={isUpdatingPassword} leftIcon={<Lock className="w-4 h-4" />}>
+              <Button type="submit" className="w-full sm:w-auto" isLoading={isUpdatingPassword} leftIcon={<Lock className="w-4 h-4" />}>
                 Update Password
               </Button>
             </form>

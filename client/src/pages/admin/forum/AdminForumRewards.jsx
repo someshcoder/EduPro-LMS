@@ -51,7 +51,7 @@ const AdminForumRewards = () => {
   });
 
   return (
-    <div className="p-6 md:p-8 w-full max-w-7xl mx-auto space-y-6">
+    <div className="w-full max-w-7xl mx-auto space-y-6">
       <AdminForumNavHeader
         title="Forum Reward Ledger & Coin Engine"
         subtitle="Monitor student coin disbursements for discussions (+10) and Top 3 Best Answers (+25)"
@@ -112,6 +112,8 @@ const AdminForumRewards = () => {
           <div className="relative flex-1">
             <Search className="w-4 h-4 text-[#64748B] absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
+              id="reward-search-input"
+              name="search"
               type="text"
               placeholder="Search rewards by student name or email..."
               value={search}
@@ -125,6 +127,8 @@ const AdminForumRewards = () => {
 
           <div className="flex flex-wrap items-center gap-2">
             <select
+              id="reward-type-filter"
+              name="type"
               value={type}
               onChange={(e) => {
                 setType(e.target.value);
@@ -138,6 +142,8 @@ const AdminForumRewards = () => {
             </select>
 
             <select
+              id="reward-status-filter"
+              name="status"
               value={status}
               onChange={(e) => {
                 setStatus(e.target.value);
@@ -281,7 +287,7 @@ const AdminForumRewards = () => {
 
         {/* Pagination Bar */}
         {data?.pagination && data.pagination.totalPages > 1 && (
-          <div className="p-4 border-t border-[#F1F5F9] flex items-center justify-between text-xs text-[#64748B]">
+          <div className="p-4 border-t border-[#F1F5F9] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#64748B]">
             <span>
               Showing {(page - 1) * 15 + 1} to{' '}
               {Math.min(page * 15, data.pagination.total)} of {data.pagination.total} transactions

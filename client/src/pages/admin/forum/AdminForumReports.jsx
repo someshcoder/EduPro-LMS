@@ -81,7 +81,7 @@ const AdminForumReports = () => {
   };
 
   return (
-    <div className="p-6 md:p-8 w-full max-w-7xl mx-auto space-y-6">
+    <div className="w-full max-w-7xl mx-auto space-y-6">
       <AdminForumNavHeader
         title="Reported Content Moderation"
         subtitle="Review student-flagged discussions and answers. Protect community guidelines and record decisions."
@@ -93,6 +93,8 @@ const AdminForumReports = () => {
         <CardBody className="p-4 flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
             <select
+              id="report-status-filter"
+              name="status"
               value={status}
               onChange={(e) => {
                 setStatus(e.target.value);
@@ -107,6 +109,8 @@ const AdminForumReports = () => {
             </select>
 
             <select
+              id="report-target-filter"
+              name="targetType"
               value={targetType}
               onChange={(e) => {
                 setTargetType(e.target.value);
@@ -284,7 +288,7 @@ const AdminForumReports = () => {
 
         {/* Pagination Bar */}
         {data?.pagination && data.pagination.totalPages > 1 && (
-          <div className="p-4 border-t border-[#F1F5F9] flex items-center justify-between text-xs text-[#64748B]">
+          <div className="p-4 border-t border-[#F1F5F9] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#64748B]">
             <span>
               Showing {(page - 1) * 15 + 1} to{' '}
               {Math.min(page * 15, data.pagination.total)} of {data.pagination.total} reports
@@ -334,8 +338,10 @@ const AdminForumReports = () => {
           </div>
 
           <div>
-            <label className="block font-semibold text-[#1E293B] mb-1">Moderation Decision</label>
+            <label htmlFor="report-decision-select" className="block font-semibold text-[#1E293B] mb-1">Moderation Decision</label>
             <select
+              id="report-decision-select"
+              name="reviewDecision"
               value={reviewDecision}
               onChange={(e) => setReviewDecision(e.target.value)}
               className="w-full px-3 py-2 rounded-xl border border-[#E2E8F0] bg-white focus:outline-none focus:border-[#06B6D4]"
@@ -346,8 +352,10 @@ const AdminForumReports = () => {
           </div>
 
           <div>
-            <label className="block font-semibold text-[#1E293B] mb-1">Content Action</label>
+            <label htmlFor="report-action-select" className="block font-semibold text-[#1E293B] mb-1">Content Action</label>
             <select
+              id="report-action-select"
+              name="actionTaken"
               value={actionTaken}
               onChange={(e) => setActionTaken(e.target.value)}
               className="w-full px-3 py-2 rounded-xl border border-[#E2E8F0] bg-white focus:outline-none focus:border-[#06B6D4]"
@@ -359,10 +367,12 @@ const AdminForumReports = () => {
           </div>
 
           <div>
-            <label className="block font-semibold text-[#1E293B] mb-1">
+            <label htmlFor="report-moderation-note" className="block font-semibold text-[#1E293B] mb-1">
               Internal Moderation Note (Saved to Audit Log)
             </label>
             <textarea
+              id="report-moderation-note"
+              name="moderationReason"
               rows={3}
               placeholder="Provide reason for this resolution..."
               value={moderationReason}
@@ -371,11 +381,12 @@ const AdminForumReports = () => {
             />
           </div>
 
-          <div className="flex justify-end gap-2 pt-2 border-t border-[#F1F5F9]">
+          <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 pt-2 border-t border-[#F1F5F9]">
             <Button
               variant="outline"
               onClick={() => setActiveReport(null)}
               disabled={reviewMutation.isPending}
+              className="w-full sm:w-auto"
             >
               Cancel
             </Button>
@@ -383,6 +394,7 @@ const AdminForumReports = () => {
               variant="primary"
               onClick={handleExecuteReview}
               loading={reviewMutation.isPending}
+              className="w-full sm:w-auto"
             >
               Save Resolution
             </Button>
