@@ -21,7 +21,7 @@ const navTabs = [
 const AdminForumNavHeader = ({ title, subtitle, badge }) => {
   return (
     <div className="mb-6 space-y-4">
-      {/* Top Title Bar */}
+      
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-[#E2E8F0]">
         <div>
           <div className="flex items-center gap-3">
@@ -48,7 +48,6 @@ const AdminForumNavHeader = ({ title, subtitle, badge }) => {
         </div>
       </div>
 
-      {/* Sub Tabs */}
       <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar py-0.5 scroll-smooth">
         {navTabs.map((tab) => {
           const Icon = tab.icon;

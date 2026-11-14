@@ -597,7 +597,7 @@ const AdminForumQuestionDetail = () => {
             <Button
               variant="primary"
               onClick={handleExecutePublish}
-              loading={publishMutation.isPending}
+              isLoading={publishMutation.isPending}
               className="w-full sm:w-auto bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] text-white"
             >
               Confirm & Publish Now
@@ -660,7 +660,7 @@ const AdminForumQuestionDetail = () => {
                   reason: questionReason,
                 })
               }
-              loading={modQuestionMutation.isPending}
+              isLoading={modQuestionMutation.isPending}
               className="w-full sm:w-auto"
             >
               Update Status

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, GraduationCap, ArrowRight, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -10,10 +10,14 @@ import useAuthStore from '../../store/authStore';
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuthenticated, user, setAuth } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [form, setForm] = useState({ email: '', password: '' });
+  const [form, setForm] = useState({
+    email: location.state?.email || '',
+    password: '',
+  });
 
   if (isAuthenticated) {
     return <Navigate to={user?.role === 'admin' ? '/admin/dashboard' : '/dashboard'} replace />;

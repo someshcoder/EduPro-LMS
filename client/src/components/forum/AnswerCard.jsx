@@ -110,7 +110,6 @@ const AnswerCard = ({ answer, isBest = false, onAnswerUpdated }) => {
             </div>
           </div>
 
-          {/* Actions */}
           <div className="flex items-center gap-1.5">
             {isOwn && !isBest && (
               <button
@@ -133,7 +132,6 @@ const AnswerCard = ({ answer, isBest = false, onAnswerUpdated }) => {
           </div>
         </div>
 
-        {/* Content */}
         <AnimatePresence mode="wait">
           {isEditing ? (
             <motion.form

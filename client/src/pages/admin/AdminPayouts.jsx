@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { CreditCard, CheckCircle, XCircle, Download, ChevronLeft, ChevronRight, AlertCircle } from 'lucide-react';
+import { CreditCard, CheckCircle, XCircle, Download, ChevronLeft, ChevronRight, AlertCircle, Loader2 } from 'lucide-react';
 import { adminService } from '../../services/adminService';
 import toast from 'react-hot-toast';
 
@@ -12,12 +12,17 @@ const AdminPayouts = () => {
   const [adminNote, setAdminNote] = useState('');
   const [transactionRef, setTransactionRef] = useState('');
   const [selected, setSelected] = useState([]);
+  const [isExporting, setIsExporting] = useState(false);
   const queryClient = useQueryClient();
 
   const { data, isLoading } = useQuery({
     queryKey: ['adminPayouts', statusFilter, page],
     queryFn: async () => {
-      const res = await adminService.getPayouts({ status: statusFilter, page, limit: 15 });
+      const res = await adminService.getPayouts({
+        status: statusFilter === 'all' ? undefined : statusFilter,
+        page,
+        limit: 15,
+      });
       return res.data;
     },
     keepPreviousData: true,
@@ -28,7 +33,7 @@ const AdminPayouts = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(['adminPayouts']);
       queryClient.invalidateQueries(['adminDashboardStats']);
-      toast.success('Payout status updated');
+      toast.success('Payout status updated successfully');
       setSelectedPayout(null);
       setActionType(null);
       setAdminNote('');
@@ -41,21 +46,48 @@ const AdminPayouts = () => {
     mutationFn: (ids) => adminService.bulkApprovePayouts(ids),
     onSuccess: () => {
       queryClient.invalidateQueries(['adminPayouts']);
-      toast.success(`${selected.length} payouts approved`);
+      toast.success(`${selected.length} payouts approved successfully`);
       setSelected([]);
     },
     onError: (err) => toast.error(err.response?.data?.message || 'Bulk approve failed'),
   });
 
   const handleExport = async () => {
+    if (isExporting) return;
+    setIsExporting(true);
+    const toastId = toast.loading('Preparing payouts CSV export...');
+
     try {
-      const res = await adminService.exportPayoutsCSV();
-      const url = URL.createObjectURL(res.data);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `payouts-${Date.now()}.csv`;
-      a.click();
-    } catch { toast.error('Export failed'); }
+      const params = statusFilter && statusFilter !== 'all' ? { status: statusFilter } : {};
+      const res = await adminService.exportPayoutsCSV(params);
+
+      // Extract filename from response headers or generate clean descriptive name
+      let filename = `CourseEarn_Payouts_${statusFilter}_${new Date().toISOString().split('T')[0]}.csv`;
+      const disposition = res.headers?.['content-disposition'];
+      if (disposition && disposition.includes('filename=')) {
+        const match = disposition.match(/filename="?([^"]+)"?/);
+        if (match && match[1]) filename = match[1];
+      }
+
+      // Create blob with UTF-8 encoding
+      const blob = new Blob([res.data], { type: 'text/csv;charset=utf-8;' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      const countMsg = data?.total ? ` (${data.total} records)` : '';
+      toast.success(`Exported ${statusFilter.toUpperCase()} payouts CSV${countMsg}!`, { id: toastId });
+    } catch (err) {
+      console.error('Payouts CSV export failed:', err);
+      toast.error(err.response?.data?.message || 'Failed to export CSV. Please try again.', { id: toastId });
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   const handleAction = () => {
@@ -92,18 +124,31 @@ const AdminPayouts = () => {
             <p className="text-[#64748B] text-sm">{data?.total || 0} total requests</p>
           </div>
         </div>
+
         <button
           onClick={handleExport}
-          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-[#F8FAFC] border border-[#E2E8F0] text-[#64748B] hover:text-[#1E293B] text-sm font-medium transition-all shadow-xs w-full sm:w-auto"
+          disabled={isExporting}
+          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-[#F8FAFC] border border-[#E2E8F0] text-[#64748B] hover:text-[#1E293B] text-sm font-medium transition-all shadow-xs w-full sm:w-auto disabled:opacity-60 cursor-pointer"
+          title={`Export ${statusFilter} payouts as CSV`}
         >
-          <Download className="w-4 h-4" /> Export CSV
+          {isExporting ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin text-[#06B6D4]" />
+              <span>Exporting CSV...</span>
+            </>
+          ) : (
+            <>
+              <Download className="w-4 h-4 text-[#06B6D4]" />
+              <span>Export CSV</span>
+            </>
+          )}
         </button>
       </div>
 
       {/* Filters + Bulk */}
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex flex-wrap gap-1 p-1 bg-[#F8FAFC] rounded-xl border border-[#E2E8F0] w-full sm:w-fit">
-          {['pending', 'approved', 'paid', 'rejected'].map((s) => (
+          {['all', 'pending', 'approved', 'paid', 'rejected'].map((s) => (
             <button
               key={s}
               onClick={() => { setStatusFilter(s); setPage(1); setSelected([]); }}
@@ -121,7 +166,7 @@ const AdminPayouts = () => {
           <button
             onClick={() => bulkMutation.mutate(selected)}
             disabled={bulkMutation.isPending}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-[#1E293B] text-sm font-medium transition-all"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium transition-all shadow-xs"
           >
             <CheckCircle className="w-4 h-4" /> Bulk Approve ({selected.length})
           </button>
@@ -136,7 +181,7 @@ const AdminPayouts = () => {
                 {statusFilter === 'pending' && <th className="w-10"></th>}
                 <th>User</th>
                 <th>Amount</th>
-                <th>Bank Details</th>
+                <th>Bank / UPI Details</th>
                 <th>Status</th>
                 <th>Requested</th>
                 <th>Actions</th>
@@ -154,8 +199,8 @@ const AdminPayouts = () => {
               ) : data?.payouts?.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="text-center py-12 text-[#64748B]">
-                    <AlertCircle className="w-8 h-8 mx-auto mb-2 opacity-40" />
-                    No {statusFilter} payouts
+                    <AlertCircle className="w-8 h-8 mx-auto mb-2 opacity-40 text-slate-400" />
+                    No {statusFilter === 'all' ? '' : statusFilter} payouts found
                   </td>
                 </tr>
               ) : (
@@ -177,13 +222,23 @@ const AdminPayouts = () => {
                       <div>
                         <p className="text-[#1E293B] font-medium text-sm">{payout.user?.name || '—'}</p>
                         <p className="text-[#64748B] text-xs">{payout.user?.email || '—'}</p>
+                        {payout.user?.phone && (
+                          <p className="text-[#94A3B8] text-[11px]">{payout.user.phone}</p>
+                        )}
                       </div>
                     </td>
                     <td className="text-emerald-600 font-bold">₹{payout.amount?.toLocaleString()}</td>
                     <td>
                       <div className="text-xs text-[#64748B]">
-                        <p>{payout.bankDetails?.bankName || '—'}</p>
-                        <p className="text-[#94A3B8]">A/C: {payout.bankDetails?.accountNumber || '—'}</p>
+                        {payout.paymentMethod === 'upi' ? (
+                          <p><strong className="text-slate-700">UPI:</strong> {payout.upiId || '—'}</p>
+                        ) : (
+                          <>
+                            <p className="font-medium text-slate-800">{payout.bankDetails?.bankName || 'Bank Transfer'}</p>
+                            <p className="text-[#94A3B8]">A/C: {payout.bankDetails?.accountNumber || '—'}</p>
+                            <p className="text-[#94A3B8]">IFSC: {payout.bankDetails?.ifscCode || '—'}</p>
+                          </>
+                        )}
                       </div>
                     </td>
                     <td>
@@ -191,20 +246,26 @@ const AdminPayouts = () => {
                         {payout.status}
                       </span>
                     </td>
-                    <td className="text-[#64748B] text-xs">{new Date(payout.createdAt).toLocaleDateString()}</td>
+                    <td className="text-[#64748B] text-xs">
+                      {new Date(payout.createdAt).toLocaleDateString('en-IN', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                      })}
+                    </td>
                     <td>
                       <div className="flex gap-2">
                         {payout.status === 'pending' && (
                           <>
                             <button
                               onClick={() => { setSelectedPayout(payout); setActionType('approve'); }}
-                              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-[#D1FAE5] text-emerald-700 hover:bg-emerald-100 border border-emerald-200 transition-all"
+                              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-[#D1FAE5] text-emerald-700 hover:bg-emerald-100 border border-emerald-200 transition-all cursor-pointer"
                             >
                               <CheckCircle className="w-3.5 h-3.5" /> Approve
                             </button>
                             <button
                               onClick={() => { setSelectedPayout(payout); setActionType('reject'); }}
-                              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 transition-all"
+                              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 transition-all cursor-pointer"
                             >
                               <XCircle className="w-3.5 h-3.5" /> Reject
                             </button>
@@ -213,13 +274,15 @@ const AdminPayouts = () => {
                         {payout.status === 'approved' && (
                           <button
                             onClick={() => { setSelectedPayout(payout); setActionType('paid'); }}
-                            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 transition-all"
+                            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 transition-all cursor-pointer"
                           >
                             Mark Paid
                           </button>
                         )}
                         {['paid', 'rejected'].includes(payout.status) && (
-                          <span className="text-xs text-[#94A3B8]">—</span>
+                          <span className="text-xs text-[#94A3B8]">
+                            {payout.transactionRef ? `Ref: ${payout.transactionRef}` : '—'}
+                          </span>
                         )}
                       </div>
                     </td>
@@ -234,10 +297,18 @@ const AdminPayouts = () => {
           <div className="flex items-center justify-between px-4 py-3 border-t border-[#F1F5F9]">
             <p className="text-xs text-[#64748B]">Page {page} of {totalPages}</p>
             <div className="flex gap-2">
-              <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1} className="p-1.5 rounded-lg bg-white border border-[#E2E8F0] text-[#64748B] hover:text-[#1E293B] hover:border-[#06B6D4] disabled:opacity-40 transition-colors">
+              <button
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={page === 1}
+                className="p-1.5 rounded-lg bg-white border border-[#E2E8F0] text-[#64748B] hover:text-[#1E293B] hover:border-[#06B6D4] disabled:opacity-40 transition-colors"
+              >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <button onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="p-1.5 rounded-lg bg-white border border-[#E2E8F0] text-[#64748B] hover:text-[#1E293B] hover:border-[#06B6D4] disabled:opacity-40 transition-colors">
+              <button
+                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                disabled={page === totalPages}
+                className="p-1.5 rounded-lg bg-white border border-[#E2E8F0] text-[#64748B] hover:text-[#1E293B] hover:border-[#06B6D4] disabled:opacity-40 transition-colors"
+              >
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>

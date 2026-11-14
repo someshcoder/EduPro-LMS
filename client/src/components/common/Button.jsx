@@ -6,12 +6,14 @@ const Button = ({
   variant = 'primary',
   size = 'md',
   isLoading = false,
+  loading = false,
   disabled = false,
   className = '',
   leftIcon,
   rightIcon,
   ...props
 }) => {
+  const isButtonLoading = Boolean(isLoading || loading);
   const base = 'inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] cursor-pointer';
 
   const variants = {
@@ -36,12 +38,12 @@ const Button = ({
   return (
     <button
       className={cn(base, variants[variant], sizes[size], className)}
-      disabled={disabled || isLoading}
+      disabled={disabled || isButtonLoading}
       {...props}
     >
-      {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : leftIcon}
+      {isButtonLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : leftIcon}
       {children}
-      {!isLoading && rightIcon}
+      {!isButtonLoading && rightIcon}
     </button>
   );
 };

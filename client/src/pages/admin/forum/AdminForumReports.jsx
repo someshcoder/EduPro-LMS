@@ -393,7 +393,7 @@ const AdminForumReports = () => {
             <Button
               variant="primary"
               onClick={handleExecuteReview}
-              loading={reviewMutation.isPending}
+              isLoading={reviewMutation.isPending}
               className="w-full sm:w-auto"
             >
               Save Resolution

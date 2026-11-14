@@ -34,9 +34,8 @@ const Signup = () => {
     setIsLoading(true);
     try {
       const { data } = await authService.signup(form);
-      setAuth(data.user, data.accessToken, data.refreshToken);
-      toast.success(`Welcome to CourseEarn, ${data.user.name}! 🎉`);
-      navigate(data.user.role === 'admin' ? '/admin/dashboard' : '/dashboard', { replace: true });
+      toast.success('Account created successfully! Please sign in with your credentials.');
+      navigate('/login', { state: { email: form.email }, replace: true });
     } catch (err) {
       toast.error(err.response?.data?.message || 'Registration failed');
     } finally {

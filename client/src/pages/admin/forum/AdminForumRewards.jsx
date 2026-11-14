@@ -269,7 +269,7 @@ const AdminForumRewards = () => {
                         <Button
                           variant="outline"
                           onClick={() => retryMutation.mutate(txn._id)}
-                          loading={retryMutation.isPending}
+                          isLoading={retryMutation.isPending}
                           className="px-2.5 py-1 text-xs text-rose-600 border-rose-300 hover:bg-rose-50 cursor-pointer"
                         >
                           <RotateCw className="w-3 h-3 mr-1" /> Retry

@@ -428,7 +428,7 @@ const AdminForumQuestions = () => {
             <Button
               variant="primary"
               onClick={handleApplyModeration}
-              loading={moderateMutation.isPending}
+              isLoading={moderateMutation.isPending}
               className="w-full sm:w-auto"
             >
               Save Changes
