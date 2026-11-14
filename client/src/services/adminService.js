@@ -27,7 +27,7 @@ export const adminService = {
   getPayouts: (params) => api.get('/admin/payouts', { params }),
   updatePayoutStatus: (id, data) => api.patch(`/admin/payouts/${id}`, data),
   bulkApprovePayouts: (payoutIds) => api.patch('/admin/payouts/bulk-approve', { payoutIds }),
-  exportPayoutsCSV: () => api.get('/admin/payouts/export', { responseType: 'blob' }),
+  exportPayoutsCSV: (params) => api.get('/admin/payouts/export', { params, responseType: 'blob' }),
   // Sessions
   getSessions: (params) => api.get('/admin/sessions', { params }),
   revokeSession: (id, reason) => api.delete(`/admin/sessions/${id}`, { data: { reason } }),

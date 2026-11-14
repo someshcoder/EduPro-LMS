@@ -262,10 +262,11 @@ exports.getPayouts = async (req, res) => {
   try {
     const { status, page = 1, limit = 20 } = req.query;
     const query = {};
-    if (status) query.status = status;
+    if (status && status !== 'all') query.status = status;
 
     const payouts = await PayoutRequest.find(query)
       .populate('user', 'name email phone')
+      .populate('approvedBy', 'name email')
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(parseInt(limit));
@@ -347,12 +348,20 @@ exports.bulkApprovePayouts = async (req, res) => {
 exports.exportPayoutsCSV = async (req, res) => {
   try {
     const { status } = req.query;
-    const query = status ? { status } : {};
-    const payouts = await PayoutRequest.find(query).populate('user', 'name email phone');
-    const csv = generatePayoutCSV(payouts);
+    const query = status && status !== 'all' ? { status } : {};
+    const payouts = await PayoutRequest.find(query)
+      .populate('user', 'name email phone')
+      .populate('approvedBy', 'name email')
+      .sort({ createdAt: -1 });
 
-    res.setHeader('Content-Type', 'text/csv');
-    res.setHeader('Content-Disposition', `attachment; filename="payouts-${Date.now()}.csv"`);
+    const csv = generatePayoutCSV(payouts);
+    const safeStatus = status && status !== 'all' ? status : 'all';
+    const dateStr = new Date().toISOString().split('T')[0];
+    const filename = `CourseEarn_Payouts_${safeStatus}_${dateStr}.csv`;
+
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
     res.send(csv);
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
