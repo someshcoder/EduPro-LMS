@@ -15,7 +15,6 @@ const InvoiceModal = ({ invoice, onClose }) => {
 
   if (!invoice) return null;
 
-  // Print Receipt handler (untouched, uses browser print with @media print)
   const handlePrintReceipt = () => {
     window.print();
   };
