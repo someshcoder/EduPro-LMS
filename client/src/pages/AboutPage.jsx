@@ -574,14 +574,14 @@ export default function AboutPage() {
           className="relative pt-36 pb-20 lg:pt-44 lg:pb-32 overflow-hidden border-b border-slate-200"
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+            <div className="max-w-3xl mx-auto">
               
-              {/* Left Column: Hero Content */}
+              {/* Hero Content */}
               <motion.div
                 initial="hidden"
                 animate="visible"
                 variants={fadeInUp}
-                className="lg:col-span-7 space-y-7"
+                className="space-y-7"
               >
                 {/* Eyebrow Badge */}
                 <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-cyan-50 border border-cyan-200 shadow-sm">
@@ -651,130 +651,6 @@ export default function AboutPage() {
                     <span>Transparent Tiers</span>
                   </div>
                 </div>
-
-              </motion.div>
-
-              {/* Right Column: Dynamic Ecosystem Mockup Visual */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.65, delay: 0.2 }}
-                className="lg:col-span-5 relative"
-              >
-                {/* Central Ecosystem Container Card */}
-                <div className="relative z-10 bg-white rounded-3xl p-6 sm:p-7 shadow-xl shadow-slate-200 border border-slate-200 overflow-hidden">
-                  
-                  {/* Top Bar / Mac header */}
-                  <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-rose-400" />
-                      <div className="w-3 h-3 rounded-full bg-amber-400" />
-                      <div className="w-3 h-3 rounded-full bg-emerald-400" />
-                      <span className="ml-2 text-xs font-semibold text-[#64748B]">CourseEarn Ecosystem Hub</span>
-                    </div>
-                    <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-cyan-50 text-[#06B6D4] border border-cyan-200 font-semibold flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      Dual Track Active
-                    </span>
-                  </div>
-
-                  {/* Card 1: Live Course Progress */}
-                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 mb-4 hover:border-cyan-300 transition-colors">
-                    <div className="flex items-center justify-between text-xs text-[#06B6D4] font-semibold mb-2">
-                      <span className="flex items-center gap-1.5">
-                        <BookOpen className="w-3.5 h-3.5 text-[#06B6D4]" />
-                        Full-Stack Engineering Path
-                      </span>
-                      <span className="text-[11px] px-2 py-0.5 rounded bg-cyan-50 text-[#06B6D4] font-bold border border-cyan-200">
-                        84% Done
-                      </span>
-                    </div>
-                    <div className="text-sm font-bold text-[#1E293B] mb-2.5">
-                      Distributed Microservices & Cloud APIs
-                    </div>
-                    {/* Animated Progress Bar */}
-                    <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-[#06B6D4] via-[#8B5CF6] to-[#06B6D4] rounded-full w-[84%]" />
-                    </div>
-                    <div className="flex items-center justify-between text-[11px] text-[#64748B] mt-2">
-                      <span>Module 7 of 8 completed</span>
-                      <span className="text-emerald-600 font-medium">Next: Capstone Exam</span>
-                    </div>
-                  </div>
-
-                  {/* Dual Grid: Achievement + Referral Stream */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                    {/* Mini card: Verified Credential */}
-                    <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200">
-                      <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-[11px] text-[#64748B] font-medium">Credential</span>
-                        <Award className="w-4 h-4 text-emerald-500" />
-                      </div>
-                      <div className="text-xs font-bold text-[#1E293B]">Full-Stack Certified</div>
-                      <div className="text-[10px] text-emerald-600 font-semibold mt-1 flex items-center gap-1">
-                        <Check className="w-3 h-3" /> Blockchain Hash Ready
-                      </div>
-                    </div>
-
-                    {/* Mini card: Referral Activity */}
-                    <div className="p-3.5 rounded-xl bg-purple-50 border border-purple-200">
-                      <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-[11px] text-[#64748B] font-medium">Affiliate Track</span>
-                        <TrendingUp className="w-4 h-4 text-[#8B5CF6]" />
-                      </div>
-                      <div className="text-xs font-bold text-[#1E293B]">Level 2 Tier Active</div>
-                      <div className="text-[10px] text-[#8B5CF6] font-semibold mt-1">
-                        ⚡ Real-time attribution
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Community & Mentorship Row */}
-                  <div className="p-3.5 rounded-xl bg-gradient-to-r from-cyan-50 to-purple-50 border border-cyan-200 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-cyan-100 text-[#06B6D4] flex items-center justify-center font-bold text-xs border border-cyan-200">
-                        <Users className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-[#1E293B]">Connected Community</div>
-                        <div className="text-[11px] text-[#64748B]">Collaborative study groups & peer reviews</div>
-                      </div>
-                    </div>
-                    <span className="text-[11px] px-2.5 py-1 rounded-lg bg-[#06B6D4] text-white font-bold">
-                      Active
-                    </span>
-                  </div>
-
-                </div>
-
-                {/* Floating Decorative Badges */}
-                <motion.div
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ repeat: Infinity, duration: 4.8, ease: 'easeInOut' }}
-                  className="absolute -top-6 -right-4 z-20 bg-white rounded-2xl p-3.5 shadow-xl shadow-slate-200 border border-slate-200 hidden sm:flex items-center gap-3"
-                >
-                  <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
-                    <ShieldCheck className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-[#1E293B]">Verified Certificate</div>
-                    <div className="text-[10px] text-emerald-600 font-semibold">Ready to share on LinkedIn</div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: [0, 8, 0] }}
-                  transition={{ repeat: Infinity, duration: 5.2, ease: 'easeInOut', delay: 1 }}
-                  className="absolute -bottom-6 -left-4 z-20 bg-white rounded-2xl p-3.5 shadow-xl shadow-slate-200 border border-slate-200 hidden sm:flex items-center gap-3"
-                >
-                  <div className="w-9 h-9 rounded-xl bg-cyan-100 text-[#06B6D4] flex items-center justify-center">
-                    <Coins className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-[#1E293B]">Transparent Commissions</div>
-                    <div className="text-[10px] text-[#64748B]">Clear 2-Level Referral Structure</div>
-                  </div>
-                </motion.div>
 
               </motion.div>
 

@@ -171,6 +171,9 @@ const ForumPage = () => {
           {/* Search */}
           <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4 shadow-xs">
             <div className="flex items-center gap-2 bg-slate-50 border border-[#E2E8F0] rounded-xl px-3 py-2 focus-within:border-[#06B6D4] focus-within:ring-2 focus-within:ring-cyan-100 transition-all">
+              <label htmlFor="forum-search" className="sr-only">
+                Search questions
+              </label>
               <Search className="w-4 h-4 text-[#64748B] flex-shrink-0" />
               <input
                 id="forum-search"
@@ -179,6 +182,7 @@ const ForumPage = () => {
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 placeholder="Search questions..."
+                aria-label="Search questions"
                 className="bg-transparent text-sm text-[#1E293B] placeholder-slate-400 focus:outline-none flex-1"
               />
               {searchInput && (

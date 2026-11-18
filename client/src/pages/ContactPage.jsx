@@ -377,7 +377,7 @@ export default function ContactPage() {
             whileInView="show"
             viewport={{ once: true }}
             custom={0}
-            className="lg:col-span-3 bg-slate-900/60 border border-slate-800 rounded-3xl p-5 sm:p-10 backdrop-blur-sm"
+            className="lg:col-span-3 bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-10 shadow-xl shadow-slate-200/50"
           >
             <AnimatePresence mode="wait">
               {submitted ? (
@@ -394,21 +394,21 @@ export default function ContactPage() {
                     transition={{ type: 'spring', stiffness: 300, damping: 20, delay: 0.1 }}
                     className="relative"
                   >
-                    <div className="w-24 h-24 rounded-full bg-emerald-500/10 border-2 border-emerald-500/30 flex items-center justify-center">
-                      <CheckCircle className="w-12 h-12 text-emerald-400" />
+                    <div className="w-24 h-24 rounded-full bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center">
+                      <CheckCircle className="w-12 h-12 text-emerald-500" />
                     </div>
-                    <div className="absolute inset-0 rounded-full border border-emerald-400/30 animate-ping" />
+                    <div className="absolute inset-0 rounded-full border border-emerald-300 animate-ping opacity-40" />
                   </motion.div>
                   <div>
-                    <h2 className="text-2xl font-bold text-white mb-2">Message Sent! 🎉</h2>
-                    <p className="text-slate-400 max-w-xs text-sm">
+                    <h2 className="text-2xl font-bold text-[#1E293B] mb-2">Message Sent! 🎉</h2>
+                    <p className="text-[#64748B] max-w-xs text-sm">
                       Thanks for writing in! Our team will get back to you within 24 hours.
                     </p>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-3 w-full max-w-xs">
                     <button
                       onClick={() => { setSubmitted(false); setForm({ name: '', email: '', department: '', message: '' }); }}
-                      className="flex-1 px-5 py-2.5 text-sm font-semibold bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl transition-colors"
+                      className="flex-1 px-5 py-2.5 text-sm font-semibold bg-slate-100 hover:bg-slate-200 text-[#1E293B] border border-slate-200 rounded-xl transition-colors cursor-pointer"
                     >
                       Send Another
                     </button>
@@ -418,12 +418,12 @@ export default function ContactPage() {
               ) : (
                 <motion.div key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                   <div className="flex items-center gap-3 mb-8">
-                    <div className="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center">
-                      <Send className="w-5 h-5 text-indigo-400" />
+                    <div className="w-10 h-10 rounded-xl bg-cyan-50 border border-cyan-200 flex items-center justify-center">
+                      <Send className="w-5 h-5 text-[#06B6D4]" />
                     </div>
                     <div>
-                      <h2 className="text-xl font-bold text-white">Send Us a Message</h2>
-                      <p className="text-xs text-slate-400 mt-0.5">We'll respond within 24 hours</p>
+                      <h2 className="text-xl font-bold text-[#1E293B]">Send Us a Message</h2>
+                      <p className="text-xs text-[#64748B] mt-0.5">We'll respond within 24 hours</p>
                     </div>
                   </div>
 
@@ -431,34 +431,34 @@ export default function ContactPage() {
                     {/* Name + Email row */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <div>
-                        <label htmlFor="c-name" className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                        <label htmlFor="c-name" className="block text-xs font-bold uppercase tracking-wider text-[#64748B] mb-1.5">
                           Full Name <span className="text-rose-500">*</span>
                         </label>
                         <input
                           id="c-name" name="name" type="text" autoComplete="name"
                           placeholder="Rahul Sharma"
                           value={form.name} onChange={handleChange}
-                          className={`w-full px-4 py-3 rounded-xl bg-slate-800/80 border text-sm text-white placeholder-slate-600 outline-none transition-all focus:ring-2 focus:ring-indigo-500/40 ${errors.name ? 'border-rose-500' : 'border-slate-700 focus:border-indigo-500'}`}
+                          className={`w-full px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100/70 focus:bg-white border text-sm text-[#1E293B] placeholder-slate-400 outline-none transition-all focus:ring-2 focus:ring-cyan-500/20 ${errors.name ? 'border-rose-400 focus:border-rose-500' : 'border-slate-200 focus:border-[#06B6D4]'}`}
                         />
-                        {errors.name && <p className="mt-1 text-xs text-rose-400">{errors.name}</p>}
+                        {errors.name && <p className="mt-1 text-xs text-rose-500">{errors.name}</p>}
                       </div>
                       <div>
-                        <label htmlFor="c-email" className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                        <label htmlFor="c-email" className="block text-xs font-bold uppercase tracking-wider text-[#64748B] mb-1.5">
                           Email <span className="text-rose-500">*</span>
                         </label>
                         <input
                           id="c-email" name="email" type="email" autoComplete="email"
                           placeholder="rahul@example.com"
                           value={form.email} onChange={handleChange}
-                          className={`w-full px-4 py-3 rounded-xl bg-slate-800/80 border text-sm text-white placeholder-slate-600 outline-none transition-all focus:ring-2 focus:ring-indigo-500/40 ${errors.email ? 'border-rose-500' : 'border-slate-700 focus:border-indigo-500'}`}
+                          className={`w-full px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100/70 focus:bg-white border text-sm text-[#1E293B] placeholder-slate-400 outline-none transition-all focus:ring-2 focus:ring-cyan-500/20 ${errors.email ? 'border-rose-400 focus:border-rose-500' : 'border-slate-200 focus:border-[#06B6D4]'}`}
                         />
-                        {errors.email && <p className="mt-1 text-xs text-rose-400">{errors.email}</p>}
+                        {errors.email && <p className="mt-1 text-xs text-rose-500">{errors.email}</p>}
                       </div>
                     </div>
 
                     {/* Department selector */}
                     <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#64748B] mb-2">
                         Department <span className="text-rose-500">*</span>
                       </label>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -471,32 +471,32 @@ export default function ContactPage() {
                               type="button"
                               whileTap={{ scale: 0.97 }}
                               onClick={() => { setForm(p => ({ ...p, department: dept.label })); setErrors(p => ({ ...p, department: '' })); }}
-                              className={`flex items-center gap-2.5 px-3.5 py-3 rounded-xl border text-sm font-semibold transition-all duration-200 ${active ? 'bg-indigo-600/20 border-indigo-500 text-indigo-300 shadow-sm shadow-indigo-500/10' : 'bg-slate-800/60 border-slate-700 text-slate-400 hover:border-slate-500 hover:text-white hover:bg-slate-800'}`}
+                              className={`flex items-center gap-2.5 px-3.5 py-3 rounded-xl border text-sm font-semibold transition-all duration-200 cursor-pointer ${active ? 'bg-cyan-50 border-[#06B6D4] text-[#0891B2] shadow-xs' : 'bg-slate-50 border-slate-200 text-[#64748B] hover:border-slate-300 hover:text-[#1E293B] hover:bg-white'}`}
                             >
-                              <Icon className="w-4 h-4 shrink-0" />
+                              <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-[#06B6D4]' : 'text-slate-400'}`} />
                               <span className="truncate text-xs">{dept.label}</span>
-                              {active && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-400" />}
+                              {active && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[#06B6D4]" />}
                             </motion.button>
                           );
                         })}
                       </div>
-                      {errors.department && <p className="mt-1 text-xs text-rose-400">{errors.department}</p>}
+                      {errors.department && <p className="mt-1 text-xs text-rose-500">{errors.department}</p>}
                     </div>
 
                     {/* Message */}
                     <div>
-                      <label htmlFor="c-message" className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                      <label htmlFor="c-message" className="block text-xs font-bold uppercase tracking-wider text-[#64748B] mb-1.5">
                         Message <span className="text-rose-500">*</span>
                       </label>
                       <textarea
                         id="c-message" name="message" rows={5}
                         placeholder="Tell us what's on your mind..."
                         value={form.message} onChange={handleChange}
-                        className={`w-full px-4 py-3 rounded-xl bg-slate-800/80 border text-sm text-white placeholder-slate-600 outline-none transition-all focus:ring-2 focus:ring-indigo-500/40 resize-none ${errors.message ? 'border-rose-500' : 'border-slate-700 focus:border-indigo-500'}`}
+                        className={`w-full px-4 py-3 rounded-xl bg-slate-50 hover:bg-slate-100/70 focus:bg-white border text-sm text-[#1E293B] placeholder-slate-400 outline-none transition-all focus:ring-2 focus:ring-cyan-500/20 resize-none ${errors.message ? 'border-rose-400 focus:border-rose-500' : 'border-slate-200 focus:border-[#06B6D4]'}`}
                       />
                       <div className="flex items-center justify-between mt-1">
-                        {errors.message ? <p className="text-xs text-rose-400">{errors.message}</p> : <span />}
-                        <p className={`text-xs ${form.message.length >= 20 ? 'text-emerald-400' : 'text-slate-600'}`}>{form.message.length}/500</p>
+                        {errors.message ? <p className="text-xs text-rose-500">{errors.message}</p> : <span />}
+                        <p className={`text-xs ${form.message.length >= 20 ? 'text-emerald-600 font-medium' : 'text-slate-400'}`}>{form.message.length}/500</p>
                       </div>
                     </div>
 
@@ -507,7 +507,7 @@ export default function ContactPage() {
                         disabled={submitting}
                         whileTap={{ scale: 0.98 }}
                         id="contact-submit-btn"
-                        className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-bold bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white shadow-lg shadow-indigo-600/25 transition-all hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0"
+                        className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-bold bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] hover:from-cyan-400 hover:to-purple-500 active:scale-[0.99] text-white shadow-md shadow-cyan-200 transition-all hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0 cursor-pointer"
                       >
                         {submitting ? (<><Loader2 className="w-4 h-4 animate-spin" />Sending…</>) : (<><Send className="w-4 h-4" />Send Message</>)}
                       </motion.button>
@@ -527,29 +527,29 @@ export default function ContactPage() {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
-              className="relative bg-gradient-to-br from-emerald-950/60 to-slate-900 border border-emerald-500/25 rounded-3xl p-7 overflow-hidden"
+              className="relative bg-gradient-to-br from-emerald-500/10 via-white to-teal-500/5 border border-emerald-200 rounded-3xl p-7 overflow-hidden shadow-lg shadow-emerald-500/5"
             >
               {/* BG glow */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="relative w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                  <div className="relative w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center shadow-md shadow-emerald-500/20">
                     <svg viewBox="0 0 24 24" className="w-6 h-6 fill-white">
                       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                     </svg>
                     {/* Live dot */}
-                    <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-emerald-400 border-2 border-slate-950 rounded-full">
+                    <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-emerald-400 border-2 border-white rounded-full">
                       <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-75" />
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-white">Chat on WhatsApp</h3>
-                    <p className="text-xs text-emerald-400 font-semibold">● Online — replies instantly</p>
+                    <h3 className="text-base font-bold text-[#1E293B]">Chat on WhatsApp</h3>
+                    <p className="text-xs text-emerald-600 font-semibold">● Online — replies instantly</p>
                   </div>
                 </div>
 
-                <p className="text-sm text-slate-400 mb-5 leading-relaxed">
+                <p className="text-sm text-[#64748B] mb-5 leading-relaxed">
                   Get instant help from our support team. We reply within minutes on WhatsApp, Mon–Sat, 9 AM–7 PM IST.
                 </p>
 
@@ -557,7 +557,7 @@ export default function ContactPage() {
                   href={`https://wa.me/${WA_NUMBER}?text=${WA_DEFAULT_MSG}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="relative flex items-center justify-center gap-2.5 w-full py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-bold shadow-lg shadow-emerald-500/30 transition-all hover:-translate-y-0.5 overflow-hidden group"
+                  className="relative flex items-center justify-center gap-2.5 w-full py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-bold shadow-md shadow-emerald-500/20 transition-all hover:-translate-y-0.5 overflow-hidden group"
                 >
                   <span className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12" />
                   <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current shrink-0">
@@ -566,7 +566,7 @@ export default function ContactPage() {
                   Start WhatsApp Chat
                 </a>
 
-                <p className="text-center text-xs text-slate-500 mt-3">
+                <p className="text-center text-xs text-[#64748B] mt-3">
                   +91 85330 02305 · No app install required
                 </p>
               </div>
@@ -579,13 +579,13 @@ export default function ContactPage() {
               whileInView="show"
               viewport={{ once: true }}
               custom={1}
-              className="relative rounded-3xl overflow-hidden border border-slate-800 flex-1 min-h-[220px]"
+              className="relative rounded-3xl overflow-hidden border border-slate-200 shadow-md shadow-slate-200/50 flex-1 min-h-[220px]"
             >
               <iframe
                 title="CourseEarn Office"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.4978!2d77.3655!3d28.6270!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce5a43173357b%3A0x37ffce30c87cc03f!2sSector%2062%2C%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1600000000000!5m2!1sen!2sin"
                 width="100%" height="100%"
-                className="absolute inset-0 w-full h-full grayscale brightness-50"
+                className="absolute inset-0 w-full h-full opacity-90"
                 style={{ border: 0, minHeight: '220px' }}
                 allowFullScreen=""
                 referrerPolicy="no-referrer-when-downgrade"
@@ -594,16 +594,16 @@ export default function ContactPage() {
                 href="https://maps.google.com/?q=Sector+62+Noida"
                 target="_blank"
                 rel="noreferrer"
-                className="absolute bottom-3 left-3 right-3 bg-slate-950/90 backdrop-blur-md border border-slate-800 hover:border-slate-600 rounded-xl px-4 py-2.5 flex items-center gap-3 transition-colors group"
+                className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md border border-slate-200 hover:border-slate-300 rounded-xl px-4 py-2.5 flex items-center gap-3 transition-colors group shadow-md"
               >
-                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-rose-600 to-pink-600 flex items-center justify-center shrink-0">
+                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center shrink-0">
                   <MapPin className="w-3.5 h-3.5 text-white" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-xs font-bold text-white">CourseEarn HQ</p>
-                  <p className="text-[10px] text-slate-400">Sector 62, Noida – 201301</p>
+                  <p className="text-xs font-bold text-[#1E293B]">CourseEarn HQ</p>
+                  <p className="text-[10px] text-[#64748B]">Sector 62, Noida – 201301</p>
                 </div>
-                <span className="text-xs text-indigo-400 font-semibold group-hover:text-indigo-300 whitespace-nowrap">Open Maps →</span>
+                <span className="text-xs text-[#06B6D4] font-semibold group-hover:text-[#0891B2] whitespace-nowrap">Open Maps →</span>
               </a>
             </motion.div>
           </div>
