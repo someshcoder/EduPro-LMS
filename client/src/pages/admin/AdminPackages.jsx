@@ -100,7 +100,7 @@ const AdminPackages = () => {
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-all shadow-lg shadow-indigo-500/20 w-full sm:w-auto"
+          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] hover:opacity-95 text-white text-sm font-semibold transition-all shadow-md shadow-cyan-500/20 w-full sm:w-auto cursor-pointer"
         >
           <Plus className="w-4 h-4" /> New Package
         </button>
@@ -250,7 +250,7 @@ const AdminPackages = () => {
                   type="file"
                   accept="image/*"
                   onChange={(e) => setThumbnail(e.target.files[0])}
-                  className="w-full px-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#64748B] focus:outline-none focus:border-[#06B6D4] transition-colors file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-indigo-600 file:text-[#1E293B]"
+                  className="w-full px-4 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-sm text-[#64748B] focus:outline-none focus:border-[#06B6D4] transition-colors file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-cyan-50 file:text-[#0891B2]"
                 />
               </div>
               <div className="flex items-center gap-2 mt-2">
@@ -270,7 +270,7 @@ const AdminPackages = () => {
                 <button type="button" onClick={closeModal} className="flex-1 py-2.5 rounded-xl border border-[#E2E8F0] text-[#64748B] hover:text-[#1E293B] hover:bg-[#F1F5F9] transition-colors text-sm font-medium">
                   Cancel
                 </button>
-                <button type="submit" disabled={saveMutation.isPending} className="flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-[#1E293B] text-sm font-medium transition-colors disabled:opacity-60">
+                <button type="submit" disabled={saveMutation.isPending} className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] hover:opacity-95 text-white text-sm font-semibold transition-all shadow-md shadow-cyan-500/20 disabled:opacity-60 cursor-pointer">
                   {saveMutation.isPending ? 'Saving...' : editPkg ? 'Save Changes' : 'Create Package'}
                 </button>
               </div>

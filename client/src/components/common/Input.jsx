@@ -30,6 +30,7 @@ const Input = forwardRef(({
           ref={ref}
           id={id}
           type={type}
+          aria-label={props['aria-label'] || (typeof label === 'string' ? label : undefined) || props.placeholder}
           className={cn(
             'w-full bg-white border rounded-xl text-[#1E293B] placeholder-slate-400',
             'focus:outline-none focus:ring-2 focus:ring-cyan-400/30 focus:border-[#06B6D4]',

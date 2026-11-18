@@ -370,7 +370,7 @@ const Watch = () => {
                           onClick={() => handleSpeedChange(spd)}
                           className={`px-2 py-1 rounded-lg font-medium transition-all ${
                             playbackSpeed === spd
-                              ? 'bg-indigo-600 text-[#1E293B] font-bold'
+                              ? 'bg-cyan-50 text-[#0891B2] font-bold border border-cyan-200 shadow-xs'
                               : 'hover:text-[#1E293B] hover:bg-[#E2E8F0]/50'
                           }`}
                         >

@@ -236,6 +236,9 @@ const PopularCourses = ({ onPreviewCourse, onEnrollCourse, externalSearchQuery }
 
           {/* In-Section Search Box */}
           <div className="relative w-full lg:w-72">
+            <label htmlFor="course-filter-search" className="sr-only">
+              Filter courses
+            </label>
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               id="course-filter-search"
@@ -244,6 +247,7 @@ const PopularCourses = ({ onPreviewCourse, onEnrollCourse, externalSearchQuery }
               value={searchFilter}
               onChange={(e) => setSearchFilter(e.target.value)}
               placeholder="Filter courses..."
+              aria-label="Filter courses"
               className="w-full pl-9 pr-3 py-2 bg-white rounded-xl border border-slate-200 text-xs text-[#1E293B] placeholder-slate-400 focus:outline-none focus:border-[#06B6D4] shadow-xs"
             />
             {searchFilter && (
