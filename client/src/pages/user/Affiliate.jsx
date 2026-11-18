@@ -181,7 +181,7 @@ const Affiliate = () => {
                   href={shareLinks.whatsapp}
                   target="_blank"
                   rel="noreferrer"
-                  className="p-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 text-emerald-400 flex flex-col items-center justify-center transition-colors text-xs font-medium"
+                  className="p-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 flex flex-col items-center justify-center transition-colors text-xs font-semibold shadow-xs"
                 >
                   <Share2 className="w-4 h-4 mb-1" /> WhatsApp
                 </a>
@@ -189,7 +189,7 @@ const Affiliate = () => {
                   href={shareLinks.telegram}
                   target="_blank"
                   rel="noreferrer"
-                  className="p-2.5 rounded-xl bg-sky-600/20 hover:bg-sky-600/30 border border-sky-500/30 text-sky-400 flex flex-col items-center justify-center transition-colors text-xs font-medium"
+                  className="p-2.5 rounded-xl bg-sky-50 hover:bg-sky-100 border border-sky-200 text-sky-700 flex flex-col items-center justify-center transition-colors text-xs font-semibold shadow-xs"
                 >
                   <Send className="w-4 h-4 mb-1" /> Telegram
                 </a>
@@ -197,15 +197,18 @@ const Affiliate = () => {
                   href={shareLinks.twitter}
                   target="_blank"
                   rel="noreferrer"
-                  className="p-2.5 rounded-xl bg-[#F1F5F9] hover:bg-[#E2E8F0] border border-[#E2E8F0] text-slate-200 flex flex-col items-center justify-center transition-colors text-xs font-medium"
+                  className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-900 flex flex-col items-center justify-center transition-colors text-xs font-semibold shadow-xs"
                 >
-                  <Globe className="w-4 h-4 mb-1" /> X / Twitter
+                  <svg className="w-4 h-4 mb-1 fill-current" viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                  Twitter
                 </a>
                 <a
                   href={shareLinks.facebook}
                   target="_blank"
                   rel="noreferrer"
-                  className="p-2.5 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-blue-400 flex flex-col items-center justify-center transition-colors text-xs font-medium"
+                  className="p-2.5 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 flex flex-col items-center justify-center transition-colors text-xs font-semibold shadow-xs"
                 >
                   <MessageCircle className="w-4 h-4 mb-1" /> Facebook
                 </a>
@@ -234,7 +237,7 @@ const Affiliate = () => {
                 onClick={() => setActiveTab('level1')}
                 className={`px-3 sm:px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all ${
                   activeTab === 'level1'
-                    ? 'bg-indigo-600 text-[#1E293B] shadow'
+                    ? 'bg-cyan-50 text-[#0891B2] border border-cyan-200 shadow-xs'
                     : 'text-[#64748B] hover:text-[#1E293B]'
                 }`}
               >
@@ -244,7 +247,7 @@ const Affiliate = () => {
                 onClick={() => setActiveTab('level2')}
                 className={`px-3 sm:px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all ${
                   activeTab === 'level2'
-                    ? 'bg-indigo-600 text-[#1E293B] shadow'
+                    ? 'bg-cyan-50 text-[#0891B2] border border-cyan-200 shadow-xs'
                     : 'text-[#64748B] hover:text-[#1E293B]'
                 }`}
               >
@@ -254,7 +257,7 @@ const Affiliate = () => {
                 onClick={() => setActiveTab('commissions')}
                 className={`px-3 sm:px-4 py-2 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all ${
                   activeTab === 'commissions'
-                    ? 'bg-indigo-600 text-[#1E293B] shadow'
+                    ? 'bg-cyan-50 text-[#0891B2] border border-cyan-200 shadow-xs'
                     : 'text-[#64748B] hover:text-[#1E293B]'
                 }`}
               >
@@ -264,12 +267,16 @@ const Affiliate = () => {
 
             {activeTab !== 'commissions' && (
               <div className="relative">
+                <label htmlFor="affiliate-member-search" className="sr-only">
+                  Search member
+                </label>
                 <Search className="w-4 h-4 text-[#94A3B8] absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   id="affiliate-member-search"
                   name="searchMember"
                   type="text"
                   placeholder="Search member..."
+                  aria-label="Search member"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-9 pr-4 py-1.5 rounded-xl bg-white border border-[#E2E8F0] text-xs text-[#1E293B] placeholder-slate-400 focus:outline-none focus:border-[#06B6D4] w-full sm:w-48"

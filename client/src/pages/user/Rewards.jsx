@@ -21,9 +21,9 @@ const MOCK_USER_DATA = {
   courseProgress: 68,
   communityAnswers: 24,
   badges: [
-    { id: 'bronze', label: 'Bronze', icon: '🥉', points: 500,  color: 'text-amber-600', bg: 'bg-amber-600/15 border-amber-600/30', unlocked: true,  rewardPct: 10, coupon: 'BRONZE-K3M12', couponUsed: true  },
-    { id: 'silver', label: 'Silver', icon: '🥈', points: 1500, color: 'text-[#64748B]', bg: 'bg-slate-400/15 border-slate-400/30', unlocked: true,  rewardPct: 20, coupon: 'SILVER-X7K29', couponUsed: false },
-    { id: 'gold',   label: 'Gold',   icon: '🥇', points: 5000, color: 'text-amber-400', bg: 'bg-amber-400/15 border-amber-400/30', unlocked: false, rewardPct: 30, coupon: null,           couponUsed: false },
+    { id: 'bronze', label: 'Bronze', icon: '🥉', points: 500,  color: 'text-amber-700', bg: 'bg-amber-50/70 border-amber-200/90', unlocked: true,  rewardPct: 10, coupon: 'BRONZE-K3M12', couponUsed: true  },
+    { id: 'silver', label: 'Silver', icon: '🥈', points: 1500, color: 'text-slate-700', bg: 'bg-slate-50 border-slate-200', unlocked: true,  rewardPct: 20, coupon: 'SILVER-X7K29', couponUsed: false },
+    { id: 'gold',   label: 'Gold',   icon: '🥇', points: 5000, color: 'text-amber-600', bg: 'bg-amber-50/40 border-amber-200/80', unlocked: false, rewardPct: 30, coupon: null,           couponUsed: false },
   ],
   activities: [
     { id: 'module',   icon: BookOpen,      label: 'Course Module Completion', desc: 'Complete any lesson or module',                  pts: '+50 pts',       color: 'text-[#06B6D4]', bg: 'bg-cyan-50', status: 'active' },
@@ -86,9 +86,9 @@ const SectionDivider = ({ label }) => (
 
 const PackageTag = ({ pkg }) => {
   const cfg = {
-    basic:    { label: 'Basic',        color: 'bg-slate-600/20 text-[#64748B] border-slate-500/30'   },
-    advanced: { label: 'Advanced',     color: 'bg-cyan-50 text-[#06B6D4] border-cyan-200' },
-    diamond:  { label: '💎 Diamond',   color: 'bg-violet-500/20 text-violet-300 border-violet-500/30' },
+    basic:    { label: 'Basic',        color: 'bg-slate-100 text-slate-700 border-slate-200' },
+    advanced: { label: 'Advanced',     color: 'bg-cyan-50 text-[#0891B2] border-cyan-200' },
+    diamond:  { label: '💎 Diamond',   color: 'bg-violet-50 text-[#8B5CF6] border-violet-200 font-bold' },
   };
   const c = cfg[pkg] || cfg.basic;
   return (
@@ -134,11 +134,11 @@ const Rewards = () => {
 
         {/* Points card */}
         <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0}>
-          <Card className="border-cyan-200 bg-gradient-to-br from-indigo-950/60 to-slate-800/60 h-full">
+          <Card className="border-cyan-200/80 bg-gradient-to-br from-cyan-50/80 via-sky-50/40 to-indigo-50/50 h-full shadow-xs">
             <CardBody className="space-y-3">
               <div className="flex items-center justify-between">
-                <p className="text-xs font-bold text-[#64748B] uppercase tracking-wider">Current Points</p>
-                <div className="w-9 h-9 rounded-xl bg-indigo-500/15 flex items-center justify-center">
+                <p className="text-xs font-bold text-cyan-900/70 uppercase tracking-wider">Current Points</p>
+                <div className="w-9 h-9 rounded-xl bg-cyan-100/80 border border-cyan-200/60 flex items-center justify-center">
                   <Star className="w-5 h-5 text-[#06B6D4]" />
                 </div>
               </div>
@@ -146,11 +146,11 @@ const Rewards = () => {
                 <AnimatedNumber value={d.points} />
               </p>
               <div className="space-y-1.5">
-                <div className="flex justify-between text-xs text-[#64748B]">
+                <div className="flex justify-between text-xs text-[#64748B] font-medium">
                   <span>{d.points.toLocaleString()} / {d.nextMilestonePoints.toLocaleString()} pts</span>
-                  <span>{progressPct}%</span>
+                  <span className="font-bold text-cyan-700">{progressPct}%</span>
                 </div>
-                <div className="h-2 bg-[#E2E8F0]/60 rounded-full overflow-hidden">
+                <div className="h-2 bg-slate-200/80 rounded-full overflow-hidden">
                   <motion.div
                     className="h-full bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] rounded-full"
                     initial={{ width: 0 }}
@@ -158,7 +158,7 @@ const Rewards = () => {
                     transition={{ duration: 1.2, ease: 'easeOut' }}
                   />
                 </div>
-                <p className="text-xs text-[#06B6D4]">
+                <p className="text-xs text-[#0891B2] font-semibold">
                   {(d.nextMilestonePoints - d.points).toLocaleString()} pts to unlock <span className="font-bold capitalize">{d.nextMilestone}</span>
                 </p>
               </div>
@@ -168,12 +168,12 @@ const Rewards = () => {
 
         {/* Badge card */}
         <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={1}>
-          <Card className="border-slate-600/30 h-full">
+          <Card className="border-slate-200 bg-gradient-to-br from-amber-50/30 via-white to-slate-50/50 h-full shadow-xs">
             <CardBody className="space-y-3">
               <div className="flex items-center justify-between">
                 <p className="text-xs font-bold text-[#64748B] uppercase tracking-wider">Current Badge</p>
-                <div className="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center">
-                  <Trophy className="w-5 h-5 text-amber-400" />
+                <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-200/50 flex items-center justify-center">
+                  <Trophy className="w-5 h-5 text-amber-500" />
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -185,12 +185,12 @@ const Rewards = () => {
               </div>
               <div className="flex gap-3 pt-1 flex-wrap">
                 <div className="text-center">
-                  <p className="text-lg font-bold text-orange-400">🔥 {d.loginStreak}</p>
+                  <p className="text-lg font-bold text-orange-500">🔥 {d.loginStreak}</p>
                   <p className="text-[10px] text-[#94A3B8]">Day Streak</p>
                 </div>
                 <div className="w-px bg-[#E2E8F0]" />
                 <div className="text-center">
-                  <p className="text-lg font-bold text-emerald-400">{d.courseProgress}%</p>
+                  <p className="text-lg font-bold text-emerald-600">{d.courseProgress}%</p>
                   <p className="text-[10px] text-[#94A3B8]">Progress</p>
                 </div>
                 <div className="w-px bg-[#E2E8F0]" />
@@ -205,19 +205,19 @@ const Rewards = () => {
 
         {/* Package card */}
         <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={2}>
-          <Card className={`h-full ${isDiamond ? 'border-violet-500/30 bg-gradient-to-br from-violet-950/40 to-slate-800/60' : 'border-slate-600/30'}`}>
+          <Card className={`h-full shadow-xs ${isDiamond ? 'border-violet-200/80 bg-gradient-to-br from-violet-50/80 via-purple-50/40 to-indigo-50/60' : 'border-slate-200 bg-slate-50/50'}`}>
             <CardBody className="space-y-3">
               <div className="flex items-center justify-between">
-                <p className="text-xs font-bold text-[#64748B] uppercase tracking-wider">Your Package</p>
+                <p className="text-xs font-bold text-violet-900/70 uppercase tracking-wider">Your Package</p>
                 <PackageTag pkg={d.package} />
               </div>
               {isDiamond ? (
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-xl bg-violet-500/20 flex items-center justify-center text-xl">💎</div>
+                    <div className="w-10 h-10 rounded-xl bg-violet-100 border border-violet-200 flex items-center justify-center text-xl">💎</div>
                     <div>
                       <p className="font-black text-[#1E293B] text-lg">Diamond Member</p>
-                      <p className="text-xs text-violet-300">All perks unlocked</p>
+                      <p className="text-xs text-[#8B5CF6] font-semibold">All perks unlocked</p>
                     </div>
                   </div>
                   <p className="text-xs text-[#64748B] leading-relaxed">
@@ -396,7 +396,7 @@ const Rewards = () => {
                       <span className="font-mono text-base font-black text-[#1E293B] tracking-widest">{badge.coupon}</span>
                       <button
                         onClick={() => handleCopyCoupon(badge.coupon)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-[#1E293B] text-xs font-bold transition-all hover:scale-105 flex-shrink-0"
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-all hover:scale-105 flex-shrink-0"
                       >
                         {copiedCoupon === badge.coupon
                           ? <><CheckCircle2 className="w-3.5 h-3.5" /> Copied</>
@@ -435,7 +435,7 @@ const Rewards = () => {
                         </span>
                       )}
                       {badge.unlocked && badge.couponUsed && (
-                        <span className="px-2 py-0.5 rounded-full bg-slate-600/30 text-[#64748B] text-[10px] font-bold">Used</span>
+                        <span className="px-2 py-0.5 rounded-full bg-slate-100 border border-slate-200 text-slate-500 text-[10px] font-bold">Used</span>
                       )}
                       {badge.unlocked && badge.coupon && !badge.couponUsed && (
                         <button onClick={() => handleCopyCoupon(badge.coupon)} className="p-1.5 rounded-lg hover:bg-[#E2E8F0] transition-colors">
@@ -460,11 +460,11 @@ const Rewards = () => {
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
 
             {/* Diamond hero */}
-            <div className="relative rounded-2xl border border-violet-500/30 bg-gradient-to-br from-violet-950/60 via-slate-900 to-indigo-950/40 overflow-hidden mb-6 p-6">
-              <div className="absolute -right-10 -top-10 w-56 h-56 bg-violet-600/10 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute -left-10 -bottom-10 w-48 h-48 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="relative rounded-2xl border border-violet-200/90 bg-gradient-to-br from-violet-50/90 via-purple-50/50 to-indigo-50/70 overflow-hidden mb-6 p-6 shadow-xs">
+              <div className="absolute -right-10 -top-10 w-56 h-56 bg-violet-200/30 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -left-10 -bottom-10 w-48 h-48 bg-indigo-200/30 rounded-full blur-3xl pointer-events-none" />
               <div className="relative flex items-center gap-4 flex-wrap">
-                <div className="w-14 h-14 rounded-2xl bg-violet-500/20 border border-violet-500/40 flex items-center justify-center text-3xl shadow-lg shadow-violet-500/10">
+                <div className="w-14 h-14 rounded-2xl bg-white border border-violet-200 flex items-center justify-center text-3xl shadow-sm">
                   💎
                 </div>
                 <div>
@@ -485,7 +485,7 @@ const Rewards = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {d.diamondPerks.map((perk, i) => (
                 <motion.div key={perk.label} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i}>
-                  <Card hover className="h-full group border-violet-500/10 hover:border-violet-500/30">
+                  <Card hover className="h-full group border-violet-100 hover:border-violet-300 bg-white">
                     <CardBody className="space-y-3">
                       <div className="w-10 h-10 rounded-xl bg-violet-500/15 flex items-center justify-center group-hover:bg-violet-500/25 transition-colors">
                         <perk.icon className="w-5 h-5 text-[#8B5CF6]" />
@@ -532,7 +532,7 @@ const Rewards = () => {
                 <React.Fragment key={step.step}>
                   <div className="flex items-center gap-1.5 flex-shrink-0">
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${step.done ? 'bg-indigo-600' : 'bg-[#E2E8F0]'}`}>
-                      {step.done ? <Check className="w-3.5 h-3.5 text-[#1E293B]" /> : <span className="text-[10px] text-[#94A3B8] font-bold">{i + 1}</span>}
+                      {step.done ? <Check className="w-3.5 h-3.5 text-white" /> : <span className="text-[10px] text-[#94A3B8] font-bold">{i + 1}</span>}
                     </div>
                     <span className={`text-xs font-medium whitespace-nowrap ${step.done ? 'text-[#64748B]' : 'text-[#64748B]'}`}>{step.step}</span>
                   </div>
@@ -555,7 +555,7 @@ const Rewards = () => {
                     {d.journey.map((step, i) => (
                       <div key={step.step} className="flex items-center gap-2 text-xs">
                         <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${step.done ? 'bg-indigo-600' : 'bg-[#E2E8F0]'}`}>
-                          {step.done ? <Check className="w-3 h-3 text-[#1E293B]" /> : <span className="text-[9px] text-[#94A3B8]">{i + 1}</span>}
+                          {step.done ? <Check className="w-3 h-3 text-white" /> : <span className="text-[9px] text-[#94A3B8]">{i + 1}</span>}
                         </div>
                         <span className={step.done ? 'text-[#64748B]' : 'text-[#64748B]'}>{step.step}</span>
                         {step.done && <span className="ml-auto text-[10px] text-[#06B6D4] font-semibold">Done</span>}

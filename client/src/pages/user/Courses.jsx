@@ -53,12 +53,16 @@ const Courses = () => {
         </div>
         {/* Search */}
         <div className="relative w-full sm:w-64">
+          <label htmlFor="courses-search" className="sr-only">
+            Search courses
+          </label>
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#94A3B8]" />
           <input
             id="courses-search"
             name="search"
             type="text"
             placeholder="Search courses..."
+            aria-label="Search courses"
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="w-full pl-9 pr-4 py-2 bg-[#F1F5F9] border border-[#E2E8F0] rounded-xl text-sm text-[#1E293B] placeholder-slate-400 focus:outline-none focus:border-[#06B6D4] transition-colors"
@@ -97,11 +101,11 @@ const Courses = () => {
                   )}
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                    <PlayCircle className="w-14 h-14 text-[#1E293B] opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100" />
+                    <PlayCircle className="w-14 h-14 text-white opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100" />
                   </div>
                   {/* Enrolled Badge */}
                   {isEnrolled && (
-                    <div className="absolute top-2 left-2 flex items-center gap-1 px-2 py-1 bg-emerald-500/90 backdrop-blur-sm rounded-lg text-[#1E293B] text-xs font-semibold">
+                    <div className="absolute top-2 left-2 flex items-center gap-1 px-2 py-1 bg-emerald-500/90 backdrop-blur-sm rounded-lg text-white text-xs font-semibold">
                       <CheckCircle2 className="w-3 h-3" />
                       Enrolled
                     </div>
@@ -133,7 +137,7 @@ const Courses = () => {
                       {course.discountPrice && course.discountPrice > 0 ? (
                         <div className="flex flex-col">
                           <span className="text-xs text-[#94A3B8] line-through">₹{course.price?.toLocaleString('en-IN')}</span>
-                          <span className="text-lg font-bold text-emerald-400">₹{course.discountPrice?.toLocaleString('en-IN')}</span>
+                          <span className="text-lg font-bold text-emerald-600">₹{course.discountPrice?.toLocaleString('en-IN')}</span>
                         </div>
                       ) : (
                         <span className="text-lg font-bold text-[#1E293B]">₹{course.price?.toLocaleString('en-IN')}</span>
@@ -141,10 +145,10 @@ const Courses = () => {
                     </div>
                     <button
                       onClick={e => { e.stopPropagation(); navigate(`/courses/${course._id}`); }}
-                      className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                      className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
                         isEnrolled
-                          ? 'bg-emerald-600 hover:bg-emerald-500 text-[#1E293B]'
-                          : 'bg-indigo-600 hover:bg-indigo-500 text-[#1E293B]'
+                          ? 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 hover:border-emerald-300 shadow-xs'
+                          : 'bg-cyan-50 hover:bg-cyan-100 text-[#0891B2] border border-cyan-200 hover:border-cyan-300 shadow-xs'
                       }`}
                     >
                       {isEnrolled ? 'Watch Now' : 'View Details'}

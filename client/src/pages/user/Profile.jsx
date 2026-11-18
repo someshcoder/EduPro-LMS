@@ -272,7 +272,7 @@ const Profile = () => {
             onClick={() => setActiveTab(tab.id)}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap ${
               activeTab === tab.id
-                ? 'bg-indigo-600 text-[#1E293B] shadow-lg shadow-indigo-600/20'
+                ? 'bg-cyan-50 text-[#0891B2] border border-cyan-200 shadow-xs'
                 : 'text-[#64748B] hover:text-[#1E293B] hover:bg-[#F1F5F9]'
             }`}
           >
