@@ -217,6 +217,9 @@ const Footer = ({ onOpenAuth }) => {
 
             <form onSubmit={handleSubscribe} className="space-y-2">
               <div className="relative">
+                <label htmlFor="footer-newsletter-email" className="sr-only">
+                  Email address
+                </label>
                 <input
                   id="footer-newsletter-email"
                   name="email"
@@ -225,6 +228,7 @@ const Footer = ({ onOpenAuth }) => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
+                  aria-label="Email address"
                   className="w-full px-3 py-2.5 rounded-xl bg-[#F8FAFC] border border-slate-200 text-xs text-[#1E293B] placeholder-slate-400 focus:outline-none focus:border-[#06B6D4]"
                 />
               </div>

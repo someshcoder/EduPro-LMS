@@ -96,6 +96,9 @@ const Hero = ({ onExploreClick, onStartLearning, onWatchDemo, onQuickSearch }) =
               className="p-1.5 bg-white rounded-2xl shadow-xl shadow-cyan-950/5 border border-slate-200 flex flex-col sm:flex-row items-center gap-2 max-w-xl"
             >
               <div className="relative flex-1 w-full flex items-center pl-3">
+                <label htmlFor="hero-search-query" className="sr-only">
+                  Search courses
+                </label>
                 <Search className="w-5 h-5 text-[#64748B] shrink-0" />
                 <input
                   id="hero-search-query"
@@ -104,6 +107,7 @@ const Hero = ({ onExploreClick, onStartLearning, onWatchDemo, onQuickSearch }) =
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="What do you want to learn? (e.g. React, Python, AI...)"
+                  aria-label="What do you want to learn?"
                   className="w-full px-3 py-2.5 text-sm text-[#1E293B] bg-transparent placeholder-slate-400 focus:outline-none"
                 />
               </div>

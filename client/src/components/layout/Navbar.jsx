@@ -34,12 +34,16 @@ const Navbar = ({ onMenuToggle, sidebarCollapsed }) => {
 
         {/* Search */}
         <div className="hidden md:flex items-center gap-2 bg-slate-50 border border-[#E2E8F0] rounded-xl px-3 py-2 w-48 lg:w-64 focus-within:border-[#06B6D4] focus-within:ring-2 focus-within:ring-cyan-100 transition-all">
+          <label htmlFor="navbar-search" className="sr-only">
+            Search courses
+          </label>
           <Search className="w-4 h-4 text-[#64748B]" />
           <input
             id="navbar-search"
             name="q"
             type="text"
             placeholder="Search courses..."
+            aria-label="Search courses"
             className="bg-transparent text-sm text-[#1E293B] placeholder-slate-400 focus:outline-none flex-1"
           />
         </div>
