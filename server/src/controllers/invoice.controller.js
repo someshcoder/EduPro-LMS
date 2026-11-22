@@ -2,6 +2,8 @@ const Invoice = require('../models/Invoice');
 const Package = require('../models/Package');
 const User = require('../models/User');
 const Transaction = require('../models/Transaction');
+const Purchase = require('../models/Purchase');
+const { hasCourseAccess, syncUserEnrolledPackages } = require('../utils/accessControl');
 const SystemSettings = require('../models/SystemSettings');
 const { v4: uuidv4 } = require('uuid');
 
@@ -63,9 +65,10 @@ exports.purchasePackage = async (req, res) => {
     const pkg = await Package.findById(packageId);
     if (!pkg) return res.status(404).json({ success: false, message: 'Package not found.' });
 
-    // Check if already enrolled
-    if (user.enrolledPackages.some((p) => p.toString() === packageId)) {
-      return res.status(400).json({ success: false, message: 'You are already enrolled in this package.' });
+    // Check if user already has active non-expired access
+    const alreadyActive = await hasCourseAccess(userId, packageId);
+    if (alreadyActive) {
+      return res.status(400).json({ success: false, message: 'You already have active access to this course.' });
     }
 
     const settings = await getSettings();
@@ -117,6 +120,31 @@ exports.purchasePackage = async (req, res) => {
     // Enroll User
     user.enrolledPackages.push(pkg._id);
     await user.save();
+
+    // Create 1-Year Purchase Record
+    const purchaseDate = new Date();
+    const expiresAt = new Date(purchaseDate.getTime() + 365 * 24 * 60 * 60 * 1000);
+    await Purchase.create({
+      user: userId,
+      itemType: 'course',
+      course: pkg._id,
+      grantedCourses: [pkg._id],
+      basePrice: pkg.price,
+      discountAmount: pkg.price - finalPrice > 0 ? pkg.price - finalPrice : 0,
+      taxableAmount,
+      taxRate,
+      taxAmount,
+      totalAmount: finalPrice,
+      paymentMethod,
+      paymentRef: invoice.paymentRef,
+      invoice: invoice._id,
+      invoiceNumber: invoice.invoiceNumber,
+      status: 'active',
+      purchaseDate,
+      expiresAt,
+    });
+
+    await syncUserEnrolledPackages(userId);
 
     // Record purchase transaction
     await Transaction.create({

@@ -15,6 +15,7 @@ const invoiceRoutes = require('./routes/invoice.routes');
 const certificateRoutes = require('./routes/certificate.routes');
 const forumRoutes = require('./routes/forum.routes');
 const adminForumRoutes = require('./routes/adminForum.routes');
+const parentPackageRoutes = require('./routes/parentPackage.routes');
 
 const app = express();
 
@@ -154,6 +155,7 @@ app.use('/api/invoices', invoiceRoutes);
 app.use('/api/certificates', certificateRoutes);
 app.use('/api/forum', forumRoutes);
 app.use('/api/admin/forum', adminForumRoutes);
+app.use('/api/parent-packages', parentPackageRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

@@ -4,7 +4,9 @@ const invoiceSchema = new mongoose.Schema(
   {
     invoiceNumber: { type: String, required: true, unique: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    package: { type: mongoose.Schema.Types.ObjectId, ref: 'Package', required: true },
+    itemType: { type: String, enum: ['course', 'parent_package', 'package_upgrade'], default: 'course' },
+    package: { type: mongoose.Schema.Types.ObjectId, ref: 'Package' },
+    parentPackage: { type: mongoose.Schema.Types.ObjectId, ref: 'ParentPackage' },
     packageName: { type: String, required: true },
     basePrice: { type: Number, required: true },
     discountAmount: { type: Number, default: 0 },

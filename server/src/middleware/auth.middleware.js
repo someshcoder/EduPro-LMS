@@ -49,3 +49,27 @@ exports.protect = async (req, res, next) => {
     return res.status(500).json({ success: false, message: 'Server error in auth middleware.' });
   }
 };
+
+exports.optionalProtect = async (req, res, next) => {
+  try {
+    let token;
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+    if (!token) return next();
+
+    const decoded = verifyAccessToken(token);
+    const session = await Session.findOne({ token, isActive: true });
+    if (!session) return next();
+
+    const user = await User.findById(decoded.id).select('-password');
+    if (user && !user.isBlocked) {
+      req.user = user;
+      req.token = token;
+    }
+    next();
+  } catch {
+    // Silently continue for unauthenticated visitors
+    next();
+  }
+};

@@ -34,4 +34,18 @@ export const adminService = {
   // Fraud alerts
   getFraudAlerts: (params) => api.get('/admin/fraud-alerts', { params }),
   resolveFraudAlert: (id, note) => api.patch(`/admin/fraud-alerts/${id}/resolve`, { note }),
+  // Parent Packages Management (Part 2)
+  getParentPackages: () => api.get('/admin/parent-packages'),
+  createParentPackage: (formData) =>
+    api.post('/admin/parent-packages', formData, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  updateParentPackage: (id, formData) =>
+    api.put(`/admin/parent-packages/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  togglePublishParentPackage: (id) => api.patch(`/admin/parent-packages/${id}/publish`),
+  updatePackageCourses: (id, data) => api.patch(`/admin/parent-packages/${id}/courses`, data),
+  syncUltimatePackage: () => api.post('/admin/parent-packages/sync-ultimate'),
+  deleteParentPackage: (id) => api.delete(`/admin/parent-packages/${id}`),
+  // Purchases & Refunds Management (Part 2)
+  getAllPurchases: (params) => api.get('/admin/purchases', { params }),
+  refundOrCancelPurchase: (id, data) => api.post(`/admin/purchases/${id}/refund`, data),
+  getUserAccessOverview: (userId) => api.get(`/admin/users/${userId}/access-overview`),
 };

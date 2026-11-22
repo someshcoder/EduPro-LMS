@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const admin = require('../controllers/admin.controller');
+const adminParentPackage = require('../controllers/adminParentPackage.controller');
 const { protect } = require('../middleware/auth.middleware');
 const { adminOnly } = require('../middleware/admin.middleware');
 const { uploadThumbnail, uploadVideo } = require('../config/multer');
@@ -13,6 +14,20 @@ router.get('/dashboard', admin.getDashboardStats);
 // User management
 router.get('/users', admin.getUsers);
 router.patch('/users/:id/block', admin.toggleBlockUser);
+router.get('/users/:id/access-overview', adminParentPackage.getUserAccessOverview);
+
+// Parent Packages Management (Part 2)
+router.get('/parent-packages', adminParentPackage.getAdminParentPackages);
+router.post('/parent-packages', uploadThumbnail.single('thumbnail'), adminParentPackage.createAdminParentPackage);
+router.put('/parent-packages/:id', uploadThumbnail.single('thumbnail'), adminParentPackage.updateAdminParentPackage);
+router.patch('/parent-packages/:id/publish', adminParentPackage.togglePublishStatus);
+router.patch('/parent-packages/:id/courses', adminParentPackage.updatePackageCourses);
+router.post('/parent-packages/sync-ultimate', adminParentPackage.syncUltimatePackage);
+router.delete('/parent-packages/:id', adminParentPackage.deleteAdminParentPackage);
+
+// Purchases & Refunds Management (Part 2)
+router.get('/purchases', adminParentPackage.getAllPurchases);
+router.post('/purchases/:id/refund', adminParentPackage.refundOrCancelPurchase);
 
 // KYC
 router.get('/kyc', admin.getKycList);

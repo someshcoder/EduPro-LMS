@@ -2,6 +2,7 @@ const Package = require('../models/Package');
 const Video = require('../models/Video');
 const Progress = require('../models/Progress');
 const User = require('../models/User');
+const { getActiveUserCourseAccess, hasCourseAccess } = require('../utils/accessControl');
 
 // @desc    Get all published packages (PUBLIC — no auth required, for homepage)
 // @route   GET /api/courses/public
@@ -62,9 +63,8 @@ exports.getPackage = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Package not found.' });
     }
 
-    // Check if user is enrolled
-    const user = await User.findById(req.user.id);
-    const isEnrolled = user.enrolledPackages.includes(pkg._id);
+    // Check if user is enrolled via accessControl (active purchase, parent package, or legacy)
+    const isEnrolled = await hasCourseAccess(req.user.id, pkg._id);
 
     // Non-enrolled users can only view published packages
     if (!pkg.isPublished && !isEnrolled) {
@@ -72,11 +72,24 @@ exports.getPackage = async (req, res) => {
     }
 
     let progress = null;
+    let accessInfo = null;
     if (isEnrolled) {
       progress = await Progress.findOne({ user: req.user.id, package: pkg._id });
+      const accessMap = await getActiveUserCourseAccess(req.user.id);
+      const access = accessMap.get(pkg._id.toString());
+      if (access) {
+        const now = new Date();
+        accessInfo = {
+          sourceType: access.sourceType,
+          sourceName: access.sourceName,
+          purchaseDate: access.purchaseDate,
+          expiresAt: access.expiresAt,
+          daysRemaining: Math.max(0, Math.ceil((new Date(access.expiresAt) - now) / (1000 * 60 * 60 * 24))),
+        };
+      }
     }
 
-    res.json({ success: true, package: pkg, isEnrolled, progress });
+    res.json({ success: true, package: pkg, isEnrolled, progress, accessInfo });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -87,10 +100,12 @@ exports.getPackage = async (req, res) => {
 // @route   GET /api/courses/:packageId/videos/:videoId
 exports.getVideo = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
-    const isEnrolled = user.enrolledPackages.includes(req.params.packageId);
+    const isEnrolled = await hasCourseAccess(req.user.id, req.params.packageId);
     if (!isEnrolled) {
-      return res.status(403).json({ success: false, message: 'Please enroll to access this video.' });
+      return res.status(403).json({
+        success: false,
+        message: 'Your access to this course is locked or has expired. Please enroll or renew your access.',
+      });
     }
 
     const video = await Video.findOne({ _id: req.params.videoId, package: req.params.packageId });
@@ -119,6 +134,14 @@ exports.updateProgress = async (req, res) => {
   try {
     const { videoId, watchedSeconds, isCompleted } = req.body;
     const { packageId } = req.params;
+
+    const hasAccess = await hasCourseAccess(req.user.id, packageId);
+    if (!hasAccess) {
+      return res.status(403).json({
+        success: false,
+        message: 'Your access to this course is locked or has expired.',
+      });
+    }
 
     let progress = await Progress.findOne({ user: req.user.id, package: packageId });
     if (!progress) {
@@ -159,16 +182,41 @@ exports.updateProgress = async (req, res) => {
   }
 };
 
-// @desc    Get user's enrolled packages with progress
+// @desc    Get user's enrolled packages with progress and validity (deduplicated across all active purchases)
 // @route   GET /api/courses/my-courses
 exports.getMyCourses = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).populate('enrolledPackages', 'title thumbnail totalVideos totalDuration');
+    const accessMap = await getActiveUserCourseAccess(req.user.id);
+    const courseIds = Array.from(accessMap.keys());
+
+    const packages = await Package.find({ _id: { $in: courseIds } })
+      .select('title description thumbnail price discountPrice totalVideos totalDuration category level');
     const progresses = await Progress.find({ user: req.user.id });
 
-    const courses = user.enrolledPackages.map((pkg) => {
+    const now = new Date();
+    const courses = packages.map((pkg) => {
       const prog = progresses.find((p) => p.package.toString() === pkg._id.toString());
-      return { ...pkg.toObject(), progress: prog || { progressPercent: 0 } };
+      const access = accessMap.get(pkg._id.toString());
+      const isExpired = access ? new Date(access.expiresAt) <= now : false;
+      const daysRemaining =
+        access && !isExpired
+          ? Math.max(0, Math.ceil((new Date(access.expiresAt) - now) / (1000 * 60 * 60 * 24)))
+          : 0;
+
+      return {
+        ...pkg.toObject(),
+        progress: prog || { progressPercent: 0, completedVideos: [] },
+        accessInfo: access
+          ? {
+              sourceType: access.sourceType,
+              sourceName: access.sourceName,
+              purchaseDate: access.purchaseDate,
+              expiresAt: access.expiresAt,
+              isExpired,
+              daysRemaining,
+            }
+          : null,
+      };
     });
 
     res.json({ success: true, courses });
