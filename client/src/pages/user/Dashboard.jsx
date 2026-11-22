@@ -3,13 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   BookOpen, Users, Wallet, PlayCircle, Trophy, ArrowRight, TrendingUp, 
-  Clock, DollarSign, Award, Copy, CheckCircle2, Share2, Receipt, Sparkles, MessageSquare 
+  Clock, DollarSign, Award, Copy, CheckCircle2, Share2, Receipt, Sparkles, MessageSquare,
+  Layers, ShieldCheck, Zap
 } from 'lucide-react';
 import useAuthStore from '../../store/authStore';
 import { walletService } from '../../services/walletService';
 import { courseService } from '../../services/courseService';
 import { affiliateService } from '../../services/affiliateService';
 import { certificateService } from '../../services/certificateService';
+import { parentPackageService } from '../../services/parentPackageService';
 import Card, { CardBody, CardHeader } from '../../components/common/Card';
 import Button from '../../components/common/Button';
 import Spinner from '../../components/common/Spinner';
@@ -28,15 +30,17 @@ const Dashboard = () => {
     affiliate: null,
     referralLink: '',
     referralCode: '',
+    purchasedPackages: [],
   });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [walletRes, coursesRes, affiliateRes] = await Promise.all([
+        const [walletRes, coursesRes, affiliateRes, packagesRes] = await Promise.all([
           walletService.getStats(),
           courseService.getMyCourses(),
           affiliateService.getReferralInfo(),
+          parentPackageService.getMyPurchasedPackages().catch(() => ({ data: { purchases: [] } })),
         ]);
 
         setData({
@@ -45,6 +49,7 @@ const Dashboard = () => {
           affiliate: affiliateRes.data.stats,
           referralLink: affiliateRes.data.referralLink,
           referralCode: affiliateRes.data.referralCode,
+          purchasedPackages: packagesRes.data.purchases || [],
         });
       } catch (err) {
         console.error('Failed to load dashboard data:', err);
@@ -196,6 +201,66 @@ const Dashboard = () => {
         ))}
       </div>
 
+      {/* Parent Package Status / Promotion Banner */}
+      {data.purchasedPackages.length > 0 ? (
+        <div className="bg-gradient-to-r from-cyan-50 via-sky-50 to-indigo-50 border border-cyan-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            <div className="w-10 h-10 rounded-xl bg-[#06B6D4] text-white flex items-center justify-center shrink-0 shadow-xs">
+              <Layers className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-cyan-800">
+                  Enrolled Parent Package
+                </span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                  1-Year Access Active
+                </span>
+              </div>
+              <h3 className="text-base font-bold text-[#1E293B]">
+                {data.purchasedPackages[0]?.parentPackage?.name}
+              </h3>
+              <p className="text-xs text-[#64748B] flex items-center gap-1 mt-0.5">
+                <Clock className="w-3.5 h-3.5 text-[#06B6D4]" />
+                {data.purchasedPackages[0]?.daysRemaining} days remaining in subscription
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button size="sm" variant="secondary" onClick={() => navigate('/packages')}>
+              Upgrade / View Packages
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className="bg-gradient-to-r from-cyan-50 via-indigo-50 to-purple-50 border border-cyan-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#06B6D4] to-[#8B5CF6] text-white flex items-center justify-center shrink-0 shadow-xs">
+              <Layers className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-cyan-800">
+                  Parent Packages Available
+                </span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#06B6D4] text-white">
+                  Bundle & Save
+                </span>
+              </div>
+              <h3 className="text-base font-bold text-[#1E293B]">
+                Accelerate with Starter, Intermediate, Advanced or Ultimate Packages
+              </h3>
+              <p className="text-xs text-[#64748B] mt-0.5">
+                Unlock multiple bundled courses with automatic upgrades and full 1-year access validity.
+              </p>
+            </div>
+          </div>
+          <Button size="sm" onClick={() => navigate('/packages')} rightIcon={<ArrowRight className="w-4 h-4" />}>
+            Explore Packages
+          </Button>
+        </div>
+      )}
+
       {/* Quick Referral Banner */}
       <div className="bg-gradient-to-r from-cyan-50 via-violet-50/50 to-[#F8FAFC] border border-cyan-200 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="space-y-1 text-left w-full md:w-auto">
@@ -276,7 +341,7 @@ const Dashboard = () => {
                             {percent}%
                           </span>
                         </div>
-                        <div className="w-full bg-[#E2E8F0] h-2 rounded-full overflow-hidden mb-3">
+                        <div className="w-full bg-[#E2E8F0] h-2 rounded-full overflow-hidden mb-2">
                           <div
                             className={`h-full rounded-full transition-all duration-500 ${
                               isCompleted ? 'bg-emerald-500' : 'bg-indigo-500'
@@ -284,6 +349,19 @@ const Dashboard = () => {
                             style={{ width: `${percent}%` }}
                           />
                         </div>
+                        {course.accessInfo?.daysRemaining !== undefined && (
+                          <div className="flex items-center justify-between text-[11px] text-[#64748B] pt-1">
+                            <span className="flex items-center gap-1 text-[#06B6D4] font-medium">
+                              <Clock className="w-3 h-3" />
+                              {course.accessInfo.daysRemaining}d access left
+                            </span>
+                            {course.accessInfo.sourceName && (
+                              <span className="text-[10px] text-[#94A3B8] truncate max-w-[120px]">
+                                {course.accessInfo.sourceName}
+                              </span>
+                            )}
+                          </div>
+                        )}
                       </CardBody>
                     </div>
 

@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Users, Search, Shield, ShieldOff, ChevronLeft, ChevronRight, AlertCircle, BookOpen } from 'lucide-react';
+import { Users, Search, Shield, ShieldOff, ChevronLeft, ChevronRight, AlertCircle, BookOpen, Eye, Layers } from 'lucide-react';
 import { adminService } from '../../services/adminService';
+import Modal from '../../components/common/Modal';
+import Spinner from '../../components/common/Spinner';
+import Badge from '../../components/common/Badge';
+import Button from '../../components/common/Button';
 import toast from 'react-hot-toast';
 
 const AdminUsers = () => {
@@ -9,7 +13,18 @@ const AdminUsers = () => {
   const [kycStatus, setKycStatus] = useState('');
   const [isBlocked, setIsBlocked] = useState('');
   const [page, setPage] = useState(1);
+  const [inspectUserId, setInspectUserId] = useState(null);
   const queryClient = useQueryClient();
+
+  const { data: userAccessData, isLoading: isLoadingAccess } = useQuery({
+    queryKey: ['adminUserAccessInspect', inspectUserId],
+    queryFn: async () => {
+      if (!inspectUserId) return null;
+      const res = await adminService.getUserAccessOverview(inspectUserId);
+      return res.data;
+    },
+    enabled: !!inspectUserId,
+  });
 
   const { data, isLoading } = useQuery({
     queryKey: ['adminUsers', search, kycStatus, isBlocked, page],
@@ -174,18 +189,28 @@ const AdminUsers = () => {
                       </span>
                     </td>
                     <td className="text-right">
-                      <button
-                        onClick={() => blockMutation.mutate({ id: user._id, reason: user.isBlocked ? '' : 'Blocked by admin' })}
-                        disabled={blockMutation.isPending}
-                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                          user.isBlocked
-                            ? 'bg-[#D1FAE5] text-emerald-700 hover:bg-emerald-100 border border-emerald-200'
-                            : 'bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200'
-                        }`}
-                      >
-                        {user.isBlocked ? <ShieldOff className="w-3.5 h-3.5" /> : <Shield className="w-3.5 h-3.5" />}
-                        {user.isBlocked ? 'Unblock' : 'Block'}
-                      </button>
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          onClick={() => setInspectUserId(user._id)}
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-[#F1F5F9] text-[#1E293B] hover:bg-[#E2E8F0] border border-[#CBD5E1] transition-colors"
+                          title="Inspect Course & Package Access"
+                        >
+                          <Eye className="w-3.5 h-3.5 text-[#06B6D4]" />
+                          <span>Access</span>
+                        </button>
+                        <button
+                          onClick={() => blockMutation.mutate({ id: user._id, reason: user.isBlocked ? '' : 'Blocked by admin' })}
+                          disabled={blockMutation.isPending}
+                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                            user.isBlocked
+                              ? 'bg-[#D1FAE5] text-emerald-700 hover:bg-emerald-100 border border-emerald-200'
+                              : 'bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200'
+                          }`}
+                        >
+                          {user.isBlocked ? <ShieldOff className="w-3.5 h-3.5" /> : <Shield className="w-3.5 h-3.5" />}
+                          {user.isBlocked ? 'Unblock' : 'Block'}
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -217,6 +242,108 @@ const AdminUsers = () => {
           </div>
         )}
       </div>
+
+      {/* User Course & Package Access Inspector Modal */}
+      <Modal
+        isOpen={!!inspectUserId}
+        onClose={() => setInspectUserId(null)}
+        title={`Access & Purchases: ${userAccessData?.user?.name || 'Inspection'}`}
+        size="lg"
+      >
+        <div className="space-y-4 text-xs">
+          {isLoadingAccess ? (
+            <div className="h-40 flex items-center justify-center">
+              <Spinner size="md" />
+            </div>
+          ) : (
+            <>
+              <div className="p-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl flex items-center justify-between">
+                <div>
+                  <h4 className="font-bold text-sm text-[#1E293B]">{userAccessData?.user?.name}</h4>
+                  <p className="text-[#64748B]">{userAccessData?.user?.email} • {userAccessData?.user?.phone || 'No Phone'}</p>
+                </div>
+                <div className="text-right">
+                  <span className="text-emerald-700 font-bold bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                    {userAccessData?.totalActiveCourses || 0} Active Courses Unlocked
+                  </span>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-bold text-[#1E293B] uppercase tracking-wider text-[11px]">
+                  Currently Unlocked Courses (1-Year Validity):
+                </h4>
+                <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                  {userAccessData?.activeCourses?.length === 0 ? (
+                    <p className="text-[#94A3B8] italic">No active courses unlocked.</p>
+                  ) : (
+                    userAccessData?.activeCourses?.map((course) => (
+                      <div
+                        key={course._id}
+                        className="p-2.5 rounded-xl bg-white border border-[#E2E8F0] flex items-center justify-between"
+                      >
+                        <div>
+                          <p className="font-bold text-[#1E293B]">{course.title}</p>
+                          <p className="text-[11px] text-[#06B6D4]">
+                            Source: <strong>{course.accessInfo?.sourceName || 'Purchase'}</strong>
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-xs font-semibold text-[#1E293B] block">
+                            Expires: {new Date(course.accessInfo?.expiresAt).toLocaleDateString('en-IN')}
+                          </span>
+                          <span className="text-[10px] text-emerald-600 font-bold">
+                            {course.accessInfo?.daysRemaining} days remaining
+                          </span>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-2 pt-2 border-t border-[#E2E8F0]">
+                <h4 className="font-bold text-[#1E293B] uppercase tracking-wider text-[11px]">
+                  Purchase Transaction Records:
+                </h4>
+                <div className="space-y-1.5 max-h-40 overflow-y-auto pr-1">
+                  {userAccessData?.purchases?.map((p) => (
+                    <div
+                      key={p._id}
+                      className="p-2 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-between text-[11px]"
+                    >
+                      <div>
+                        <span className="font-bold text-[#1E293B]">
+                          {p.parentPackage?.name || p.course?.title}
+                        </span>
+                        <span className="text-[#94A3B8] ml-2">({p.itemType})</span>
+                        <div className="text-[#64748B] text-[10px]">
+                          Invoice #{p.invoiceNumber} • Paid: ₹{p.totalAmount}
+                        </div>
+                      </div>
+                      <Badge
+                        variant={
+                          p.status === 'active'
+                            ? 'success'
+                            : p.status === 'refunded' || p.status === 'cancelled'
+                            ? 'danger'
+                            : 'warning'
+                        }
+                      >
+                        {p.status}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex justify-end pt-2">
+                <Button onClick={() => setInspectUserId(null)}>Close</Button>
+              </div>
+            </>
+          )}
+        </div>
+      </Modal>
     </div>
   );
 };

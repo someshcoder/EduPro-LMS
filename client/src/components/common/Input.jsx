@@ -11,12 +11,16 @@ const Input = forwardRef(({
   containerClassName = '',
   type = 'text',
   id,
+  name,
   ...props
 }, ref) => {
+  const generatedId = id || name || (typeof label === 'string' ? `input-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}` : undefined);
+  const inputName = name || id || (typeof label === 'string' ? label.toLowerCase().replace(/[^a-z0-9]+/g, '_') : undefined);
+
   return (
     <div className={cn('flex flex-col gap-1.5', containerClassName)}>
       {label && (
-        <label htmlFor={id} className="text-sm font-medium text-[#1E293B]">
+        <label htmlFor={generatedId} className="text-sm font-medium text-[#1E293B]">
           {label}
         </label>
       )}
@@ -28,7 +32,8 @@ const Input = forwardRef(({
         )}
         <input
           ref={ref}
-          id={id}
+          id={generatedId}
+          name={inputName}
           type={type}
           aria-label={props['aria-label'] || (typeof label === 'string' ? label : undefined) || props.placeholder}
           className={cn(

@@ -37,6 +37,7 @@ import {
 import Navbar from '../components/landing/Navbar';
 import Footer from '../components/landing/Footer';
 import BackToTop from '../components/landing/BackToTop';
+import AboutHeroVisual from '../components/landing/AboutHeroVisual';
 import useAuthStore from '../store/authStore';
 
 // ─── Ambient Floating Background Orb ──────────────────────────────
@@ -571,33 +572,39 @@ export default function AboutPage() {
         ═════════════════════════════════════════════════════════════ */}
         <section
           id="hero"
-          className="relative pt-36 pb-20 lg:pt-44 lg:pb-32 overflow-hidden border-b border-slate-200"
+          className="relative pt-32 pb-20 lg:pt-36 lg:pb-28 overflow-hidden border-b border-slate-200 bg-transparent"
         >
+          {/* Background Decorative Accents */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 pointer-events-none opacity-60 -z-10">
+            <div className="absolute -top-24 left-10 w-96 h-96 bg-cyan-400/15 rounded-full blur-3xl" />
+            <div className="absolute top-10 right-10 w-96 h-96 bg-purple-400/15 rounded-full blur-3xl" />
+          </div>
+
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
               
-              {/* Hero Content */}
+              {/* Left Hero Content */}
               <motion.div
                 initial="hidden"
                 animate="visible"
                 variants={fadeInUp}
-                className="space-y-7"
+                className="lg:col-span-7 space-y-7"
               >
                 {/* Eyebrow Badge */}
-                <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-cyan-50 border border-cyan-200 shadow-sm">
-                  <span className="flex h-2 w-2 rounded-full bg-[#06B6D4] animate-ping" />
-                  <span className="text-[11px] sm:text-xs uppercase tracking-wider font-extrabold text-[#06B6D4]">
-                    ABOUT COURSEEARN | LEARN. GROW. EARN.
-                  </span>
+                <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-cyan-50/90 text-[#06B6D4] text-xs font-semibold shadow-xs border border-cyan-200/90">
+                  <span className="flex h-2 w-2 rounded-full bg-[#06B6D4] animate-pulse" />
+                  <span className="font-bold uppercase tracking-wider text-[11px]">ABOUT COURSEEARN</span>
+                  <span className="text-slate-300">•</span>
+                  <span className="text-[#64748B]">Next-Gen EdTech & Creator Ecosystem</span>
                 </div>
 
                 {/* Primary Headline */}
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#1E293B] leading-[1.12]">
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#1E293B] leading-[1.14]">
                   Empowering Ambition Through{' '}
                   <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#06B6D4] via-[#8B5CF6] to-[#06B6D4]">
                     Learning & Opportunity.
                     <svg
-                      className="absolute left-0 -bottom-2 w-full h-3 text-cyan-300 -z-10"
+                      className="absolute left-0 -bottom-2 w-full h-3 text-cyan-400/40 -z-10"
                       viewBox="0 0 250 12"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -618,50 +625,80 @@ export default function AboutPage() {
                 </p>
 
                 {/* CTA Action Buttons */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-2">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-1">
                   <button
                     onClick={() => scrollTo('ecosystem')}
-                    className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] hover:from-cyan-400 hover:to-purple-500 text-white font-semibold text-sm sm:text-base shadow-lg shadow-cyan-200 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group cursor-pointer"
+                    className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#06B6D4] to-[#8B5CF6] hover:opacity-95 text-white font-bold text-sm sm:text-base shadow-lg shadow-cyan-500/25 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group cursor-pointer"
                   >
-                    <span>Explore Our Platform</span>
+                    <span>Explore Our Ecosystem</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </button>
 
                   <button
                     onClick={() => scrollTo('story')}
-                    className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-[#1E293B] font-semibold text-sm sm:text-base border border-slate-200 shadow-md transition-all duration-200 hover:border-[#06B6D4] flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-[#1E293B] font-bold text-sm sm:text-base border border-slate-200 shadow-xs transition-all duration-200 hover:border-[#06B6D4] flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <span>Our Purpose & Story</span>
                     <Sparkles className="w-4 h-4 text-[#8B5CF6]" />
                   </button>
                 </div>
 
-                {/* Micro Highlights Pill Row */}
-                <div className="pt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 border-t border-slate-200 text-xs text-[#64748B]">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>Curated Modules</span>
+                {/* Credibility & Impact Stats Matrix */}
+                <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-4 border-t border-slate-200">
+                  <div className="bg-white/80 p-3 rounded-2xl border border-slate-200/80 shadow-2xs">
+                    <div className="text-xl sm:text-2xl font-black text-[#1E293B]">10,000+</div>
+                    <div className="text-[11px] font-semibold text-[#64748B]">Active Learners</div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#06B6D4] shrink-0" />
-                    <span>Verified Badges</span>
+                  <div className="bg-white/80 p-3 rounded-2xl border border-slate-200/80 shadow-2xs">
+                    <div className="text-xl sm:text-2xl font-black text-[#06B6D4]">18+</div>
+                    <div className="text-[11px] font-semibold text-[#64748B]">Curated Courses</div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-[#8B5CF6] shrink-0" />
-                    <span>Transparent Tiers</span>
+                  <div className="bg-white/80 p-3 rounded-2xl border border-slate-200/80 shadow-2xs">
+                    <div className="text-xl sm:text-2xl font-black text-emerald-600">₹1.2Cr+</div>
+                    <div className="text-[11px] font-semibold text-[#64748B]">Partner Payouts</div>
+                  </div>
+                  <div className="bg-white/80 p-3 rounded-2xl border border-slate-200/80 shadow-2xs">
+                    <div className="text-xl sm:text-2xl font-black text-[#8B5CF6]">99.4%</div>
+                    <div className="text-[11px] font-semibold text-[#64748B]">Satisfaction Rate</div>
                   </div>
                 </div>
 
+                {/* Micro Highlights Pill Row */}
+                <div className="pt-2 flex flex-wrap items-center gap-4 text-xs font-semibold text-[#64748B]">
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <span>Curated Modules</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-[#06B6D4] shrink-0" />
+                    <span>Verified Badges</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-[#8B5CF6] shrink-0" />
+                    <span>Transparent Tiers</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-amber-500 shrink-0" />
+                    <span>Instant UPI & Bank Payouts</span>
+                  </div>
+                </div>
+
+              </motion.div>
+
+              {/* Right Hero Visual Showcase */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.15 }}
+                className="lg:col-span-5 relative"
+              >
+                <AboutHeroVisual />
               </motion.div>
 
             </div>
           </div>
         </section>
 
-        {/* ═════════════════════════════════════════════════════════════
-            SECTION 2: OUR STORY — WHY COURSEEARN EXISTS
-            “A Vision to Make Learning More Rewarding”
-        ═════════════════════════════════════════════════════════════ */}
         <section id="story" className="py-24 relative border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
@@ -924,11 +961,7 @@ export default function AboutPage() {
 
           </div>
         </section>
-
-        {/* ═════════════════════════════════════════════════════════════
-            SECTION 5: HOW COURSEEARN WORKS (5-STEP JOURNEY)
-            Horizontal on desktop, vertical on mobile
-        ═════════════════════════════════════════════════════════════ */}
+        
         <section id="how-it-works" className="py-24 relative border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             

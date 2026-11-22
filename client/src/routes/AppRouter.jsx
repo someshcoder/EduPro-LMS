@@ -26,6 +26,8 @@ const ResetPassword = lazy(() => import('../pages/auth/ResetPassword'));
 
 // Lazy Loaded User Pages
 const Dashboard = lazy(() => import('../pages/user/Dashboard'));
+const ParentPackages = lazy(() => import('../pages/user/ParentPackages'));
+const ParentPackageDetail = lazy(() => import('../pages/user/ParentPackageDetail'));
 const Courses = lazy(() => import('../pages/user/Courses'));
 const Watch = lazy(() => import('../pages/user/Watch'));
 const Affiliate = lazy(() => import('../pages/user/Affiliate'));
@@ -46,6 +48,7 @@ const AdminDashboard = lazy(() => import('../pages/admin/AdminDashboard'));
 const AdminAnalytics = lazy(() => import('../pages/admin/AdminAnalytics'));
 const AdminUsers = lazy(() => import('../pages/admin/AdminUsers'));
 const AdminKyc = lazy(() => import('../pages/admin/AdminKyc'));
+const AdminParentPackages = lazy(() => import('../pages/admin/AdminParentPackages'));
 const AdminPackages = lazy(() => import('../pages/admin/AdminPackages'));
 const AdminVideos = lazy(() => import('../pages/admin/AdminVideos'));
 const AdminPayouts = lazy(() => import('../pages/admin/AdminPayouts'));
@@ -88,6 +91,8 @@ const AppRouter = () => {
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/packages" element={<ParentPackages />} />
+            <Route path="/packages/:id" element={<ParentPackageDetail />} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/courses/:id" element={<Watch />} />
             <Route path="/affiliate" element={<Affiliate />} />
@@ -110,6 +115,7 @@ const AppRouter = () => {
             <Route path="/admin/analytics" element={<AdminAnalytics />} />
             <Route path="/admin/users" element={<AdminUsers />} />
             <Route path="/admin/kyc" element={<AdminKyc />} />
+            <Route path="/admin/parent-packages" element={<AdminParentPackages />} />
             <Route path="/admin/packages" element={<AdminPackages />} />
             <Route path="/admin/videos" element={<AdminVideos />} />
             <Route path="/admin/payouts" element={<AdminPayouts />} />

@@ -4,13 +4,11 @@ import {
   Star, 
   Users, 
   BookOpen, 
-  Sparkles, 
-  ArrowRight,
-  Award
+  Sparkles
 } from 'lucide-react';
 import { INSTRUCTORS } from '../../data/landingData';
 
-const InstructorsSection = ({ onBecomeInstructor, onExploreInstructor }) => {
+const InstructorsSection = ({ onExploreInstructor }) => {
   return (
     <section id="instructors" className="py-20 bg-white relative border-t border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -30,7 +28,7 @@ const InstructorsSection = ({ onBecomeInstructor, onExploreInstructor }) => {
         </div>
 
         {/* Instructors Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {INSTRUCTORS.map((instructor, idx) => (
             <motion.div
               key={instructor.id}
@@ -108,29 +106,6 @@ const InstructorsSection = ({ onBecomeInstructor, onExploreInstructor }) => {
               </div>
             </motion.div>
           ))}
-        </div>
-
-        {/* Banner: "Become an Instructor" */}
-        <div className="rounded-3xl bg-linear-to-r from-cyan-50 via-purple-50/40 to-pink-50/30 border border-slate-200 p-5 sm:p-10 text-[#1E293B] shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
-          <div className="absolute right-0 top-0 w-96 h-96 bg-[#06B6D4]/10 rounded-full blur-3xl pointer-events-none" />
-          
-          <div className="space-y-2 text-center md:text-left z-10 w-full md:w-auto">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#06B6D4]">Teach on CourseEarn</span>
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#1E293B] tracking-tight">
-              Share your expertise with 10,000+ global students
-            </h3>
-            <p className="text-xs sm:text-sm text-[#64748B] max-w-xl">
-              Earn competitive payouts, build your personal brand, and mentor the next generation of top tech professionals.
-            </p>
-          </div>
-
-          <button
-            onClick={onBecomeInstructor}
-            className="z-10 shrink-0 w-full sm:w-auto justify-center px-6 py-3.5 rounded-xl bg-linear-to-r from-[#06B6D4] to-[#8B5CF6] hover:opacity-90 text-white text-sm font-bold shadow-lg shadow-[#06B6D4]/20 transition-all hover:scale-105 flex items-center gap-2"
-          >
-            <span>Apply as an Instructor</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
         </div>
 
       </div>

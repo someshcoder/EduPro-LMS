@@ -13,7 +13,6 @@ import FAQSection from '../components/landing/FAQSection';
 import CTASection from '../components/landing/CTASection';
 import Footer from '../components/landing/Footer';
 import CoursePreviewModal from '../components/landing/CoursePreviewModal';
-import VideoDemoModal from '../components/landing/VideoDemoModal';
 import LiveNotificationToast from '../components/landing/LiveNotificationToast';
 import BackToTop from '../components/landing/BackToTop';
 import toast from 'react-hot-toast';
@@ -22,7 +21,6 @@ const LandingPage = () => {
   // Modal states
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-  const [isDemoOpen, setIsDemoOpen] = useState(false);
   
   // Search query propagated to Courses section
   const [searchQuery, setSearchQuery] = useState('');
@@ -60,13 +58,6 @@ const LandingPage = () => {
     }
   };
 
-  const handleBecomeInstructor = () => {
-    toast('🎉 Instructor Application form opened. Join our mentor network!', {
-      icon: '👨‍🏫',
-    });
-    navigate('/signup');
-  };
-
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#1E293B] flex flex-col font-sans selection:bg-cyan-500/20 selection:text-cyan-900">
       
@@ -87,7 +78,6 @@ const LandingPage = () => {
             if (el) el.scrollIntoView({ behavior: 'smooth' });
           }}
           onStartLearning={() => handleOpenAuth('signup')}
-          onWatchDemo={() => setIsDemoOpen(true)}
           onQuickSearch={handleQuickSearch}
         />
 
@@ -106,7 +96,6 @@ const LandingPage = () => {
         <HowItWorks onStartAction={() => handleOpenAuth('signup')} />
 
         <InstructorsSection
-          onBecomeInstructor={handleBecomeInstructor}
           onExploreInstructor={(id) => {
             const el = document.getElementById('courses');
             if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -137,15 +126,6 @@ const LandingPage = () => {
         onEnroll={(course) => {
           setIsPreviewOpen(false);
           handleEnrollCourse(course);
-        }}
-      />
-
-      <VideoDemoModal
-        isOpen={isDemoOpen}
-        onClose={() => setIsDemoOpen(false)}
-        onGetStarted={() => {
-          setIsDemoOpen(false);
-          handleOpenAuth('signup');
         }}
       />
 

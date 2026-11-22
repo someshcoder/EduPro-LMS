@@ -3,7 +3,7 @@ import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, BookOpen, Users, Shield, Wallet, BarChart3, LogOut,
   GraduationCap, ChevronLeft, Video, CreditCard, AlertTriangle, UserCheck,
-  Receipt, Award, Gift, MessageSquare, X
+  Receipt, Award, Gift, MessageSquare, X, Layers
 } from 'lucide-react';
 import useAuthStore from '../../store/authStore';
 import { authService } from '../../services/authService';
@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const userNavItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/packages', icon: Layers, label: 'Parent Packages' },
   { to: '/courses', icon: BookOpen, label: 'My Courses' },
   { to: '/forum', icon: MessageSquare, label: 'Forum' },
   { to: '/affiliate', icon: Users, label: 'Affiliate' },
@@ -28,6 +29,7 @@ const adminNavItems = [
   { to: '/admin/analytics', icon: BarChart3, label: 'Analytics & Profit' },
   { to: '/admin/users', icon: Users, label: 'Users' },
   { to: '/admin/kyc', icon: UserCheck, label: 'KYC Review' },
+  { to: '/admin/parent-packages', icon: Layers, label: 'Parent Packages' },
   { to: '/admin/packages', icon: BookOpen, label: 'Packages' },
   { to: '/admin/videos', icon: Video, label: 'Videos' },
   { to: '/admin/payouts', icon: CreditCard, label: 'Payouts' },
